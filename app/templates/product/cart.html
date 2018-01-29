@@ -1,12 +1,15 @@
+<!-- app/templates/product/cart.html -->
 
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block body %}
+{% block title %}Flasky - Cart{% endblock %}
+
+{% block page_content %}
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Melon Name</th>
+            <th>Product Name</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Total</th>
@@ -19,7 +22,7 @@
             <td>{{ order[0] }}</td>
             <td>{{ order[1] }}</td>
             <td>{{ order[2] }}</td>
-            <td>{{ order[3] }}</td>
+            <td>${{ order[3] }}</td>
         </tr>
         {% endfor %}
         {% else %}
@@ -29,7 +32,7 @@
         {% endif %}
     </tbody>
 </table>
-    <a href="/melons" class="btn btn-large btn-primary">Keep Shopping</a>
-    <a href="/checkout" class="btn btn-large btn-primary">Check Out</a>
+    <a href="/product/products" class="btn btn-large btn-primary">Keep Shopping</a>
+    <a href="/product/checkout" class="btn btn-large btn-primary">Check Out</a>
 
 {% endblock %}

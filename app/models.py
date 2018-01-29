@@ -125,7 +125,7 @@ class Product(db.Model):
     def price_str(self):
         """Return price formatted as string $x.xx"""
 
-        return "Price : $%s" % self.price
+        return "$%s" % self.price
 
     def __repr__(self):
         """Convenience method to show information about product in console."""

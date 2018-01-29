@@ -5,7 +5,7 @@ from flask_login import login_required, current_user
 
 from .. import db
 from ..models import Product
-from . import products
+from . import product
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from flask_login import current_user
@@ -17,7 +17,7 @@ from flask_login import current_user
 
 #app.jinja_env.undefined = jinja2.StrictUndefined
 
-@products.route("/products")
+@product.route("/products")
 def list_products():
     """Return page showing all the products has to offer"""
 
@@ -26,7 +26,7 @@ def list_products():
                            product_list=products)
 
 
-@products.route("/product/<int:id>")
+@product.route("/product/<int:id>")
 def show_product(id):
     """Return page showing the details of a given product.
 
@@ -39,7 +39,7 @@ def show_product(id):
                            display_product=product)
 
 
-@products.route("/cart")
+@product.route("/cart")
 def shopping_cart():
     """Display content of shopping cart."""
 
@@ -50,18 +50,20 @@ def shopping_cart():
                             cart=session['cart'])
 
 
-@products.route("/add_to_cart/<int:id>")
+@product.route("/add_to_cart/<int:id>")
 def add_to_cart(id):
     """Add a product to cart and redirect to shopping cart page.
 
     When a product is added to the cart, redirect browser to the shopping cart
     page and display a confirmation message: 'Successfully added to cart'.
     """
-    print session
+    if "cart" in session.keys():
+        pass
+    else:
+        session["cart"] = []
     product = Product.get_by_id(id)
     qty = int(request.args.get('qty'))
     total = float(product.price) * qty
-    total = "$%.2f" % total
     common_name = product.common_name
     price = product.price_str()
     print "OMG PRODUCT", product
@@ -72,6 +74,7 @@ def add_to_cart(id):
             if old_order[0] == common_name:
                 #print "the if ran"
                 old_order[1] += qty
+                old_order[3] += total
                 new_item = False
         if new_item:
             #print "the else in the for loop ran"
@@ -89,12 +92,12 @@ def add_to_cart(id):
     #   - use session variables to hold cart list
 
     flash("Product added to cart successfully!")
-    return render_template("products/cart.html", 
+    return render_template("product/cart.html", 
                             cart=session['cart'])
     # return render_template("cart.html", product_name=test_product, product_qty=test_qty, product_price=test_price, product_total=total)
 
 
-@products.route("/checkout")
+@product.route("/checkout")
 def checkout():
     """Checkout customer, process payment, and ship products."""
 
@@ -102,5 +105,5 @@ def checkout():
     # scope of this exercise.
 
     flash("Sorry! Checkout will be implemented in a future version.")
-    return redirect("/products")
+    return redirect("/product/products")
 
