@@ -128,17 +128,17 @@ class Product(db.Model):
         return "$%.2f" % self.price
 
     def __repr__(self):
-        """Convenience method to show information about melon in console."""
+        """Convenience method to show information about product in console."""
 
         return "<Item: %s, %s, %s>" % (
             self.id, self.common_name, self.price_str())
 
     @classmethod
     def get_all(cls, max=30):
-        """Return list of melons.
+        """Return list of products.
 
-        Query the database for the first [max] melons, returning each as a
-        Melon object
+        Query the database for the first [max] products, returning each as a
+        Product object
         """
 
         cursor = db_connect()
@@ -159,8 +159,8 @@ class Product(db.Model):
         cursor.execute(QUERY, (max,))
         product_rows = cursor.fetchall()
 
-        # list comprehension to build a list of Melon objects by going through
-        # the database records and making a melon for each row. This is done
+        # list comprehension to build a list of Product objects by going through
+        # the database records and making a product for each row. This is done
         # by unpacking in the for-loop.
 
         product = [Product(*row) for row in product_rows]
@@ -171,7 +171,7 @@ class Product(db.Model):
 
     @classmethod
     def get_by_id(cls, id):
-        """Query for a specific melon in the database by the primary key"""
+        """Query for a specific product in the database by the primary key"""
 
         cursor = db_connect()
         QUERY = """
