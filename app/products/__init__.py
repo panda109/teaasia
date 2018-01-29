@@ -5,4 +5,4 @@ from flask import Blueprint
 products = Blueprint('products', __name__)
 
 # can use from main import views
-from . import views, errorsrors
+from . import views, errors

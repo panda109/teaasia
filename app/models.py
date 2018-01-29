@@ -125,7 +125,7 @@ class Product(db.Model):
     def price_str(self):
         """Return price formatted as string $x.xx"""
 
-        return "$%.2f" % self.price
+        return self.price
 
     def __repr__(self):
         """Convenience method to show information about product in console."""
@@ -140,30 +140,7 @@ class Product(db.Model):
         Query the database for the first [max] products, returning each as a
         Product object
         """
-
-        cursor = db_connect()
-        QUERY = """
-                  SELECT id,
-                         product_type,
-                         common_name,
-                         price,
-                         imgurl,
-                         flesh_color,
-                         rind_color,
-                         seedless
-                   FROM products
-                   WHERE imgurl <> ''
-                   LIMIT ?;
-               """
-
-        cursor.execute(QUERY, (max,))
-        product_rows = cursor.fetchall()
-
-        # list comprehension to build a list of Product objects by going through
-        # the database records and making a product for each row. This is done
-        # by unpacking in the for-loop.
-
-        product = [Product(*row) for row in product_rows]
+        product = Product.query.all()
 
         print product
 

@@ -35,5 +35,5 @@ def create_app(config_name):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     from .products import products as products_blueprint
-    app.register_blueprint(products_blueprint)
+    app.register_blueprint(products_blueprint,url_prefix='/products')
     return app

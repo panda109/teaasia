@@ -4,23 +4,25 @@ from flask import render_template, session, redirect, url_for, current_app
 from flask_login import login_required, current_user
 
 from .. import db
-from ..models import products
+from ..models import Product
 from . import products
-from .forms import NameForm
+from flask import render_template, redirect, request, url_for, flash
+from flask_login import login_user, logout_user, login_required
+from flask_login import current_user
 
 # Normally, if you refer to an undefined variable in a Jinja template,
 # Jinja silently ignores this. This makes debugging difficult, so we'll
 # set an attribute of the Jinja environment that says to make this an
 # error.
 
-app.jinja_env.undefined = jinja2.StrictUndefined
+#app.jinja_env.undefined = jinja2.StrictUndefined
 
 @products.route("/products")
 def list_products():
     """Return page showing all the products has to offer"""
 
-    products = model.Product.get_all()
-    return render_template("products/all_products.html",
+    products = Product.get_all()
+    return render_template("product/all_products.html",
                            product_list=products)
 
 
