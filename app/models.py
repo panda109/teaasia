@@ -112,26 +112,15 @@ class User(UserMixin, db.Model):
         return '<User %r>' % self.username
 
 class Product(db.Model):
-    """An Products type.
-
-    """
     __tablename__ = 'products'
-    def __init__(self,
-                 id,
-                 product_type,
-                 common_name,
-                 price, imgurl,
-                 flesh_color,
-                 rind_color,
-                 seedless):
-        self.id = id
-        self.product_type = product_type
-        self.common_name = common_name
-        self.price = price
-        self.imgurl = imgurl
-        self.flesh_color = flesh_color
-        self.rind_color = rind_color
-        self.seedless = bool(seedless)
+    id = db.Column(db.Integer, primary_key=True)
+    product_type = db.Column(db.String(30))
+    common_name = db.Column(db.String(30))
+    price = db.Column(db.String(10))
+    imgurl = db.Column(db.String(200))
+    flesh_color = db.Column(db.String(30))
+    rind_color = db.Column(db.String(30))
+    seedless = db.Column(db.Boolean, default=False)
 
     def price_str(self):
         """Return price formatted as string $x.xx"""

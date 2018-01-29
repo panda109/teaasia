@@ -2,7 +2,7 @@
 
 from flask import Blueprint
 
-product = Blueprint('product', __name__)
+products = Blueprint('products', __name__)
 
 # can use from main import views
 from . import views, errorsrors
