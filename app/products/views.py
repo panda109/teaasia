@@ -4,8 +4,8 @@ from flask import render_template, session, redirect, url_for, current_app
 from flask_login import login_required, current_user
 
 from .. import db
-from ..models import products
-from . import product
+from ..models import product
+from . import products
 from .forms import NameForm
 
 # Normally, if you refer to an undefined variable in a Jinja template,
