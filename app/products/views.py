@@ -59,9 +59,9 @@ def add_to_cart(id):
     """
     
 
-    product = model.Product.get_by_id(id)
+    product = Product.get_by_id(id)
     qty = int(request.args.get('qty'))
-    total = product.price * qty
+    total = int(product.price) * qty
     total = "$%.2f" % total
     common_name = product.common_name
     price = product.price_str()
