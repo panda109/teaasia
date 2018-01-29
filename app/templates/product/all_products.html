@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h2>Top Selling Melons</h2>
+    <h2>Top Selling Products</h2>
 
-    <div id="melon-list" class="row">
-      {% for melon in melon_list %}
-          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 melon-summary">
+    <div id="product-list" class="row">
+      {% for product in product_list %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 product-summary">
 
               <div class="well">
-                  <h3><a href="/melon/{{ melon.id }}">{{ melon.common_name }}</a></h3>
-                  <a href="/melon/{{ melon.id }}">
-                      <img src="{{ melon.imgurl }}" class="img-circle">
+                  <h3><a href="/product/{{ product.id }}">{{ product.common_name }}</a></h3>
+                  <a href="/product/{{ product.id }}">
+                      <img src="{{ product.imgurl }}" class="img-circle">
                   </a>
 
-                  <div class="price">{{ melon.price_str() }}</div>
-                  <a class="btn btn-primary" href="/melon/{{ melon.id }}">Details</a>
+                  <div class="price">{{ product.price_str() }}</div>
+                  <a class="btn btn-primary" href="/product/{{ product.id }}">Details</a>
               </div>
 
           </div>

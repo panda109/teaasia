@@ -20,7 +20,7 @@ def list_products():
     """Return page showing all the products has to offer"""
 
     products = model.Product.get_all()
-    return render_template("all_products.html",
+    return render_template("products/all_products.html",
                            product_list=products)
 
 
@@ -33,7 +33,7 @@ def show_product(id):
 
     product = model.Product.get_by_id(id)
     print product
-    return render_template("product_details.html",
+    return render_template("products/product_details.html",
                            display_product=product)
 
 
@@ -44,7 +44,7 @@ def shopping_cart():
     # TODO: Display the contents of the shopping cart.
     #   - The cart is a list in session containing products added
 
-    return render_template("cart.html", 
+    return render_template("products/cart.html", 
                             cart=session['cart'])
 
 
@@ -88,7 +88,7 @@ def add_to_cart(id):
     #   - use session variables to hold cart list
 
     flash("Product added to cart successfully!")
-    return render_template("cart.html", 
+    return render_template("products/cart.html", 
                             cart=session['cart'])
     # return render_template("cart.html", product_name=test_product, product_qty=test_qty, product_price=test_price, product_total=total)
 
