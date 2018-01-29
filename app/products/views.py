@@ -17,7 +17,7 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 
 @products.route("/products")
 def list_products():
-    """Return page showing all the melons ubermelon has to offer"""
+    """Return page showing all the products has to offer"""
 
     products = model.Product.get_all()
     return render_template("all_products.html",
@@ -26,13 +26,13 @@ def list_products():
 
 @products.route("/product/<int:id>")
 def show_product(id):
-    """Return page showing the details of a given melon.
+    """Return page showing the details of a given product.
 
-    Show all info about a melon. Also, provide a button to buy that melon.
+    Show all info about a product. Also, provide a button to buy that product.
     """
 
     product = model.Product.get_by_id(id)
-    print melon
+    print product
     return render_template("product_details.html",
                            display_product=product)
 
@@ -42,7 +42,7 @@ def shopping_cart():
     """Display content of shopping cart."""
 
     # TODO: Display the contents of the shopping cart.
-    #   - The cart is a list in session containing melons added
+    #   - The cart is a list in session containing products added
 
     return render_template("cart.html", 
                             cart=session['cart'])
@@ -50,9 +50,9 @@ def shopping_cart():
 
 @products.route("/add_to_cart/<int:id>")
 def add_to_cart(id):
-    """Add a melon to cart and redirect to shopping cart page.
+    """Add a product to cart and redirect to shopping cart page.
 
-    When a melon is added to the cart, redirect browser to the shopping cart
+    When a product is added to the cart, redirect browser to the shopping cart
     page and display a confirmation message: 'Successfully added to cart'.
     """
     
@@ -63,7 +63,7 @@ def add_to_cart(id):
     total = "$%.2f" % total
     common_name = product.common_name
     price = product.price_str()
-    print "OMG MELON", product
+    print "OMG PRODUCT", product
     if len(session['cart']) > 0:
         new_item = True
         for old_order in session['cart']:
@@ -90,12 +90,12 @@ def add_to_cart(id):
     flash("Product added to cart successfully!")
     return render_template("cart.html", 
                             cart=session['cart'])
-    # return render_template("cart.html", melon_name=test_melon, melon_qty=test_qty, melon_price=test_price, melon_total=total)
+    # return render_template("cart.html", product_name=test_product, product_qty=test_qty, product_price=test_price, product_total=total)
 
 
 @products.route("/checkout")
 def checkout():
-    """Checkout customer, process payment, and ship melons."""
+    """Checkout customer, process payment, and ship products."""
 
     # For now, we'll just provide a warning. Completing this is beyond the
     # scope of this exercise.
