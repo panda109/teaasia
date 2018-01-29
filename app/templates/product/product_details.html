@@ -2,20 +2,20 @@
 
 {% block body %}
 
-    <h2>{{ display_melon.common_name }}</h2>
+    <h2>{{ display_product.common_name }}</h2>
 
     <div class="row">
 
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <img src="{{ display_melon.imgurl }}" class="img-responsive">
+            <img src="{{ display_product.imgurl }}" class="img-responsive">
         </div>
 
         <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
             <div class="well">
                 <h3>Price per melon</h3>
-                <p> {{ display_melon.price_str() }} </p>
+                <p> {{ display_product.price_str() }} </p>
 
-                <form action="/add_to_cart/{{ display_melon.id }}">
+                <form action="/add_to_cart/{{ display_product.id }}">
                     <label>
                         <input type="number" name="qty" value="1" min="1" max="10">
                     </label>
@@ -24,7 +24,7 @@
                     </label>
                 </form>
 
-<!--                 <a class="btn btn-primary" href="/add_to_cart/{{ display_melon.id }}">
+<!--                 <a class="btn btn-primary" href="/products/add_to_cart/{{ display_product.id }}">
                     Add to Cart
                 </a> -->
 
@@ -39,13 +39,13 @@
         <h3>Product details</h3>
 
         <ul>
-            <li>Melon type: {{ display_melon.melon_type }}</li>
-            <li>Flesh color: {{ display_melon.flesh_color }}</li>
-            <li>Rind color: {{ display_melon.rind_color }}</li>
-            {% if display_melon.seedless %}
-              <li>Seedless melon</li>
+            <li>Product type: {{ display_product.product_type }}</li>
+            <li>Flesh color: {{ display_product.flesh_color }}</li>
+            <li>Rind color: {{ display_product.rind_color }}</li>
+            {% if display_product.seedless %}
+              <li>Seedless product</li>
             {% else %}
-              <li class='warning'>Warning! This melon has seeds</li>
+              <li class='warning'>Warning! This product has speciall seed</li>
             {% endif %}
         </ul>
     </div>

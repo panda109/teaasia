@@ -33,9 +33,9 @@ def show_product(id):
     Show all info about a product. Also, provide a button to buy that product.
     """
 
-    product = model.Product.get_by_id(id)
+    product = Product.get_by_id(id)
     print product
-    return render_template("products/product_details.html",
+    return render_template("product/product_details.html",
                            display_product=product)
 
 

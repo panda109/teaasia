@@ -125,7 +125,7 @@ class Product(db.Model):
     def price_str(self):
         """Return price formatted as string $x.xx"""
 
-        return self.price
+        return "Price : $%s" % self.price
 
     def __repr__(self):
         """Convenience method to show information about product in console."""
@@ -149,28 +149,6 @@ class Product(db.Model):
     @classmethod
     def get_by_id(cls, id):
         """Query for a specific product in the database by the primary key"""
-
-        cursor = db_connect()
-        QUERY = """
-                  SELECT id,
-                         product_type,
-                         common_name,
-                         price,
-                         imgurl,
-                         flesh_color,
-                         rind_color,
-                         seedless
-                   FROM products
-                   WHERE id = ?;
-               """
-
-        cursor.execute(QUERY, (id,))
-
-        row = cursor.fetchone()
-
-        if not row:
-            return None
-
-        product = Product(*row)
-
+        
+        product = Product.query.get(id)
         return product
