@@ -1,24 +1,12 @@
-"""Ubermelon shopping application Flask server.
+# app/main/views.py
 
-Provides web interface for browsing melons, seeing detail about a melon, and
-put melons in a shopping cart.
+from flask import render_template, session, redirect, url_for, current_app
+from flask_login import login_required, current_user
 
-Authors: Joel Burton, Christian Fernandez, Meggie Mahnken.
-"""
-
-
-from flask import Flask, render_template, redirect, flash, session, request
-import jinja2
-
-import model
-from sqlalchemy.sql.expression import false
-
-
-app = Flask(__name__)
-
-# Need to use Flask sessioning features
-
-app.secret_key = 'this-should-be-something-unguessable'
+from .. import db
+from ..models import products
+from . import product
+from .forms import NameForm
 
 # Normally, if you refer to an undefined variable in a Jinja template,
 # Jinja silently ignores this. This makes debugging difficult, so we'll
@@ -26,18 +14,6 @@ app.secret_key = 'this-should-be-something-unguessable'
 # error.
 
 app.jinja_env.undefined = jinja2.StrictUndefined
-
-
-@app.route("/")
-def index():
-    """Return homepage."""
-
-    if "cart" in session.keys():
-        pass
-    else:
-        session["cart"] = []
-    return render_template("homepage.html")
-
 
 @app.route("/melons")
 def list_melons():
@@ -117,51 +93,6 @@ def add_to_cart(id):
     # return render_template("cart.html", melon_name=test_melon, melon_qty=test_qty, melon_price=test_price, melon_total=total)
 
 
-@app.route("/login", methods=["GET"])
-def show_login():
-    """Show login form."""
-
-    return render_template("login.html")
-
-
-@app.route("/login", methods=["POST"])
-def process_login():
-    """Log user into site.
-
-    Find the user's login credentials located in the 'request.form'
-    dictionary, look up the user, and store them in the session.
-    """
-    email = request.form.get("email")
-    password = request.form.get("password")
-    
-    authenticated = model.Customer.authenticate(email, password)
-    
-
-    if authenticated:
-        name = model.Customer.get_by_email(email)
-        session["first_name"] = name
-        session["login"] = (email, password)
-
-
-        print "email is %s and password is %s" %(email, password)
-        print "session email is %s and session password is %s" %(session["login"][0], session["login"][1])
-        return redirect("/melons")
-
-    else:
-        flash("Sorry! Your information was not found in our system.")
-        return redirect("/login")
-        
-    
-
-@app.route("/logout")
-def logout():
-    """strips all session variables and returns the login page"""
-
-    for key in session.keys():
-        del session[key]
-
-    return redirect("/login")
-
 @app.route("/checkout")
 def checkout():
     """Checkout customer, process payment, and ship melons."""
@@ -172,6 +103,3 @@ def checkout():
     flash("Sorry! Checkout will be implemented in a future version.")
     return redirect("/melons")
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
