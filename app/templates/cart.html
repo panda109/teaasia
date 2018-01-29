@@ -1,0 +1,35 @@
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Melon Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%if cart %}
+        {% for order in cart %}
+        <tr>
+            <td>{{ order[0] }}</td>
+            <td>{{ order[1] }}</td>
+            <td>{{ order[2] }}</td>
+            <td>{{ order[3] }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td>No items in cart.</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+    <a href="/melons" class="btn btn-large btn-primary">Keep Shopping</a>
+    <a href="/checkout" class="btn btn-large btn-primary">Check Out</a>
+
+{% endblock %}
