@@ -134,16 +134,14 @@ class Product(db.Model):
             self.id, self.common_name, self.price_str())
 
     @classmethod
-    def get_all(cls, max=30):
+    def get_all(cls):
         """Return list of products.
 
         Query the database for the first [max] products, returning each as a
         Product object
         """
         product = Product.query.all()
-
-        print product
-
+        #print product
         return product
 
     @classmethod

@@ -57,11 +57,10 @@ def add_to_cart(id):
     When a product is added to the cart, redirect browser to the shopping cart
     page and display a confirmation message: 'Successfully added to cart'.
     """
-    
-
+    print session
     product = Product.get_by_id(id)
     qty = int(request.args.get('qty'))
-    total = int(product.price) * qty
+    total = float(product.price) * qty
     total = "$%.2f" % total
     common_name = product.common_name
     price = product.price_str()
