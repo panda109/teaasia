@@ -7,18 +7,24 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    #yhkflwbqspbfzohk
+    SECRET_KEY = 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    #MAIL_SERVER = 'smtp.gmail.com'
+    #MAIL_USE_TLS = False
+    #MAIL_PORT = 465
+    #MAIL_USE_SSL = True
     MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    #MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    #MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME = 'yr6703@gmail.com'
+    Mail_PASSWORD = 'Panda109'
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <yr6703@gmail.com>'
-    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    FLASKY_ADMIN = 'FLASKY_ADMIN'
 
     @staticmethod
     def init_app(app):
