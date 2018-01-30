@@ -40,13 +40,14 @@ def show_product(id):
 
 
 @product.route("/cart")
+@login_required
 def shopping_cart():
     """Display content of shopping cart."""
 
     # TODO: Display the contents of the shopping cart.
     #   - The cart is a list in session containing products added
 
-    return render_template("products/cart.html", 
+    return render_template("product/cart.html", 
                             cart=session['cart'])
 
 
@@ -98,6 +99,7 @@ def add_to_cart(id):
 
 
 @product.route("/checkout")
+@login_required
 def checkout():
     """Checkout customer, process payment, and ship products."""
 
