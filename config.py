@@ -2,9 +2,7 @@
 
 import os
 
-
 basedir = os.path.abspath(os.path.dirname(__file__))
-
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
@@ -14,7 +12,7 @@ class Config(object):
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'teaasia5812@gmail.com'
-    MAIL_PASSWORD = ''
+    MAIL_PASSWORD = 'QQQQQQQ'
     #MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     #MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     #print MAIL_USERNAME

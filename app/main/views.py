@@ -8,11 +8,15 @@ from ..models import User
 from ..email import send_email
 from . import main
 from .forms import NameForm
+from ..models import Catalog
 
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    
+    #query catalog into index.html
+    catalogs = Catalog.get_all()
+    return render_template('index.html', catalogs=catalogs)
 
 
 @main.route('/secret')

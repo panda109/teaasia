@@ -111,17 +111,40 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class Catalog(db.Model):
+    __tablename__ = 'catalog'
+    id = db.Column(db.Integer, primary_key=True)
+    catalog_name = db.Column(db.String(30))
+    products = db.relationship('Product')
+    @classmethod
+    def get_by_id(cls, id):
+        """Query for a specific catalog in the database by the primary key"""
+        
+        catalog = Catalog.query.get(id)
+        return catalog
+ 
+    @classmethod
+    def get_all(cls):
+        catalog = Catalog.query.all()
+        return catalog
+    
+    def __repr__(self):
+        return '<product_type : {}>'.format(self.catalog_name)
+    
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    product_type = db.Column(db.String(30))
+    #product_type = db.Column(db.String(30))
+    product_type = db.relationship("Catalog")
     common_name = db.Column(db.String(30))
     price = db.Column(db.String(10))
     imgurl = db.Column(db.String(200))
     flesh_color = db.Column(db.String(30))
     rind_color = db.Column(db.String(30))
-    seedless = db.Column(db.Boolean, default=False)
-
+    available = db.Column(db.Boolean, default=False)
+    catalog_id = db.Column(db.Integer, db.ForeignKey('catalog.id'))
+    
+    
     def price_str(self):
         """Return price formatted as string $x.xx"""
 

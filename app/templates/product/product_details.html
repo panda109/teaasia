@@ -44,10 +44,10 @@
             <li>Product type: {{ display_product.product_type }}</li>
             <li>Flesh color: {{ display_product.flesh_color }}</li>
             <li>Rind color: {{ display_product.rind_color }}</li>
-            {% if display_product.seedless %}
-              <li>Seedless product</li>
+            {% if display_product.available %}
+              <li>Product available</li>
             {% else %}
-              <li class='warning'>Warning! This product has speciall seed</li>
+              <li class='warning'>Warning! This product was no in stock.</li>
             {% endif %}
         </ul>
     </div>

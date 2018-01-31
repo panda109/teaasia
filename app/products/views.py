@@ -9,6 +9,7 @@ from . import product
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from flask_login import current_user
+from ..models import Catalog
 
 # Normally, if you refer to an undefined variable in a Jinja template,
 # Jinja silently ignores this. This makes debugging difficult, so we'll
@@ -17,13 +18,13 @@ from flask_login import current_user
 
 #app.jinja_env.undefined = jinja2.StrictUndefined
 
-@product.route("/products")
-def list_products():
+@product.route("/products/<int:id>")
+def list_products(id):
     """Return page showing all the products has to offer"""
-
-    products = Product.get_all()
+    catalogs = Catalog.get_all()
+    products = Product.query.filter_by(catalog_id=id)
     return render_template("product/all_products.html",
-                           product_list=products)
+                           product_list=products,catalogs=catalogs,catalog_id=id)
 
 
 @product.route("/product/<int:id>")
@@ -32,11 +33,11 @@ def show_product(id):
 
     Show all info about a product. Also, provide a button to buy that product.
     """
-
+    catalogs = Catalog.get_all()
     product = Product.get_by_id(id)
     print product
     return render_template("product/product_details.html",
-                           display_product=product)
+                           display_product=product,catalogs=catalogs,catalog_id=id)
 
 
 @product.route("/cart")
