@@ -28,7 +28,8 @@
             
                 {% for catalog in catalogs %}
                 <li><a href="/product/products/{{catalog.id}}">{{catalog.catalog_name}}</a></li>
-                {% endfor %}               
+                {% endfor %}
+                               
                 <li><a href="{{ url_for('product.shopping_cart') }}">Cart</a></li>
                 {% if current_user.is_authenticated %}
                 

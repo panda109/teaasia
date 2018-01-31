@@ -5,8 +5,11 @@
 {% block title %}Flasky - All Product{% endblock %}
 
 {% block page_content %}
-    <h2>Top Selling Products</h2>
-
+	{% if catalog_id %}
+    <h2>{{catalogs[catalog_id - 1]}}</h2>
+    {% else %}
+    <h2>All Catalog</h2>
+	{% endif %}
     <div id="product-list" class="row">
       {% for product in product_list %}
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 product-summary">

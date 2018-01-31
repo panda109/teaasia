@@ -18,6 +18,13 @@ from ..models import Catalog
 
 #app.jinja_env.undefined = jinja2.StrictUndefined
 
+@product.route("/products")
+def list_all_products():
+    """Return page showing all the products has to offer"""
+    catalogs = Catalog.get_all()
+    products = Product.get_all()
+    return render_template("product/all_products.html",
+                           product_list=products,catalogs=catalogs)
 @product.route("/products/<int:id>")
 def list_products(id):
     """Return page showing all the products has to offer"""
