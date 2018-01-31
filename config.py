@@ -12,7 +12,7 @@ class Config(object):
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'teaasia5812@gmail.com'
-    MAIL_PASSWORD = 'QQQQQQQ'
+    MAIL_PASSWORD = ''
     #MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     #MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     #print MAIL_USERNAME
