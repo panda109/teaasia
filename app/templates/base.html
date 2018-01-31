@@ -5,10 +5,11 @@
 {% block title %}Flasky{% endblock %}
 
 {% block head %}
-{{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="stylesheet" href="/static/css/site.css"/>
+	{{ super() }}
+	<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+	<link rel="stylesheet" href="/static/css/homepage.css"/>
+	<link rel="stylesheet" href="/static/css/site.css"/>
 {% endblock %}
 
 {% block navbar %}
@@ -25,7 +26,6 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
                 <li><a href="{{ url_for('product.list_products') }}">Product</a></li>
                 <li><a href="{{ url_for('product.shopping_cart') }}">Cart</a></li>
                 {% if current_user.is_authenticated %}

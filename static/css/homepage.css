@@ -27,8 +27,45 @@ body {
 
 /* The footer always appears at the bottom of the browser window. */
 
-footer {
-    position: fixed;
+.footer {
+    /* 設定footer的高度 */
+    height: 100px;
+    box-sizing: border-box;
+    /* 設定footer絕對位置在底部 */
+    position: relative;
     bottom: 0;
-    width: 100%;  /* required because fixed position */
+    /* 展開footer寬度 */
+    width: 100%;
+ }
+ 
+ .btn_product {    /*  設定此樣式的 class 名稱，在 element 叫用時會用到   */
+  background: #e37e26;      /* 設定按鈕背景顏色   */
+    /*  底下5行是用來做漸層效果之用，從顏色 #e37e26 開始到顏色 #e8bb94  */
+  background-image: -webkit-linear-gradient(top, #e37e26, #e8bb94);
+  background-image: -moz-linear-gradient(top, #e37e26, #e8bb94);
+  background-image: -ms-linear-gradient(top, #e37e26, #e8bb94);
+  background-image: -o-linear-gradient(top, #e37e26, #e8bb94);
+  background-image: linear-gradient(to bottom, #e37e26, #e8bb94);
+    /*  底下3行是用來做 按鈕外框的圓角，數字越大圓角越明顯，但受限於按鈕高度，此值高於某一程度後就不會有差異了 */
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+    /*  文字的陰影，分別為陰影偏移X、 陰影偏移Y、陰影偏移X、模糊度也就是陰影的大小、陰影的顏色 */
+  text-shadow: 1px 1px 3px #666666;
+    /*  按鈕外框陰影，分別為陰影偏移X、 陰影偏移Y、陰影偏移X、模糊度也就是陰影的大小、陰影的顏色   */
+  -webkit-box-shadow: 2px 2px 5px #666666;
+  -moz-box-shadow: 2px 2px 5px #666666;
+  box-shadow: 2px 2px 5px #666666;
+    /* 文字字型   */
+  font-family: Arial;
+    /*  文字顏色  */
+  color: #171414;
+    /*  文字大小  */
+  font-size: 20px;
+    /*  文字距離邊框的留白，分別為上 top、右 right、下 bottom、左 left 的留白 px 大小  */
+  padding: 10px 20px 10px 20px;
+    /*  按鈕邊框大小，分別為顏色跟框寬  ，把 solid 改為 dotted 就會變虛線邊框*/
+  border: solid #b0936f 2px;
+   /* 設定文字的提醒線條，底線 underline、上線 overline 或刪除線 line-through 的效果，none ＝沒特效  */
+  text-decoration: none;
 }
