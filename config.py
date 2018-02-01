@@ -15,8 +15,6 @@ class Config(object):
     MAIL_PASSWORD = ''
     #MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     #MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    #print MAIL_USERNAME
-    #print MAIL_PASSWORD
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'TeaAsia Admin <tesaasia5812@gmail.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')

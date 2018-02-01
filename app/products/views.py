@@ -42,7 +42,6 @@ def show_product(id):
     """
     catalogs = Catalog.get_all()
     product = Product.get_by_id(id)
-    print product
     return render_template("product/product_details.html",
                            display_product=product,catalogs=catalogs,catalog_id=id)
 
@@ -51,12 +50,15 @@ def show_product(id):
 @login_required
 def shopping_cart():
     """Display content of shopping cart."""
-
+    if "cart" in session.keys():
+        pass
+    else:
+        session["cart"] = []
     # TODO: Display the contents of the shopping cart.
     #   - The cart is a list in session containing products added
-
+    catalogs = Catalog.get_all()
     return render_template("product/cart.html", 
-                            cart=session['cart'])
+                            cart=session['cart'],catalogs=catalogs)
 
 
 @product.route("/add_to_cart/<int:id>")
@@ -101,8 +103,9 @@ def add_to_cart(id):
     #   - use session variables to hold cart list
 
     flash("Product added to cart successfully!")
+    catalogs = Catalog.get_all()
     return render_template("product/cart.html", 
-                            cart=session['cart'])
+                            cart=session['cart'],catalogs=catalogs)
     # return render_template("cart.html", product_name=test_product, product_qty=test_qty, product_price=test_price, product_total=total)
 
 
@@ -115,5 +118,6 @@ def checkout():
     # scope of this exercise.
 
     flash("Sorry! Checkout will be implemented in a future version.")
-    return redirect("/product/products")
+    catalogs = Catalog.get_all()
+    return redirect("/product/products",catalogs=catalogs)
 

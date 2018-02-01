@@ -3,7 +3,7 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from flask_login import current_user
-
+from ..models import Catalog
 from . import auth
 from .. import db
 from ..email import send_email
@@ -24,9 +24,10 @@ def before_request():
 
 @auth.route('/unconfirmed')
 def unconfirmed():
+    catalogs = Catalog.get_all()
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
-    return render_template('auth/unconfirmed.html')
+    return render_template('auth/unconfirmed.html',catalogs=catalogs)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -39,8 +40,8 @@ def login():
             return redirect(request.args.get('next') or url_for('main.index'))
 
         flash('Invalid username or password.')
-
-    return render_template('auth/login.html', form=form)
+    catalogs = Catalog.get_all()
+    return render_template('auth/login.html', form=form,catalogs=catalogs)
 
 
 @auth.route('/logout')
@@ -48,6 +49,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.')
+    from ..models import Catalog
     return redirect(url_for('main.index'))
 
 
@@ -63,8 +65,8 @@ def register():
         send_email(user.email, 'Confirm Your Account', 'auth/email/confirm', user=user, token=token)
         flash('A confirmation email has been sent to you by email.')
         return redirect(url_for('auth.login'))
-
-    return render_template('auth/register.html', form=form)
+    catalogs = Catalog.get_all()
+    return render_template('auth/register.html', form=form,catalogs=catalogs)
 
 
 @auth.route('/confirm/<token>')
@@ -101,6 +103,7 @@ def change_password():
             return redirect(url_for('main.index'))
         else:
             flash('Invalid password.')
+    catalogs = Catalog.get_all()
     return render_template("auth/change_password.html", form=form)
 
 
@@ -121,8 +124,8 @@ def password_reset_request():
 
         flash('An email with instructions to reset your password has been sent to you.')
         return redirect(url_for('auth.login'))
-
-    return render_template('auth/reset_password.html', form=form)
+    catalogs = Catalog.get_all()
+    return render_template('auth/reset_password.html', form=form,catalogs=catalogs)
 
 
 @auth.route('/reset/<token>', methods=['GET', 'POST'])
@@ -138,8 +141,8 @@ def password_reset(token):
             return redirect(url_for('auth.login'))
         else:
             return redirect(url_for('main.index'))
-
-    return render_template('auth/reset_password.html', form=form)
+    catalogs = Catalog.get_all()
+    return render_template('auth/reset_password.html', form=form,catalogs=catalogs)
 
 
 @auth.route('/change_email', methods=['GET', 'POST'])
@@ -158,8 +161,8 @@ def change_email_request():
             return redirect(url_for('main.index'))
         else:
             flash('Invalid email or password.')
-
-    return render_template('auth/change_email.html', form=form)
+    catalogs = Catalog.get_all()
+    return render_template('auth/change_email.html', form=form,catalogs=catalogs)
 
 
 @auth.route('/change_email/<token>')
