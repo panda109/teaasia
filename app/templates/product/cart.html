@@ -10,8 +10,8 @@
     <thead>
         <tr>
             <th>Product Name</th>
-            <th>Quantity</th>
             <th>Price</th>
+            <th>Quantity</th>
             <th>Total</th>
         </tr>
     </thead>
@@ -20,8 +20,8 @@
         {% for order in cart %}
         <tr>
             <td>{{ order[0] }}</td>
-            <td>{{ order[1] }}</td>
             <td>{{ order[2] }}</td>
+            <td>{{ order[1] }}</td>
             <td>${{ order[3] }}</td>
         </tr>
         {% endfor %}

@@ -8,6 +8,25 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from . import login_manager
 
+class Order(db.Model):
+    __tablename__ = 'order'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(10))
+    paypal_id = db.Column(db.String(64))
+    status = db.Column(db.Boolean, default=False)
+    order_datatime = db.Column(db.DateTime())
+    orders = db.relationship('Order_detail', backref='order', lazy='dynamic')
+   
+    def __repr__(self):
+        return "<Item: %s, %s, %s>" % (self.id,self.user_id,self.order_datatime)
+
+class Order_detail(db.Model):
+    __tablename__ = 'order_detail'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(10))
+    product_id = db.Column(db.String(10))
+    quantity = db.Column(db.Integer)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -22,7 +41,6 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
-
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'

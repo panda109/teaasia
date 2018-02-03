@@ -2,7 +2,7 @@
 
 from flask import render_template, session, redirect, url_for, current_app
 from flask_login import login_required, current_user
-
+from datetime import datetime
 from .. import db
 from ..models import Product
 from . import product
@@ -89,12 +89,12 @@ def add_to_cart(id):
                 new_item = False
         if new_item:
             #print "the else in the for loop ran"
-            order = [common_name, qty, price, total]
+            order = [common_name, qty, price, total, id]
             session['cart'].append(order)
         
     else:
         #print "the else outside ran"
-        order = [common_name, qty, price, total]
+        order = [common_name, qty, price, total, id]
         session['cart'].append(order)
 
 
@@ -116,8 +116,13 @@ def checkout():
 
     # For now, we'll just provide a warning. Completing this is beyond the
     # scope of this exercise.
-
+    
+    #from session
+    #insert order
+    #pub_date = datetime.utcnow()
+    #insert order_detail
+    
     flash("Sorry! Checkout will be implemented in a future version.")
     catalogs = Catalog.get_all()
-    return redirect("/product/products",catalogs=catalogs)
+    return redirect("/product/products")
 
