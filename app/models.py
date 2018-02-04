@@ -4,17 +4,29 @@ from flask import current_app
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from datetime import datetime
 from . import db
 from . import login_manager
+
+#yr6703@yahoo.com.tw
+#password_hash = pbkdf2:sha1:50000$EVk4ylEH$4d40531d3cf9f308f6c38482b1fda89c7a44b190
+#password = 1111
+
+#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
+#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Melitopolski-Watermelon-web.jpg"
+#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Malali-Watermelon-web.jpg"
+#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Ledmon-Watermelon-web.jpg"
+#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Jubilee-Watermelon-web.jpg"
+#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Jubilee-Bush-Watermelon-web.jpg"
 
 class Order(db.Model):
     __tablename__ = 'order'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(10))
+    total = db.Column(db.String(10))
     paypal_id = db.Column(db.String(64))
     status = db.Column(db.Boolean, default=False)
-    order_datatime = db.Column(db.DateTime())
+    order_datetime = db.Column(db.DateTime, nullable = False, default=datetime.utcnow())
     orders = db.relationship('Order_detail', backref='order', lazy='dynamic')
    
     def __repr__(self):
@@ -25,8 +37,13 @@ class Order_detail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(10))
     product_id = db.Column(db.String(10))
+    price = db.Column(db.String(10))
     quantity = db.Column(db.Integer)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    @classmethod
+    def get_all(cls):
+        order_detail = Order_detail.query.all()
+        return order_detail
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -166,7 +183,7 @@ class Product(db.Model):
     def price_str(self):
         """Return price formatted as string $x.xx"""
 
-        return "$%s" % self.price
+        return "%s" % self.price
 
     def __repr__(self):
         """Convenience method to show information about product in console."""

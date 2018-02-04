@@ -39,6 +39,7 @@
                 </ul>                              
                </li>                 
                 <li><a href="{{ url_for('product.shopping_cart') }}">Cart</a></li>
+                <li><a href="{{ url_for('product.shopping_order') }}">Order</a></li>
                 {% if current_user.is_authenticated %}
                 
                 {% endif %}

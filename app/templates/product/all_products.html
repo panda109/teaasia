@@ -2,7 +2,7 @@
 
 {% extends "base.html" %}
 
-{% block title %}Flasky - All Product{% endblock %}
+{% block title %}TeaAsia - All Product{% endblock %}
 
 {% block page_content %}
 	{% if catalog_id %}
@@ -20,7 +20,7 @@
                       <img src="{{ product.imgurl }}" class="img-circle img-responsive center-block"">
                   </a>
 
-                  <div class="price">Price : {{ product.price_str() }}</div>
+                  <div class="price">Price : ${{ product.price_str() }}</div>
                   <a class="btn btn-primary" href="/product/product/{{ product.id }}">Details</a>
               </div>
 

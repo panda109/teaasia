@@ -1,0 +1,39 @@
+<!-- app/templates/product/order.html -->
+
+{% extends "base.html" %}
+
+{% block title %}TeaAsia - Order{% endblock %}
+
+{% block page_content %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Order_ID</th>
+            <th>Paypal_ID</th>
+            <th>Paypal_Status</th>
+            <th>Order_Time</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%if orders.all() %}
+        {% for order in orders %}
+        <tr>
+            <td><a href="/product/order_detail/{{ order.id }}">{{ order.id }}</a></td>
+            <td>{{ order.paypal_id }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ (order.order_datetime).strftime("%Y-%m-%d %H:%M:%S") }}</td>
+            <td>${{ order.total }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td>No orders.</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+    <a href="/product/products" class="btn btn-large btn-primary">Keep Shopping</a>
+
+{% endblock %}

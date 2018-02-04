@@ -4,7 +4,7 @@ from flask import render_template, session, redirect, url_for, current_app
 from flask_login import login_required, current_user
 from datetime import datetime
 from .. import db
-from ..models import Product
+from ..models import Product,Order,Order_detail
 from . import product
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
@@ -118,11 +118,43 @@ def checkout():
     # scope of this exercise.
     
     #from session
-    #insert order
-    #pub_date = datetime.utcnow()
-    #insert order_detail
-    
+    if len(session['cart']) > 0:
+        #insert order
+        current_order = Order(user_id = current_user.id)
+        db.session.add(current_order)
+        #db.session.flush()
+        db.session.commit()
+        total = 0
+        for order in session['cart']:
+            order_detail = Order_detail(user_id = current_user.id, product_id = order[4], quantity = order[1], price = order[2], order_id = int(current_order.id) )
+            db.session.add(order_detail)
+            total = total + int(order[1]) * float(order[2])
+        db.session.commit()
+        order = Order.query.filter_by(id=current_order.id).first()
+        order.total = total
+        db.session.commit()
+        session['cart'] = []
+        return redirect("/product/products")
     flash("Sorry! Checkout will be implemented in a future version.")
     catalogs = Catalog.get_all()
     return redirect("/product/products")
 
+@product.route("/order")
+@login_required
+def shopping_order():
+    """Display content of shopping order."""
+
+    # TODO: Display the contents of the shopping cart.
+    #   - The cart is a list in session containing products added
+    orders = Order.query.filter_by(user_id=current_user.id)
+    catalogs = Catalog.get_all()
+    return render_template("product/order.html", 
+                            orders=orders,catalogs=catalogs)
+
+@product.route("/order_detail/<int:id>")
+@login_required
+def shopping_order_detail(id):
+    catalogs = Catalog.get_all()
+    order_details = Order_detail.query.filter_by(order_id=id)
+    return render_template("product/order_detail.html", 
+                            order_details=order_details,catalogs=catalogs)
