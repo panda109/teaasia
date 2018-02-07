@@ -171,7 +171,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     #product_type = db.Column(db.String(30))
     product_type = db.relationship("Catalog")
-    common_name = db.Column(db.String(30))
+    common_name = db.Column(db.String(30),unique=True)
     price = db.Column(db.String(10))
     imgurl = db.Column(db.String(200))
     flesh_color = db.Column(db.String(30))
