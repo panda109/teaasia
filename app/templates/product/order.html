@@ -22,7 +22,11 @@
         <tr>
             <td><a href="/product/order_detail/{{ order.id }}">{{ order.id }}</a></td>
             <td>{{ order.paypal_id }}</td>
-            <td>{{ order.status }}</td>
+            {% if order.status  %}
+            <td>Success</td>
+            {% else %}
+            <td>Fail</td>
+            {% endif %}
             <td>{{ (order.order_datetime).strftime("%Y-%m-%d %H:%M:%S") }}</td>
             <td>${{ order.total }}</td>
         </tr>
