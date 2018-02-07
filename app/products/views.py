@@ -62,6 +62,20 @@ def shopping_cart():
     return render_template("product/cart.html", 
                             cart=session['cart'],catalogs=catalogs)
 
+@product.route("/remove_from_cart/<string:name>")
+def remove_from_cart(name):
+    index = 0
+    for order in session['cart']:
+        if order[0] == name:
+            target_index = index
+        index = index + 1  
+    
+    session['cart'].pop(target_index)
+    flash("Product removed from cart successfully!")
+    catalogs = Catalog.get_all()
+    return render_template("product/cart.html", 
+                            cart=session['cart'],catalogs=catalogs)
+
 
 @product.route("/add_to_cart/<int:id>")
 def add_to_cart(id):
@@ -79,7 +93,6 @@ def add_to_cart(id):
     total = float(product.price) * qty
     common_name = product.common_name
     price = product.price_str()
-    print "OMG PRODUCT", product
     if len(session['cart']) > 0:
         new_item = True
         for old_order in session['cart']:

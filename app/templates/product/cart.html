@@ -9,6 +9,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th></th>
             <th>Product Name</th>
             <th>Price</th>
             <th>Quantity</th>
@@ -19,6 +20,7 @@
         {%if cart %}
         {% for order in cart %}
         <tr>
+        	<td><a href="/product/remove_from_cart/{{ order[0] }}" class="glyphicon glyphicon-trash"></a></td>
             <td>{{ order[0] }}</td>
             <td>${{ order[2] }}</td>
             <td>{{ order[1] }}</td>
