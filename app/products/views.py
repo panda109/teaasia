@@ -110,37 +110,56 @@ def add_to_cart(id):
                             cart=session['cart'],catalogs=catalogs)
     # return render_template("cart.html", product_name=test_product, product_qty=test_qty, product_price=test_price, product_total=total)
 
+#        "redirect_urls": {
+#            "return_url": "http://127.0.0.1:5000/product/checkout",
+#            "cancel_url": "http://127.0.0.1:5000/product"},
 @product.route("/payment", methods=['POST'])
 @login_required
 def payment():
-    payment = paypalrestsdk.Payment({
-        "intent": "sale",
-        "payer": {"payment_method": "paypal"},
-        "redirect_urls": {
-            "return_url": "http://127.0.0.1:5000/product/checkout",
-            "cancel_url": "http://127.0.0.1:5000/product"},
-        "transactions": [{
-            "item_list": {
-                "items": [{
-                    "name": "testitem1",
-                    "sku": "12345",
-                    "price": "1.00",
-                    "currency": "USD",
-                    "quantity": 1},
-                    {
-                    "name": "testitem2",
-                    "sku": "5678",
-                    "price": "2.00",
-                    "currency": "USD",
-                    "quantity": 1}
-                ]},
-            "amount": {
-                "total": "3.00",
-                "currency": "USD"},
-            "description": "This is the payment transaction description."}]})
 
+    payment_dict,payment_method,items,item_list,amount,url = {},{},{},{},{},{}
+    payment_dict['intent'] = "sale"
+    payment_method['payment_method'] =  "paypal"
+    payment_dict['payer'] = payment_method
+    url['return_url'] = "http://localhost:5000/product/cart"
+    url['cancel_url'] = "http://localhost:5000/"
+    payment_dict['redirect_urls'] = url
+    #for each item in session
+    total = 0
+    templist = []
+    for order in session['cart']:
+        item = {}
+        item['name'] = order[0]
+        item['sku'] = str(order[4])
+        item['price'] = str(order[2])
+        item['currency'] = "USD"
+        item['quantity'] = str(order[1])
+        templist.append(item)
+        total = total + order[1] * float(order[2])
+    #
+    items['items'] = templist
+    item_list['item_list'] = items
+    amount['total'] = str(total)
+    amount['currency'] = "USD"
+    item_list['item_list'] = items
+    item_list['amount'] = amount
+    item_list['description'] = 'This is payment description.'
+    payment_dict['transactions'] = [item_list]
+    #print payment_dict
+    payment = paypalrestsdk.Payment(payment_dict)
+    # Create Payment and return status
     if payment.create():
-        print('PaymentID : %s success!' % payment.id)
+        print("Payment[%s] created successfully" % (payment.id))
+        # Redirect the user to given approval url
+        #=======================================================================
+        # for link in payment.links:
+        #     if link.method == "REDIRECT":
+        #         redirect_url = str(link.href)
+        #         print("Redirect for approval: %s" % (redirect_url))
+        #     if link.rel == "approval_url":
+        #         approval_url = str(link.href)
+        #         print("Redirect for approval: %s" % (approval_url))
+        #=======================================================================
     else:
         print(payment.error)
     return jsonify({'paymentID' : payment.id})
@@ -178,9 +197,9 @@ def checkout():
         order = Order.query.filter_by(id=current_order.id).first()
         order.total = total
         db.session.commit()
-        return redirect("/product/products")
     flash("Success. order already accepted!!!!")
     catalogs = Catalog.get_all()
+    session['cart'] =[]
     return redirect("/product/products")
 
 @product.route("/order")
