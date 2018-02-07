@@ -1,16 +1,18 @@
 # app/main/views.py
 
-from flask import render_template, session, redirect, url_for, current_app
+from flask import render_template, session, redirect, url_for, current_app, jsonify, request, flash
 from flask_login import login_required, current_user
 from datetime import datetime
 from .. import db
-from ..models import Product,Order,Order_detail
-from . import product
-from flask import render_template, redirect, request, url_for, flash
-from flask_login import login_user, logout_user, login_required
-from flask_login import current_user
-from ..models import Catalog
+from app.products import product
+from ..models import Product,Order,Order_detail, Catalog
+from flask_login import login_user, logout_user, login_required, current_user
+import paypalrestsdk
 
+paypalrestsdk.configure({
+  "mode": "sandbox", # sandbox or live
+  "client_id": "AVZNCwkrjarX-zC0D_5eSpdl57UkbErxRk6GkAQb0_jOQ3G53jkHzluhVQIZlRJVdKRwi-MGoGuewGni",
+  "client_secret": "EBYefvJFPvDEt914WwlLlwpORxgXvZxEyqD87x2xuSbjfowwKMf9VOgDdQ28fY9J5P2eLKAudIAmy-Sc" })
 # Normally, if you refer to an undefined variable in a Jinja template,
 # Jinja silently ignores this. This makes debugging difficult, so we'll
 # set an attribute of the Jinja environment that says to make this an
@@ -108,18 +110,61 @@ def add_to_cart(id):
                             cart=session['cart'],catalogs=catalogs)
     # return render_template("cart.html", product_name=test_product, product_qty=test_qty, product_price=test_price, product_total=total)
 
+@product.route("/payment", methods=['POST'])
+@login_required
+def payment():
+    payment = paypalrestsdk.Payment({
+        "intent": "sale",
+        "payer": {"payment_method": "paypal"},
+        "redirect_urls": {
+            "return_url": "http://127.0.0.1:5000/product/checkout",
+            "cancel_url": "http://127.0.0.1:5000/product"},
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": "testitem1",
+                    "sku": "12345",
+                    "price": "1.00",
+                    "currency": "USD",
+                    "quantity": 1},
+                    {
+                    "name": "testitem2",
+                    "sku": "5678",
+                    "price": "2.00",
+                    "currency": "USD",
+                    "quantity": 1}
+                ]},
+            "amount": {
+                "total": "3.00",
+                "currency": "USD"},
+            "description": "This is the payment transaction description."}]})
+
+    if payment.create():
+        print('PaymentID : %s success!' % payment.id)
+    else:
+        print(payment.error)
+    return jsonify({'paymentID' : payment.id})
+
+@product.route("/execute", methods=['POST'])
+@login_required
+def execute():
+    success = False
+
+    payment = paypalrestsdk.Payment.find(request.form['paymentID'])
+
+    if payment.execute({'payer_id' : request.form['payerID']}):
+        print('ExecuteID %s Execute success!' % request.form['payerID'])
+        success = True
+    else:
+        print(payment.error)
+    return jsonify({'success' : success})
 
 @product.route("/checkout")
 @login_required
 def checkout():
     """Checkout customer, process payment, and ship products."""
-
-    # For now, we'll just provide a warning. Completing this is beyond the
-    # scope of this exercise.
-    
     #from session
     if len(session['cart']) > 0:
-        #insert order
         current_order = Order(user_id = current_user.id)
         db.session.add(current_order)
         #db.session.flush()
@@ -133,9 +178,8 @@ def checkout():
         order = Order.query.filter_by(id=current_order.id).first()
         order.total = total
         db.session.commit()
-        session['cart'] = []
         return redirect("/product/products")
-    flash("Sorry! Checkout will be implemented in a future version.")
+    flash("Success. order already accepted!!!!")
     catalogs = Catalog.get_all()
     return redirect("/product/products")
 
