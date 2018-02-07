@@ -5,7 +5,7 @@
 {% block title %}TeaAsia - Cart{% endblock %}
 
 {% block page_content %}
-<a href="/product/products" class="btn btn-large btn-primary">Keep Shopping</a>
+<a href="/product/clean" class="btn btn-large btn-primary">Clean</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -38,13 +38,10 @@
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
 <script>
-    var CREATE_PAYMENT_URL  = '/product/payment';
-    var EXECUTE_PAYMENT_URL = '/product/execute';
-
     paypal.Button.render({
-
-        env: 'sandbox', // Or 'sandbox'
-
+    
+        env: 'sandbox', // Optional: specify 'sandbox' environment
+        
         commit: true, // Show a 'Pay Now' button
         
 	    style: {
@@ -53,25 +50,31 @@
 	        shape: 'pill',
 	        label: 'checkout'
 	    },
-	    
-        payment: function() {
-            return paypal.request.post(CREATE_PAYMENT_URL).then(function(data) {
-                return data.paymentID;
-            });
+        
+    
+        payment: function(resolve, reject) {
+               
+            var CREATE_PAYMENT_URL = '/product/payment';
+                
+            paypal.request.post(CREATE_PAYMENT_URL)
+                .then(function(data) { resolve(data.paymentID); })
+                .catch(function(err) { reject(err); });
         },
 
         onAuthorize: function(data) {
-            return paypal.request.post(EXECUTE_PAYMENT_URL, {
-                paymentID: data.paymentID,
-                payerID:   data.payerID
-            }).then(function(res) {
+        
+            // Note: you can display a confirmation page before executing
+            
+            var EXECUTE_PAYMENT_URL = '/product/execute';
 
-                console.log(res.success)
-                // The payment is complete!
-                // You can now show a confirmation message to the customer
-            });
+            paypal.request.post(EXECUTE_PAYMENT_URL,
+                    { paymentID: data.paymentID, payerID: data.payerID })
+                    
+                .then(function(data) { /* Go to a success page */ })
+                .catch(function(err) { /* Go to an error page  */ });
         }
 
     }, '#paypal-button');
 </script>
+
 {% endblock %}

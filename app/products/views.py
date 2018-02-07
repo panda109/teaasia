@@ -121,8 +121,8 @@ def payment():
     payment_dict['intent'] = "sale"
     payment_method['payment_method'] =  "paypal"
     payment_dict['payer'] = payment_method
-    url['return_url'] = "http://localhost:5000/product/cart"
-    url['cancel_url'] = "http://localhost:5000/"
+    url['return_url'] = "https://localhost:5000/product/cart"
+    url['cancel_url'] = "https://localhost:5000/"
     payment_dict['redirect_urls'] = url
     #for each item in session
     total = 0
@@ -172,35 +172,37 @@ def execute():
     payment = paypalrestsdk.Payment.find(request.form['paymentID'])
 
     if payment.execute({'payer_id' : request.form['payerID']}):
-        print('ExecuteID %s Execute success!' % request.form['payerID'])
+        print session['cart']
+        if len(session['cart']) > 0:
+            current_order = Order(user_id = current_user.id, paypal_id = payment.id + '_' + request.form['payerID'], status = True)
+            db.session.add(current_order)
+            #db.session.flush()
+            db.session.commit()
+            total = 0
+            for order in session['cart']:
+                order_detail = Order_detail(user_id = current_user.id, product_id = order[4], quantity = order[1], price = order[2], order_id = int(current_order.id) )
+                db.session.add(order_detail)
+                total = total + int(order[1]) * float(order[2])
+            db.session.commit()
+            order = Order.query.filter_by(id=current_order.id).first()
+            order.total = total
+            db.session.commit()
+        print('PayerID %s, PaymentID %s Execute success!' % (request.form['payerID'], payment.id))
         success = True
     else:
         print(payment.error)
     return jsonify({'success' : success})
 
-@product.route("/checkout")
+@product.route("/clean")
 @login_required
-def checkout():
+def clean():
     """Checkout customer, process payment, and ship products."""
     #from session
-    if len(session['cart']) > 0:
-        current_order = Order(user_id = current_user.id)
-        db.session.add(current_order)
-        #db.session.flush()
-        db.session.commit()
-        total = 0
-        for order in session['cart']:
-            order_detail = Order_detail(user_id = current_user.id, product_id = order[4], quantity = order[1], price = order[2], order_id = int(current_order.id) )
-            db.session.add(order_detail)
-            total = total + int(order[1]) * float(order[2])
-        db.session.commit()
-        order = Order.query.filter_by(id=current_order.id).first()
-        order.total = total
-        db.session.commit()
-    flash("Success. order already accepted!!!!")
+
+    flash("Success. cart already cleaned!!!!")
     catalogs = Catalog.get_all()
     session['cart'] =[]
-    return redirect("/product/products")
+    return redirect("/product/cart")
 
 @product.route("/order")
 @login_required
