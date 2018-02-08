@@ -9,8 +9,8 @@ from . import db
 from . import login_manager
 
 #yr6703@yahoo.com.tw
-#password_hash = pbkdf2:sha1:50000$EVk4ylEH$4d40531d3cf9f308f6c38482b1fda89c7a44b190
 #password = 1111
+#is_admin = 1
 
 #"http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
 #"http://www.rareseeds.com/assets/1/14/DimThumbnail/Melitopolski-Watermelon-web.jpg"
@@ -67,7 +67,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
-
+    is_admin = db.Column(db.Boolean, default=False)
+    
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')

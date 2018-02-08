@@ -12,7 +12,7 @@ class Config(object):
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'teaasia5812@gmail.com'
-    MAIL_PASSWORD = 'panda109'
+    MAIL_PASSWORD = ''
     #MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     #MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     FLASKY_MAIL_SUBJECT_PREFIX = '[TeaAsia]'
