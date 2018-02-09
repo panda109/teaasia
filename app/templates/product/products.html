@@ -1,0 +1,31 @@
+<!-- app/templates/product/all_products.html -->
+
+{% extends "base.html" %}
+
+{% block title %}TeaAsia - All Product{% endblock %}
+
+{% block page_content %}
+	{% if catalog_id %}
+    <h2>{{catalogs[catalog_id - 1]}}</h2>
+    {% else %}
+    <h2>All Catalog</h2>
+	{% endif %}
+    <div id="product-list" class="row">
+      {% for product in product_list %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 product-summary">
+
+              <div class="well">
+                  <h3><a href="/product/product/{{ product.id }}">{{ product.common_name }}</a></h3>
+                  <a href="/product/product/{{ product.id }}">
+                      <img src="{{ product.imgurl }}" class="img-circle img-responsive center-block"">
+                  </a>
+
+                  <div class="price">Price : ${{ product.price_str() }}</div>
+                  <a class="btn btn-primary" href="/product/product/{{ product.id }}">Details</a>
+              </div>
+
+          </div>
+      {% endfor %}
+    </div>
+
+{% endblock %}

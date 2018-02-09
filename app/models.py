@@ -10,14 +10,10 @@ from . import login_manager
 
 #yr6703@yahoo.com.tw
 #password = 1111
-#is_admin = 1
+#
+#is_admin -> 1
 
 #"http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
-#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Melitopolski-Watermelon-web.jpg"
-#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Malali-Watermelon-web.jpg"
-#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Ledmon-Watermelon-web.jpg"
-#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Jubilee-Watermelon-web.jpg"
-#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Jubilee-Bush-Watermelon-web.jpg"
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -68,7 +64,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
-    
+
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')

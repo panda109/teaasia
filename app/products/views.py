@@ -4,10 +4,18 @@ from flask import render_template, session, redirect, url_for, current_app, json
 from flask_login import login_required, current_user
 from datetime import datetime
 from .. import db
+from forms import AddProductFrom
 from app.products import product
 from ..models import Product,Order,Order_detail, Catalog
 from flask_login import login_user, logout_user, login_required, current_user
 import paypalrestsdk
+
+def check_admin():
+    """
+    Prevent non-admins from accessing the page
+    """
+    if not current_user.is_admin:
+        abort(403)
 
 paypalrestsdk.configure({
   "mode": "sandbox", # sandbox or live
@@ -20,13 +28,50 @@ paypalrestsdk.configure({
 
 #app.jinja_env.undefined = jinja2.StrictUndefined
 
-@product.route("/products")
-def list_all_products():
+@product.route("/add",methods=['GET', 'POST'])
+def add_product():
     """Return page showing all the products has to offer"""
+    check_admin()
+    form = AddProductFrom()
+    if form.validate_on_submit():
+        product = Product(email=form.email.data,
+                            username=form.username.data,
+                            first_name=form.first_name.data,
+                            last_name=form.last_name.data,
+                            password=form.password.data)
+
+        # add employee to the database
+        db.session.add(product)
+        db.session.commit()
+        flash('You have successfully add a product!')
+        return render_template("product/add_products.html",
+                           product_list=products,catalogs=catalogs,catalog_id=id)
+    catalogs = Catalog.get_all()
+    products = Product.query.filter_by(catalog_id=id)
+    return render_template("product/product.html",
+                           product_list=products,catalogs=catalogs,form=form)
+
+
+@product.route("/delete",methods=['GET', 'POST'])
+def delete_product():
+    """Return page showing all the products has to offer"""
+    check_admin()
+
+@product.route("/products")
+def products():
+    """Return page showing all the products has to offer"""
+    check_admin()
     catalogs = Catalog.get_all()
     products = Product.get_all()
-    return render_template("product/all_products.html",
+    return render_template("product/products.html",
                            product_list=products,catalogs=catalogs)
+    
+    
+    
+    
+    
+    
+    
 @product.route("/products/<int:id>")
 def list_products(id):
     """Return page showing all the products has to offer"""
@@ -34,7 +79,6 @@ def list_products(id):
     products = Product.query.filter_by(catalog_id=id)
     return render_template("product/all_products.html",
                            product_list=products,catalogs=catalogs,catalog_id=id)
-
 
 @product.route("/product/<int:id>")
 def show_product(id):
