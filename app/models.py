@@ -161,18 +161,18 @@ class Catalog(db.Model):
         return catalog
     
     def __repr__(self):
-        return '<product_type : {}>'.format(self.catalog_name)
+        return '{}'.format(self.catalog_name)
     
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
     #product_type = db.Column(db.String(30))
-    product_type = db.relationship("Catalog")
+    product_type = db.relationship("Catalog")  # -> call __repr__(self) return !!!!
     common_name = db.Column(db.String(30),unique=True)
     price = db.Column(db.String(10))
     imgurl = db.Column(db.String(200))
-    flesh_color = db.Column(db.String(30))
-    rind_color = db.Column(db.String(30))
+    color = db.Column(db.String(30))
+    size = db.Column(db.String(30))
     available = db.Column(db.Boolean, default=False)
     catalog_id = db.Column(db.Integer, db.ForeignKey('catalog.id'))
     

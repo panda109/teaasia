@@ -27,7 +27,7 @@
             <ul class="nav navbar-nav">
                <li class="dropdown">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                	Products
+                	Catalogs
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -44,7 +44,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 	{% if current_user.is_admin %}
-			        	<li><a href="{{ url_for('product.add_product') }}">Add Product</a></li>
+			        	<li><a href="{{ url_for('product.products') }}">Products</a></li>
 				    {% endif %}
                 <li class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
