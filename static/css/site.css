@@ -40,7 +40,7 @@ div.melon-summary .price {
 .navbar-header a.navbar-brand {
   width: 100%;
   text-align: center;
-  color: block;
+  color: orange;
   font-size: 32px;
   font-weight: bold;
 }

@@ -6,9 +6,13 @@ from app import create_app, db
 from app.models import User, Role
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-
-
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+
+images = UploadSet('images', IMAGES)
+configure_uploads(app, images)
+patch_request_class(app)
+
 manager = Manager(app)
 migrate = Migrate(app, db)
 #server = Server(host="0.0.0.0", port=5000 , debug = True, ssl_context=context)

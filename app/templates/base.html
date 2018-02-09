@@ -44,8 +44,18 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 	{% if current_user.is_admin %}
-			        	<li><a href="{{ url_for('product.products') }}">Products</a></li>
+		                <li class="dropdown">
+		                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                    Admin 
+		                    <b class="caret"></b></a>
+		                    <ul class="dropdown-menu">
+					        	<li><a href="{{ url_for('product.products') }}">Products</a></li>
+					        	<li><a href="{{ url_for('product.catalogs') }}">Catalogs</a></li>
+					        	<li><a href="{{ url_for('product.orders') }}">Orders</a></li>
+		                    </ul>
+		                </li>				    
 				    {% endif %}
+			    
                 <li class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account 

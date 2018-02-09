@@ -1,9 +1,7 @@
 # config.py
 
 import os
-
 basedir = os.path.abspath(os.path.dirname(__file__))
-
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '!QIOD*Lioisfhishiwiwe98ew9233'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
@@ -12,13 +10,13 @@ class Config(object):
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'teaasia5812@gmail.com'
-    MAIL_PASSWORD = 'panda109'
+    MAIL_PASSWORD = ''
     #MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     #MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     FLASKY_MAIL_SUBJECT_PREFIX = '[TeaAsia]'
     FLASKY_MAIL_SENDER = 'TeaAsia Admin <tesaasia5812@gmail.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
-
+    UPLOADED_IMAGES_DEST = os.getcwd() + "\\static\\_upload\\images\\"
     @staticmethod
     def init_app(app):
         pass

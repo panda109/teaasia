@@ -1,14 +1,17 @@
 # app/main/views.py
 
-from flask import render_template, session, redirect, url_for, current_app, jsonify, request, flash
-from flask_login import login_required, current_user
+from flask import render_template, session, redirect, url_for, current_app, jsonify, request, flash,\
+    app
 from datetime import datetime
 from .. import db
 from forms import ProductForm
 from app.products import product
 from ..models import Product,Order,Order_detail, Catalog
 from flask_login import login_user, logout_user, login_required, current_user
-import paypalrestsdk
+import paypalrestsdk, os
+from werkzeug import secure_filename
+from flask_uploads import UploadSet, IMAGES
+images = UploadSet('images', IMAGES)
 
 def check_admin():
     """
@@ -28,26 +31,39 @@ paypalrestsdk.configure({
 
 #app.jinja_env.undefined = jinja2.StrictUndefined
 
+@product.route("/orders")
+@login_required
+def orders():
+    """Return page showing all the products has to offer"""
+    check_admin()
+    catalogs = Catalog.get_all()
+    return render_template("product/orders.html")
+    
+@product.route("/catalogs")
+@login_required
+def catalogs():
+    """Return page showing all the products has to offer"""
+    check_admin()
+    catalogs = Catalog.get_all()
+    return render_template("product/catalogs.html")    
+
 @product.route("/add",methods=['GET', 'POST'])
+@login_required
 def add_product():
     """Return page showing all the products has to offer"""
     check_admin()
     add_product = True
     form = ProductForm()
     if form.validate_on_submit():
-        common_name = form.common_name.data
-        price = form.price.data
-        imgurl = form.imgurl.data
-        color = form.color.data
-        size = form.size.data
+        filename = secure_filename(form.upload.data.filename)
+        form.upload.data.save(os.getcwd() + '\\static\\_uploads\\images\\' + filename)
         if form.available.data :
             in_stock = True
         else:    
             in_stock = False
-        catalog_id = Catalog.query.filter_by(catalog_name = str(form.catalog_id.data)).first().id
         product = Product(common_name = form.common_name.data,
                           price = form.price.data,
-                          imgurl = form.imgurl.data,
+                          imgurl = filename,
                           color = form.color.data,
                           size = form.size.data,
                           available = in_stock,
@@ -67,6 +83,7 @@ def add_product():
 
 
 @product.route("/delete/<int:id>",methods=['GET', 'POST'])
+@login_required
 def delete_product(id):
     """Return page showing all the products has to offer"""
     check_admin()
@@ -79,6 +96,7 @@ def delete_product(id):
                            products=products,catalogs=catalogs)
     
 @product.route("/edit/<int:id>",methods=['GET', 'POST'])
+@login_required
 def edit_product(id):
     """Return page showing all the products has to offer"""
     check_admin()
@@ -108,6 +126,7 @@ def edit_product(id):
                            product=product, title="Edit Product")
 
 @product.route("/products")
+@login_required
 def products():
     """Return page showing all the products has to offer"""
     check_admin()
@@ -117,6 +136,7 @@ def products():
                            products=products,catalogs=catalogs)
    
 @product.route("/products/<int:id>")
+@login_required
 def list_products(id):
     """Return page showing all the products has to offer"""
     catalogs = Catalog.get_all()
@@ -125,6 +145,7 @@ def list_products(id):
                            product_list=products,catalogs=catalogs,catalog_id=id)
 
 @product.route("/product/<int:id>")
+@login_required
 def show_product(id):
     """Return page showing the details of a given product.
 
