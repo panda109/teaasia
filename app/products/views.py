@@ -23,7 +23,7 @@ paypalrestsdk.configure({
 #app.jinja_env.undefined = jinja2.StrictUndefined
 
 @product.route("/products/<int:id>")
-@login_required
+#@login_required
 def list_products(id):
     """Return page showing all the products has to offer"""
     catalogs = Catalog.get_all()
@@ -36,7 +36,7 @@ def list_products(id):
                            product_list=products,catalogs=catalogs,catalog_id=id)
 
 @product.route("/product/<int:id>")
-@login_required
+#@login_required
 def show_product(id):
     """Return page showing the details of a given product.
 
@@ -63,6 +63,7 @@ def shopping_cart():
                             cart=session['cart'],catalogs=catalogs)
 
 @product.route("/remove_from_cart/<string:name>")
+@login_required
 def remove_from_cart(name):
     index = 0
     for order in session['cart']:
@@ -78,6 +79,7 @@ def remove_from_cart(name):
 
 
 @product.route("/add_to_cart/<int:id>")
+@login_required
 def add_to_cart(id):
     """Add a product to cart and redirect to shopping cart page.
 
