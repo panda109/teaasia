@@ -43,10 +43,11 @@ def users():
 def user(id):
     """Return page showing all the products has to offer"""
     check_admin()
+    from_order = True
     users = User.query.filter_by(id = id)
     orders = Order.get_all()
     #pre setting value
-    return render_template('admin/users.html',users = users, orders=orders)
+    return render_template('admin/users.html',from_order=from_order, users = users, orders=orders)
 
 @admin.route("/edit_user/<int:id>",methods=['GET', 'POST'])
 @login_required

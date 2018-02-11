@@ -2,7 +2,7 @@
 
 {% extends "base.html" %}
 
-{% block title %}TeaAsia - Catalog{% endblock %}
+{% block title %}TeaAsia - Users{% endblock %}
 
 {% block page_content %}
 <div class="content-section">
@@ -11,6 +11,9 @@
       <div class="inner">
 
         <h1 style="text-align:center;">Users</h1>
+        {% if from_order %}
+        <a href="{{ url_for('admin.orders') }}" class="previous">&laquo; Previous</a>
+        {% endif %}
         {% if users %}
           <hr class="intro-divider">
           <div class="center">
@@ -23,7 +26,9 @@
                   <th width="25%"> email </th>
                   <th width="35%"> Address </th>
                   <th width="5%"> Confirmed </th>
+                  {% if from_order != True %}
                   <th width="5%"> Edit </th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody>
@@ -39,7 +44,9 @@
                   {% else %}
                   <td>No</td>
                   {% endif %}
+                  {% if from_order != True %}
                   <td><a href="{{ url_for('admin.edit_user', id=user.id) }}" class="glyphicon glyphicon-pencil"></a></td>                  
+                  {% endif %}
                 </tr>
               {% endfor %}
               </tbody>
