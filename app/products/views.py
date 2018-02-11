@@ -27,7 +27,11 @@ paypalrestsdk.configure({
 def list_products(id):
     """Return page showing all the products has to offer"""
     catalogs = Catalog.get_all()
-    products = Product.query.filter_by(catalog_id=id)
+    if id :
+        products = Product.query.filter_by(catalog_id=id)
+    else:
+        products = Product.get_all()
+    print products
     return render_template("product/all_products.html",
                            product_list=products,catalogs=catalogs,catalog_id=id)
 

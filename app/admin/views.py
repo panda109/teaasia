@@ -85,7 +85,7 @@ def shipout_order(id):
         db.session.add(order)
         db.session.commit()
         user = User.query.filter_by(id = order.user_id).first()
-        send_email(user.email, 'Confirm Your Shipping', 'admin/email/ship', user=user)
+        send_email(user.email, 'Confirm Your Shipping', 'admin/email/ship', user=user, order=order)
         flash('Order was ship out and send email to user.')
     orders = Order.get_all()
     catalogs = Catalog.get_all()
