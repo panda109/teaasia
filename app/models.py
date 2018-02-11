@@ -24,15 +24,22 @@ class Order(db.Model):
     status = db.Column(db.Boolean, default=False)
     order_datetime = db.Column(db.DateTime, nullable = False, default=datetime.utcnow())
     orders = db.relationship('Order_detail', backref='order', lazy='dynamic')
+    shipout = db.Column(db.Boolean, default=False)
+    ship_datetime = db.Column(db.String(10))
+    @classmethod
+    def get_all(cls):
+        order = Order.query.all()
+        return order
    
     def __repr__(self):
-        return "<Item: %s, %s, %s>" % (self.id,self.user_id,self.order_datatime)
+        return "<Item: %s, %s, %s>" % (self.id,self.user_id,self.order_datetime)
 
 class Order_detail(db.Model):
     __tablename__ = 'order_detail'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(10))
     product_id = db.Column(db.String(10))
+    product_name = db.Column(db.String(30))
     price = db.Column(db.String(10))
     quantity = db.Column(db.Integer)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
@@ -53,17 +60,28 @@ class Role(db.Model):
     users = db.relationship('User', backref='role', lazy='dynamic')
 
     def __repr__(self):
-        return '<Role %r>' % self.name
-
+        return '{}'.format(self.name)
+    
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     email = db.Column(db.String(64), unique=True, index=True)
+    add = db.Column(db.String(64))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
+
+    @classmethod
+    def get_role(cls,orle_id):
+        role = Role.query.filter_by(id = orle_id)
+        return role
+
+    @classmethod
+    def get_all(cls):
+        users = User.query.all()
+        return users
 
     @property
     def password(self):
@@ -151,7 +169,6 @@ class Catalog(db.Model):
     @classmethod
     def get_by_id(cls, id):
         """Query for a specific catalog in the database by the primary key"""
-        
         catalog = Catalog.query.get(id)
         return catalog
  
@@ -170,7 +187,7 @@ class Product(db.Model):
     product_type = db.relationship("Catalog")  # -> call __repr__(self) return !!!!
     common_name = db.Column(db.String(30),unique=True)
     price = db.Column(db.String(10))
-    imgurl = db.Column(db.String(200))
+    imgurl = db.Column(db.String(30),unique=True)
     color = db.Column(db.String(30))
     size = db.Column(db.String(30))
     available = db.Column(db.Boolean, default=False)

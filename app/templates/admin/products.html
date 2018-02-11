@@ -1,5 +1,5 @@
-<!-- app/templates/product/products.html -->
-{% import "bootstrap/utils.html" as utils %}
+<!-- app/templates/admin/products.html -->
+
 {% extends "base.html" %}
 
 {% block title %}TeaAsia - Product{% endblock %}
@@ -9,9 +9,6 @@
   <div class="outer">
     <div class="middle">
       <div class="inner">
-        <br/>
-        {{ utils.flashed_messages() }}
-        <br/>
         <h1 style="text-align:center;">Products</h1>
         {% if products %}
           <hr class="intro-divider">
@@ -42,16 +39,8 @@
                   <td> {{ product.size }} </td>
                   <td> {{ product.available }} </td>
                   <td> {{ product.product_type}}</td>
-                  <td>
-                    <a href="{{ url_for('product.edit_product', id=product.id) }}">
-                      <i class="fa fa-pencil"></i> Edit 
-                    </a>
-                  </td>
-                  <td>
-                    <a href="{{ url_for('product.delete_product', id=product.id) }}">
-                      <i class="fa fa-trash"></i> Delete 
-                    </a>
-                  </td>
+                  <td><a href="{{ url_for('admin.edit_product', id=product.id) }}" class="glyphicon glyphicon-pencil"></a></td>
+                  <td><a href="{{ url_for('admin.delete_product', id=product.id) }}" class="glyphicon glyphicon-remove-sign"></a></td>
                 </tr>
               {% endfor %}
               </tbody>
@@ -63,7 +52,7 @@
             <h3> No product have been added. </h3>
             <hr class="intro-divider">
         {% endif %}
-          <a href="{{ url_for('product.add_product') }}" class="btn btn-default btn-lg">
+          <a href="{{ url_for('admin.add_product') }}" class="btn btn-default btn-lg">
             <i class="fa fa-plus"></i>
             Add Product
           </a>

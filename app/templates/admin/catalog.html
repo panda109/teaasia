@@ -1,0 +1,20 @@
+<!-- app/templates/admin/catalog.html -->
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}TeaAsia - EditCatalog{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+{% if add_catalog %}
+    <h1>Add Catalog</h1>
+{% else %}
+	<h1>Edit Catalog</h1>
+{% endif %}
+<a href="{{ url_for('admin.catalogs') }}" class="previous">&laquo; Previous</a>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

@@ -1,11 +1,14 @@
 <!-- app/templates/product/cart.html -->
-
+{% import "bootstrap/utils.html" as utils %}
 {% extends "base.html" %}
 
 {% block title %}TeaAsia - Cart{% endblock %}
 
 {% block page_content %}
-<a href="/product/clean" class="btn btn-large btn-primary">Clean</a>
+
+        <h1 style="text-align:center;">Cart</h1>
+		<a href="/product/clean" class="btn btn-large btn-primary">Clean Cart</a>
+		<a href="{{ url_for('product.shopping_order') }}" class="btn btn-large btn-primary">Orders</a>
 <table class="table table-striped">
     <thead>
         <tr>

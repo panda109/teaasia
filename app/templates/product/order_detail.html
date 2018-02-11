@@ -1,15 +1,20 @@
 <!-- app/templates/product/order.html -->
-
 {% extends "base.html" %}
 
 {% block title %}TeaAsia - Order{% endblock %}
 
 {% block page_content %}
-
+<h1 style="text-align:center;">Order_Detial</h1>
+{% if current_user.is_admin %}
+<a href="{{ url_for('admin.orders') }}" class="previous">&laquo; Previous</a>
+{% else %}
+<a href="{{ url_for('product.shopping_order') }}" class="previous">&laquo; Previous</a>
+{% endif %}
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Product_ID</th>
+            <th>Product_Name</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -20,6 +25,7 @@
         {% for order_detail in order_details %}
         <tr>
             <td>{{ order_detail.product_id }}</td>
+            <td>{{ order_detail.product_name }}</td>
             <td>${{ order_detail.price }}</td>
             <td>{{ order_detail.quantity }}</td>
             <td>${{ order_detail.price | float * order_detail.quantity | int }}</td>

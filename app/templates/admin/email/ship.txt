@@ -1,0 +1,9 @@
+Dear {{ user.username }},
+
+Your order already ship out today.
+
+Sincerely,
+
+The TeaAsia Team
+
+Note: replies to this email address are not monitored.

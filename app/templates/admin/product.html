@@ -1,4 +1,4 @@
-<!-- app/templates/product/product.html -->
+<!-- app/templates/admin/product.html -->
 
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
@@ -12,6 +12,7 @@
 {% else %}
 	<h1>Edit Product</h1>
 {% endif %}
+<a href="{{ url_for('admin.products') }}" class="previous">&laquo; Previous</a>
 </div>
 <div class="col-md-4">
     {{ wtf.quick_form(form) }}

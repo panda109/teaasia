@@ -49,9 +49,10 @@
 		                    Admin 
 		                    <b class="caret"></b></a>
 		                    <ul class="dropdown-menu">
-					        	<li><a href="{{ url_for('product.products') }}">Products</a></li>
-					        	<li><a href="{{ url_for('product.catalogs') }}">Catalogs</a></li>
-					        	<li><a href="{{ url_for('product.orders') }}">Orders</a></li>
+					        	<li><a href="{{ url_for('admin.products') }}">Products</a></li>
+					        	<li><a href="{{ url_for('admin.catalogs') }}">Catalogs</a></li>
+					        	<li><a href="{{ url_for('admin.orders') }}">Orders</a></li>
+					    		<li><a href="{{ url_for('admin.users') }}">Users</a></li> 					        	
 		                    </ul>
 		                </li>				    
 				    {% endif %}
@@ -63,6 +64,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
                         <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
+                        <li><a href="{{ url_for('auth.change_add') }}">Change Address</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                     </ul>
                 </li>

@@ -36,4 +36,6 @@ def create_app(config_name):
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     from .products import product as products_blueprint
     app.register_blueprint(products_blueprint,url_prefix='/product')
+    from .admin import admin as admin_blueprint
+    app.register_blueprint(admin_blueprint,url_prefix='/admin')
     return app

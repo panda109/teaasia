@@ -8,7 +8,7 @@ from . import auth
 from .. import db
 from ..email import send_email
 from ..models import User
-from .forms import LoginForm, RegistrationForm, ChangePasswordForm
+from .forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeAddForm
 from .forms import PasswordResetRequestForm, PasswordResetForm, ChangeEmailForm
 
 
@@ -57,7 +57,7 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(email=form.email.data, role_id =2, username=form.username.data, password=form.password.data)
+        user = User(email=form.email.data,add=form.add.data , role_id =2, username=form.username.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
 
@@ -90,6 +90,20 @@ def resend_confirmation():
     flash('A new confirmation email has been sent to you by email.')
     return redirect(url_for('main.index'))
 
+@auth.route('/change-add', methods=['GET', 'POST'])
+@login_required
+def change_add():
+    form = ChangeAddForm()
+    if form.validate_on_submit():
+        if current_user.verify_password(form.password.data):
+            current_user.add = form.add.data
+            db.session.add(current_user)
+            flash('Your address has been updated.')
+            return redirect(url_for('main.index'))
+        else:
+            flash('Invalid password.')
+    catalogs = Catalog.get_all()
+    return render_template("auth/change_add.html", form=form, catalogs=catalogs)
 
 @auth.route('/change-password', methods=['GET', 'POST'])
 @login_required
@@ -104,7 +118,7 @@ def change_password():
         else:
             flash('Invalid password.')
     catalogs = Catalog.get_all()
-    return render_template("auth/change_password.html", form=form)
+    return render_template("auth/change_password.html", form=form, catalogs=catalogs)
 
 
 @auth.route('/reset', methods=['GET', 'POST'])

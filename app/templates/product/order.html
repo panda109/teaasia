@@ -1,11 +1,11 @@
 <!-- app/templates/product/order.html -->
-
 {% extends "base.html" %}
 
 {% block title %}TeaAsia - Order{% endblock %}
 
 {% block page_content %}
-
+        <h1 style="text-align:center;">Orders</h1>
+        <a href="{{ url_for('product.shopping_cart') }}" class="btn btn-large btn-primary">Cart</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -14,6 +14,7 @@
             <th>Paypal_Status</th>
             <th>Order_Time</th>
             <th>Total</th>
+            <th>Shipout</th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +30,11 @@
             {% endif %}
             <td>{{ (order.order_datetime).strftime("%Y-%m-%d %H:%M:%S") }}</td>
             <td>${{ order.total }}</td>
+            {% if order.shipout  %}
+            <td>Shipout</td>
+            {% else %}
+            <td>Didn't shipout</td>
+            {% endif %}
         </tr>
         {% endfor %}
         {% else %}
