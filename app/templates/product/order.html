@@ -2,6 +2,10 @@
 {% import "bootstrap/utils.html" as utils %}
 {% extends "base.html" %}
 
+{% if message %}
+{{ utils.flash.message() }}
+{% endif %}
+
 {% block title %}TeaAsia - Order{% endblock %}
 
 {% block page_content %}
@@ -11,8 +15,8 @@
     <thead>
         <tr>
             <th>Order_ID</th>
-            <th>PaymentID_PayerID</th>
-            <th>Paypal_Status</th>
+            <th>PaymentID-PayerID</th>
+            <th>email</th>
             <th>Order_Time</th>
             <th>Total</th>
             <th>Shipout</th>
@@ -23,12 +27,8 @@
         {% for order in orders %}
         <tr>
             <td><a href="/product/order_detail/{{ order.id }}">{{ order.id }}</a></td>
-            <td>{{ order.paypal_id }}</td>
-            {% if order.status  %}
-            <td>Success</td>
-            {% else %}
-            <td>Fail</td>
-            {% endif %}
+            <td>{{ order.payment_id }}</td>
+            <td>{{ order.email }}</td>
             <td>{{ (order.order_datetime).strftime("%Y-%m-%d %H:%M:%S") }}</td>
             <td>${{ order.total }}</td>
             {% if order.shipout  %}

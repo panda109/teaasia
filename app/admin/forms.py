@@ -12,7 +12,7 @@ images = UploadSet('images', IMAGES)
 
 class ChangeCatalogForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    submit = SubmitField('Update Address')
+    submit = SubmitField('Submit')
 
 class ProductForm(FlaskForm):
     """

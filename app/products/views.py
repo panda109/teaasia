@@ -8,13 +8,13 @@ from app.products import product
 from ..models import Product,Order,Order_detail, Catalog
 from flask_login import login_user, logout_user, login_required, current_user
 import paypalrestsdk, os
+import stripe
 
-
-
-paypalrestsdk.configure({
-  "mode": "sandbox", # sandbox or live
-  "client_id": "AVZNCwkrjarX-zC0D_5eSpdl57UkbErxRk6GkAQb0_jOQ3G53jkHzluhVQIZlRJVdKRwi-MGoGuewGni",
-  "client_secret": "EBYefvJFPvDEt914WwlLlwpORxgXvZxEyqD87x2xuSbjfowwKMf9VOgDdQ28fY9J5P2eLKAudIAmy-Sc" })
+stripe_keys = {
+  'secret_key': 'sk_test_uxtuIOeAfAyn2AYpImH7Mjft',
+  'publishable_key': 'pk_test_sRa1igLaBVBHhNtVkUPAyBAi'
+}
+stripe.api_key = stripe_keys['secret_key']
 # Normally, if you refer to an undefined variable in a Jinja template,
 # Jinja silently ignores this. This makes debugging difficult, so we'll
 # set an attribute of the Jinja environment that says to make this an
@@ -22,6 +22,46 @@ paypalrestsdk.configure({
 
 #app.jinja_env.undefined = jinja2.StrictUndefined
 
+@product.route('/stripecharge', methods=['POST'])
+@login_required
+def stripecharge():
+    # Amount in cents
+    amount = 0
+    for order in session['cart']:
+        amount = amount + order[1] * float(order[2])
+    customer = stripe.Customer.create(
+        email='teaasia5812@gmail.com',
+        source=request.form['stripeToken']
+    )
+    #print customer.id
+    charge = stripe.Charge.create(
+        customer=customer.id,
+        amount=int(amount*100),
+        currency='usd',
+        description='TeaAsia Patment'
+    )
+    #print charge
+    if charge['paid'] == True :
+        current_order = Order(user_id = current_user.id, payment_id = charge['customer'] + '-' + charge['id'],email = charge['source']['name'] , status = True)
+        db.session.add(current_order)
+        #db.session.flush()
+        db.session.commit()
+        total = 0
+        
+        for order in session['cart']:
+            order_detail = Order_detail(user_id = current_user.id, product_id = order[4], product_name = order[0], quantity = order[1], price = order[2], order_id = int(current_order.id) )
+            db.session.add(order_detail)
+            total = total + int(order[1]) * float(order[2])
+            
+        db.session.commit()
+        order = Order.query.filter_by(id=current_order.id).first()
+        order.total = total
+        db.session.commit()
+        flash('Order ID:%s Created! Shipout ASAP.' % (charge['customer'] + '-' + charge['id']))
+        message = True
+    orders = Order.query.filter_by(user_id=current_user.id, payment_id = charge['customer'] + '-' + charge['id'])
+    catalogs = Catalog.get_all()
+    return render_template("product/order.html",orders=orders,catalogs=catalogs,message=message)
 @product.route("/products/<int:id>")
 #@login_required
 def list_products(id):
@@ -31,7 +71,6 @@ def list_products(id):
         products = Product.query.filter_by(catalog_id=id)
     else:
         products = Product.get_all()
-    print products
     return render_template("product/all_products.html",
                            product_list=products,catalogs=catalogs,catalog_id=id)
 
@@ -47,7 +86,6 @@ def show_product(id):
     return render_template("product/product_details.html",
                            display_product=product,catalogs=catalogs,catalog_id=id)
 
-
 @product.route("/cart")
 @login_required
 def shopping_cart():
@@ -58,9 +96,12 @@ def shopping_cart():
         session["cart"] = []
     # TODO: Display the contents of the shopping cart.
     #   - The cart is a list in session containing products added
+    total = 0
+    for order in session['cart']:
+        total = total + order[1] * float(order[2])
     catalogs = Catalog.get_all()
     return render_template("product/cart.html", 
-                            cart=session['cart'],catalogs=catalogs)
+                            cart=session['cart'],catalogs=catalogs, total=total,publishkey = stripe_keys['publishable_key'])
 
 @product.route("/remove_from_cart/<string:name>")
 @login_required
@@ -74,9 +115,11 @@ def remove_from_cart(name):
     session['cart'].pop(target_index)
     flash("Product removed from cart successfully!")
     catalogs = Catalog.get_all()
+    total = 0
+    for order in session['cart']:
+        total = total + order[1] * float(order[2])
     return render_template("product/cart.html", 
-                            cart=session['cart'],catalogs=catalogs)
-
+                            cart=session['cart'],catalogs=catalogs,total=total,publishkey = stripe_keys['publishable_key'])
 
 @product.route("/add_to_cart/<int:id>")
 @login_required
@@ -116,94 +159,14 @@ def add_to_cart(id):
 
     # TODO: Finish shopping cart functionality
     #   - use session variables to hold cart list
-
+    total = 0
+    for order in session['cart']:
+        total = total + order[1] * float(order[2])
     flash("Product added to cart successfully!")
     catalogs = Catalog.get_all()
     return render_template("product/cart.html", 
-                            cart=session['cart'],catalogs=catalogs)
+                            cart=session['cart'],catalogs=catalogs,total=total,publishkey = stripe_keys['publishable_key'])
     # return render_template("cart.html", product_name=test_product, product_qty=test_qty, product_price=test_price, product_total=total)
-
-#        "redirect_urls": {
-#            "return_url": "http://127.0.0.1:5000/product/checkout",
-#            "cancel_url": "http://127.0.0.1:5000/product"},
-@product.route("/payment", methods=['POST'])
-@login_required
-def payment():
-
-    payment_dict,payment_method,items,item_list,amount,url = {},{},{},{},{},{}
-    payment_dict['intent'] = "sale"
-    payment_method['payment_method'] =  "paypal"
-    payment_dict['payer'] = payment_method
-    url['return_url'] = "https://localhost:5000/product/cart"
-    url['cancel_url'] = "https://localhost:5000/"
-    payment_dict['redirect_urls'] = url
-    #for each item in session
-    total = 0
-    templist = []
-    for order in session['cart']:
-        item = {}
-        item['name'] = order[0]
-        item['sku'] = str(order[4])
-        item['price'] = str(order[2])
-        item['currency'] = "USD"
-        item['quantity'] = str(order[1])
-        templist.append(item)
-        total = total + order[1] * float(order[2])
-    #
-    items['items'] = templist
-    item_list['item_list'] = items
-    amount['total'] = str(total)
-    amount['currency'] = "USD"
-    item_list['item_list'] = items
-    item_list['amount'] = amount
-    item_list['description'] = 'This is payment description.'
-    payment_dict['transactions'] = [item_list]
-    #print payment_dict
-    payment = paypalrestsdk.Payment(payment_dict)
-    # Create Payment and return status
-    if payment.create():
-        print("Payment[%s] created successfully" % (payment.id))
-        # Redirect the user to given approval url
-        #=======================================================================
-        # for link in payment.links:
-        #     if link.method == "REDIRECT":
-        #         redirect_url = str(link.href)
-        #         print("Redirect for approval: %s" % (redirect_url))
-        #     if link.rel == "approval_url":
-        #         approval_url = str(link.href)
-        #         print("Redirect for approval: %s" % (approval_url))
-        #=======================================================================
-    else:
-        print(payment.error)
-    return jsonify({'paymentID' : payment.id})
-
-@product.route("/execute", methods=['POST'])
-@login_required
-def execute():
-    success = False
-
-    payment = paypalrestsdk.Payment.find(request.form['paymentID'])
-
-    if payment.execute({'payer_id' : request.form['payerID']}):
-        if len(session['cart']) > 0:
-            current_order = Order(user_id = current_user.id, paypal_id = payment.id + '_' + request.form['payerID'], status = True)
-            db.session.add(current_order)
-            #db.session.flush()
-            db.session.commit()
-            total = 0
-            for order in session['cart']:
-                order_detail = Order_detail(user_id = current_user.id, product_id = order[4], product_name = order[0], quantity = order[1], price = order[2], order_id = int(current_order.id) )
-                db.session.add(order_detail)
-                total = total + int(order[1]) * float(order[2])
-            db.session.commit()
-            order = Order.query.filter_by(id=current_order.id).first()
-            order.total = total
-            db.session.commit()
-        print('PayerID %s, PaymentID %s Execute success!' % (request.form['payerID'], payment.id))
-        success = True
-    else:
-        print(payment.error)
-    return jsonify({'success' : success})
 
 @product.route("/clean")
 @login_required

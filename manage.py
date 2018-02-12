@@ -22,7 +22,7 @@ def make_shell_context():
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 #manager.add_command("server", app.run(host="0.0.0.0", port=5000 , debug = True))
-manager.add_command("server", app.run(host="0.0.0.0", port=5000 , debug = True, ssl_context='adhoc'))
+#manager.add_command("server", app.run(host="0.0.0.0", port=443 , debug = True, ssl_context='adhoc'))
 @manager.command
 def test():
     """Run the unit tests."""

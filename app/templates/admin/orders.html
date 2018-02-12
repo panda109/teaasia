@@ -20,7 +20,7 @@
 			        <tr>
 			            <th>Order_ID</th>
 			            <th>PaymentID_PayerID</th>
-			            <th>Status</th>
+			            <th>Email</th>
 			            <th>Order_Time</th>
 			            <th>Total</th>
 			            <th>User</th>
@@ -33,25 +33,20 @@
 			        {% for order in orders %}
 			        <tr>
 			            <td><a href="/product/order_detail/{{ order.id }}">{{ order.id }}</a></td>
-			            <td>{{ order.paypal_id }}</td>
-			            {% if order.status  %}
-			            <td>Success</td>
-			            {% else %}
-			            <td>Fail</td>
-			            {% endif %}
+			            <td>{{ order.payment_id }}</td>
+			           	<td>{{ order.email }}</td>
 			            <td>{{ (order.order_datetime).strftime("%Y-%m-%d %H:%M:%S") }}</td>
 			            <td>${{ order.total }}</td>
 			            <td><a href="/admin/user/{{ order.user_id }}">{{ order.user_id }}</a></td>
-			            
 			            {% if order.shipout == True  %}
-			            <td>Already Shipout</td>
-			            <td>{{ order.ship_datetime }}</td>
+			           		<td>Already Shipout</td>
+			            	<td>{{ order.ship_datetime }}</td>
 			            {% else %}
-	                    <td><a href="{{ url_for('admin.shipout_order', id=order.id) }}" class="glyphicon glyphicon-ok-sign"></a></td>
-	                    <td>InProcess</td>
+	                    	<td><a href="{{ url_for('admin.shipout_order', id=order.id) }}" class="glyphicon glyphicon-ok-sign"></a></td>
+	                    	<td>InProcess</td>
 	                    {% endif %}
 			        </tr>
-			        {% endfor %}
+			       {% endfor %}
 			       {% else %}
 			        	<tr>
 			            	<td>No orders.</td>
