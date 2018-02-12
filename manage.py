@@ -4,7 +4,7 @@
 import os
 from app import create_app, db
 from app.models import User, Role, Catalog
-from flask_script import Manager, Shell
+from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -21,8 +21,9 @@ def make_shell_context():
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
-#manager.add_command("runserver", app.run(host="0.0.0.0", port=5000 , debug = True))
-#manager.add_command("server", app.run(host="0.0.0.0", port=443 , debug = True, ssl_context='adhoc'))
+manager.add_command("http", Server(host="0.0.0.0",use_debugger=True,port = 5000, use_reloader=True))
+manager.add_command("https", Server(host="0.0.0.0", port=8100, ssl_crt='openssl/server.crt', ssl_key='openssl/server.key'))
+#manager.add_command("https", Server(host="0.0.0.0",use_debugger=True,port = 443, use_reloader=True, ssl_context='adhoc'))
 
 @manager.command
 def rebuild():
