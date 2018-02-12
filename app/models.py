@@ -8,12 +8,13 @@ from datetime import datetime
 from . import db
 from . import login_manager
 
-#yr6703@yahoo.com.tw
-#password = 1111
+# yr6703@yahoo.com.tw
+# password = 1111
 #
-#is_admin -> 1
+# is_admin -> 1
 
-#"http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
+# "http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
+
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -23,17 +24,19 @@ class Order(db.Model):
     payment_id = db.Column(db.String(64))
     status = db.Column(db.Boolean, default=False)
     email = db.Column(db.String(30))
-    order_datetime = db.Column(db.DateTime, nullable = False, default=datetime.utcnow())
+    order_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     orders = db.relationship('Order_detail', backref='order', lazy='dynamic')
     shipout = db.Column(db.Boolean, default=False)
     ship_datetime = db.Column(db.String(10))
+
     @classmethod
     def get_all(cls):
         order = Order.query.all()
         return order
    
     def __repr__(self):
-        return "<Item: %s, %s, %s>" % (self.id,self.user_id,self.order_datetime)
+        return "<Item: %s, %s, %s>" % (self.id, self.user_id, self.order_datetime)
+
 
 class Order_detail(db.Model):
     __tablename__ = 'order_detail'
@@ -44,10 +47,12 @@ class Order_detail(db.Model):
     price = db.Column(db.String(10))
     quantity = db.Column(db.Integer)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+
     @classmethod
     def get_all(cls):
         order_detail = Order_detail.query.all()
         return order_detail
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -62,6 +67,7 @@ class Role(db.Model):
 
     def __repr__(self):
         return '{}'.format(self.name)
+
     
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -75,8 +81,8 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean, default=False)
 
     @classmethod
-    def get_role(cls,orle_id):
-        role = Role.query.filter_by(id = orle_id)
+    def get_role(cls, orle_id):
+        role = Role.query.filter_by(id=orle_id)
         return role
 
     @classmethod
@@ -162,11 +168,13 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+
 class Catalog(db.Model):
     __tablename__ = 'catalog'
     id = db.Column(db.Integer, primary_key=True)
     catalog_name = db.Column(db.String(30))
     products = db.relationship('Product')
+
     @classmethod
     def get_by_id(cls, id):
         """Query for a specific catalog in the database by the primary key"""
@@ -180,20 +188,20 @@ class Catalog(db.Model):
     
     def __repr__(self):
         return '{}'.format(self.catalog_name)
+
     
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    #product_type = db.Column(db.String(30))
+    # product_type = db.Column(db.String(30))
     product_type = db.relationship("Catalog")  # -> call __repr__(self) return !!!!
-    common_name = db.Column(db.String(30),unique=True)
+    common_name = db.Column(db.String(30), unique=True)
     price = db.Column(db.String(10))
-    imgurl = db.Column(db.String(30),unique=True)
+    imgurl = db.Column(db.String(30), unique=True)
     color = db.Column(db.String(30))
     size = db.Column(db.String(30))
     available = db.Column(db.Boolean, default=False)
     catalog_id = db.Column(db.Integer, db.ForeignKey('catalog.id'))
-    
     
     def price_str(self):
         """Return price formatted as string $x.xx"""
@@ -214,7 +222,7 @@ class Product(db.Model):
         Product object
         """
         product = Product.query.all()
-        #print product
+        # print product
         return product
 
     @classmethod

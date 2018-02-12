@@ -14,7 +14,7 @@ from ..models import Catalog
 @main.route('/')
 def index():
     
-    #query catalog into index.html
+    # query catalog into index.html
     catalogs = Catalog.get_all()
     return render_template('index.html', catalogs=catalogs)
 
