@@ -258,20 +258,25 @@ def edit_product(id):
         else:    
             in_stock = False
         dst = os.getcwd() + '\\static\\product\\images\\' + filemd5.hexdigest()+'.'+filename.split('.')[1]        
-        product = Product.query.filter_by(id = id).first()
-        product.common_name = form.common_name.data
-        product.price=form.price.data
-        orgfilename = os.getcwd() + '\\static\\product\\images\\'+product.imgurl
-        product.imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1]
-        product.color=form.color.data
-        product.size=form.size.data
-        product.available=in_stock
-        product.catalog_id=Catalog.query.filter_by(catalog_name=str(form.catalog_id.data)).first().id
-        db.session.commit()
-        flash('Update product successfull.')
-        copyfile(src, dst)
-        os.remove(orgfilename)
-        os.remove(src)
+        if  Product.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
+
+            product = Product.query.filter_by(id = id).first()
+            product.common_name = form.common_name.data
+            product.price=form.price.data
+            orgfilename = os.getcwd() + '\\static\\product\\images\\'+product.imgurl
+            product.imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1]
+            product.color=form.color.data
+            product.size=form.size.data
+            product.available=in_stock
+            product.catalog_id=Catalog.query.filter_by(catalog_name=str(form.catalog_id.data)).first().id
+            db.session.commit()
+            flash('Update product successfull.')
+            copyfile(src, dst)
+            os.remove(src)
+            os.remove(orgfilename)
+        else:
+            os.remove(src)
+            flash('Upload image file was in used.')
         #os.remove(os.getcwd() + '\\static\\product\\images\\'+orgfilename)
         # redirect to the departments page
         return redirect(url_for('admin.products'))
