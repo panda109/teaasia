@@ -37,8 +37,9 @@ def users():
     check_admin()
     users = User.get_all()
     orders = Order.get_all()
+    catalogs = Catalog.get_all()
     # pre setting value
-    return render_template('admin/users.html', users=users, orders=orders)
+    return render_template('admin/users.html', users=users, orders=orders, catalogs=catalogs)
 
 
 @admin.route("/user/<int:id>", methods=['GET', 'POST'])
@@ -49,8 +50,9 @@ def user(id):
     from_order = True
     users = User.query.filter_by(id=id)
     orders = Order.get_all()
+    catalogs = Catalog.get_all()
     # pre setting value
-    return render_template('admin/users.html', from_order=from_order, users=users, orders=orders)
+    return render_template('admin/users.html', from_order=from_order, users=users, orders=orders, catalogs=catalogs)
 
 
 @admin.route("/edit_user/<int:id>", methods=['GET', 'POST'])
@@ -104,7 +106,7 @@ def orders():
     check_admin()
     orders = Order.get_all()
     catalogs = Catalog.get_all()
-    return render_template("admin/orders.html", catatlogs=catalogs, orders=orders)
+    return render_template("admin/orders.html", catalogs=catalogs, orders=orders)
 
 # @admin.route("/edit_order/<int:id>",methods=['GET', 'POST'])
 # @login_required
