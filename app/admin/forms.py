@@ -7,9 +7,9 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from ..models import Product, Catalog, Role
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from flask_wtf import Form
-from flask_uploads import UploadSet, IMAGES
-images = UploadSet('images', IMAGES)
-
+#from flask_uploads import UploadSet, IMAGES
+#images = UploadSet('images', IMAGES)
+from app import images
 
 class ChangeCatalogForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])

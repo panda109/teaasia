@@ -1,7 +1,7 @@
 # app/main/views.py
-
+from shutil import copyfile
 from flask import render_template, session, redirect, url_for, current_app, jsonify, request, flash, app
-
+import hashlib
 from .. import db
 from forms import ProductForm, ChangeCatalogForm, ChangeUserForm
 from app.admin import admin
@@ -10,10 +10,10 @@ from flask_login import login_user, logout_user, login_required, current_user
 import paypalrestsdk, os, datetime
 from ..email import send_email
 from werkzeug import secure_filename
-from flask_uploads import UploadSet, IMAGES
+#from flask_uploads import UploadSet, IMAGES
 from sqlalchemy.orm import query
-images = UploadSet('images', IMAGES)
-
+#images = UploadSet('images', IMAGES)
+from app import images
 
 def check_admin():
     """
@@ -176,21 +176,36 @@ def add_product():
     form = ProductForm()
     if form.validate_on_submit():
         filename = secure_filename(form.upload.data.filename)
-        form.upload.data.save(os.getcwd() + '\\static\\_uploads\\images\\' + filename)
+        src = os.getcwd() + '\\static\\_uploads\\images\\' + filename
+        form.upload.data.save(src)
+        filemd5 = hashlib.md5()
+
+        with open(os.getcwd() + '\\static\\_uploads\\images\\' + filename,'rb') as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                filemd5.update(chunk)
         if form.available.data :
             in_stock = True
         else:    
             in_stock = False
-        product = Product(common_name=form.common_name.data,
-                          price=form.price.data,
-                          imgurl=filename,
-                          color=form.color.data,
-                          size=form.size.data,
-                          available=in_stock,
-                          catalog_id=Catalog.query.filter_by(catalog_name=str(form.catalog_id.data)).first().id
-                        )
-        db.session.add(product)
-        db.session.commit()
+        dst = os.getcwd() + '\\static\\product\\images\\' + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        if  Product.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
+
+            copyfile(src, dst)
+            os.remove(src)
+            product = Product(common_name=form.common_name.data,
+            price=form.price.data,
+            imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1],
+            color=form.color.data,
+            size=form.size.data,
+            available=in_stock,
+            catalog_id=Catalog.query.filter_by(catalog_name=str(form.catalog_id.data)).first().id
+            )
+            db.session.add(product)
+            db.session.commit()
+            flash('Add product successfull.')
+        else:
+            os.remove(src)
+            flash('Upload image file was in used.')
         # redirect to the departments page
         return redirect(url_for('admin.products'))
 
@@ -209,9 +224,10 @@ def delete_product(id):
     """Return page showing all the products has to offer"""
     check_admin()
     product = Product.query.get_or_404(id)
+    os.remove(os.getcwd() + '\\static\\product\\images\\' + product.imgurl)
     db.session.delete(product)
     db.session.commit()
-    flash('Product was deleted.')
+    flash('Product was deleted successfull.')
     catalogs = Catalog.get_all()    
     products = Product.get_all()
     return render_template("admin/products.html",

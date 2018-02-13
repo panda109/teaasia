@@ -6,10 +6,12 @@ from app import create_app, db
 from app.models import User, Role, Catalog
 from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
-from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from flask_uploads import configure_uploads, patch_request_class
+from app import images
+#from flask_uploads import UploadSet, IMAGES
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+#images = UploadSet('images', IMAGES)
 
-images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
 patch_request_class(app)
 
