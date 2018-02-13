@@ -246,24 +246,33 @@ def edit_product(id):
     form = ProductForm(obj=product)
     if form.validate_on_submit():
         filename = secure_filename(form.upload.data.filename)
-        form.upload.data.save(os.getcwd() + '\\static\\_uploads\\images\\' + filename)
+        src = os.getcwd() + '\\static\\_uploads\\images\\' + filename
+        form.upload.data.save(src)
+        filemd5 = hashlib.md5()
+
+        with open(os.getcwd() + '\\static\\_uploads\\images\\' + filename,'rb') as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                filemd5.update(chunk)
         if form.available.data :
             in_stock = True
         else:    
             in_stock = False
+        dst = os.getcwd() + '\\static\\product\\images\\' + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        product = Product.query.filter_by(id = id).first()
         product.common_name = form.common_name.data
-        product.price = form.price.data
-        product.imgurl = filename
-        product.color = form.color.data
-        product.size = form.size.data
-        
-        if form.available.data :
-            product.available = True
-        else:    
-            product.available = False
-        product.catalog_id = Catalog.query.filter_by(catalog_name=str(form.catalog_id.data)).first().id
+        product.price=form.price.data
+        orgfilename = os.getcwd() + '\\static\\product\\images\\'+product.imgurl
+        product.imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1]
+        product.color=form.color.data
+        product.size=form.size.data
+        product.available=in_stock
+        product.catalog_id=Catalog.query.filter_by(catalog_name=str(form.catalog_id.data)).first().id
         db.session.commit()
-
+        flash('Update product successfull.')
+        copyfile(src, dst)
+        os.remove(orgfilename)
+        os.remove(src)
+        #os.remove(os.getcwd() + '\\static\\product\\images\\'+orgfilename)
         # redirect to the departments page
         return redirect(url_for('admin.products'))
     # pre setting value
