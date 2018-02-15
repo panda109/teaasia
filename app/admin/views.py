@@ -12,6 +12,7 @@ from ..email import send_email
 from werkzeug import secure_filename
 #from flask_uploads import UploadSet, IMAGES
 from sqlalchemy.orm import query
+from config import IMAGEPATH, UPLOADPATH
 #images = UploadSet('images', IMAGES)
 from app import images
 
@@ -178,18 +179,18 @@ def add_product():
     form = ProductForm()
     if form.validate_on_submit():
         filename = secure_filename(form.upload.data.filename)
-        src = os.getcwd() + '\\static\\_uploads\\images\\' + filename
+        src = UPLOADPATH + filename
         form.upload.data.save(src)
         filemd5 = hashlib.md5()
 
-        with open(os.getcwd() + '\\static\\_uploads\\images\\' + filename,'rb') as f:
+        with open(UPLOADPATH + filename,'rb') as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 filemd5.update(chunk)
         if form.available.data :
             in_stock = True
         else:    
             in_stock = False
-        dst = os.getcwd() + '\\static\\product\\images\\' + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        dst = IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
         if  Product.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
 
             copyfile(src, dst)
@@ -226,7 +227,7 @@ def delete_product(id):
     """Return page showing all the products has to offer"""
     check_admin()
     product = Product.query.get_or_404(id)
-    os.remove(os.getcwd() + '\\static\\product\\images\\' + product.imgurl)
+    os.remove(IMAGEPATH + product.imgurl)
     db.session.delete(product)
     db.session.commit()
     flash('Product was deleted successfull.')
@@ -246,24 +247,24 @@ def edit_product(id):
     form = ProductForm(obj=product)
     if form.validate_on_submit():
         filename = secure_filename(form.upload.data.filename)
-        src = os.getcwd() + '\\static\\_uploads\\images\\' + filename
+        src = UPLOADPATH + filename
         form.upload.data.save(src)
         filemd5 = hashlib.md5()
 
-        with open(os.getcwd() + '\\static\\_uploads\\images\\' + filename,'rb') as f:
+        with open(UPLOADPATH + filename,'rb') as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 filemd5.update(chunk)
         if form.available.data :
             in_stock = True
         else:    
             in_stock = False
-        dst = os.getcwd() + '\\static\\product\\images\\' + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        dst = IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
         if  Product.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
 
             product = Product.query.filter_by(id = id).first()
             product.common_name = form.common_name.data
             product.price=form.price.data
-            orgfilename = os.getcwd() + '\\static\\product\\images\\'+product.imgurl
+            orgfilename = IMAGEPATH+product.imgurl
             product.imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1]
             product.color=form.color.data
             product.size=form.size.data

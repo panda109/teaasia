@@ -3,12 +3,16 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
+UPLOADPATH = os.getcwd() + '\\static\\_uploads\\images\\'
+print UPLOADPATH
+IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
+print IMAGEPATH
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '!QIOD*Lioisfhishiwiwe98ew9233'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    #SERVER_NAME = '0.0.0.0:5000'
+    #un mark SERVER_NAME {{ url_for('auth.confirm', token=token, _external=True) }}
+    #SERVER_NAME = 'http://54.95.82.93:5000'
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
@@ -19,7 +23,7 @@ class Config(object):
     FLASKY_MAIL_SUBJECT_PREFIX = '[TeaAsia]'
     FLASKY_MAIL_SENDER = 'TeaAsia Admin <tesaasia5812@gmail.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
-    UPLOADED_IMAGES_DEST = os.getcwd() + "\\static\\_upload\\images\\"
+    UPLOADED_IMAGES_DEST = UPLOADPATH
 
     @staticmethod
     def init_app(app):
