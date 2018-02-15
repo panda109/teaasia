@@ -1,6 +1,7 @@
 # app/main/forms.py
 
-from flask_wtf import FlaskForm
+#from flask_wtf import FlaskForm
+from app import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import Required
 

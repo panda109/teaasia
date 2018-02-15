@@ -1,12 +1,14 @@
 # app/admin/forms.py
 
-from flask_wtf import FlaskForm
+#from flask_wtf import FlaskForm
+from app import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField 
 from wtforms.validators import DataRequired
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from ..models import Product, Catalog, Role
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from flask_wtf import Form
+
 #from flask_uploads import UploadSet, IMAGES
 #images = UploadSet('images', IMAGES)
 from app import images
