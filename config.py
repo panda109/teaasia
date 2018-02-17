@@ -3,13 +3,13 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-UPLOADPATH = os.getcwd() + '\\static\\_uploads\\images\\'
+UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
 print UPLOADPATH
 IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
 print IMAGEPATH
-servername = 'http://54.95.82.93:5000'
+servername = '192.168.43.240:5000'
 print servername
-mailpassword='grace2402'
+mailpassword=''
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '!QIOD*Lioisfhishiwiwe98ew9233'
