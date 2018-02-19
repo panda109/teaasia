@@ -2,7 +2,7 @@
 {% import "bootstrap/utils.html" as utils %}
 {% extends "base.html" %}
 
-{% block title %}TeaAsia - Cart{% endblock %}
+{% block title %}ByTaiwan - Cart{% endblock %}
 
 {% block page_content %}
 
@@ -47,7 +47,7 @@
 			    </article>
 			    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 			            data-key={{ publishkey }}
-			            data-description="TeaAsia Payment"
+			            data-description="ByTaiwan Payment"
 			            data-amount={{total * 100}}
 			            data-locale="auto"></script>
 			  </form>

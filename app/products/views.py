@@ -31,7 +31,7 @@ def stripecharge():
     for order in session['cart']:
         amount = amount + order[1] * float(order[2])
     customer = stripe.Customer.create(
-        email='teaasia5812@gmail.com',
+        email='bytaiwan5812@gmail.com',
         source=request.form['stripeToken']
     )
     # print customer.id
@@ -39,7 +39,7 @@ def stripecharge():
         customer=customer.id,
         amount=int(amount * 100),
         currency='usd',
-        description='TeaAsia Patment'
+        description='ByTaiwan Patment'
     )
     # print charge
     if charge['paid'] == True :

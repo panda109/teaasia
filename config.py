@@ -4,28 +4,32 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
+#UPLOADPATH = os.getcwd() + '/static/_upload/images/'
 print UPLOADPATH
 IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
+#IMAGEPATH = os.getcwd() + '/static/product/images/'
 print IMAGEPATH
-servername = '192.168.43.240:5000'
-print servername
-mailpassword=''
+IPPORT = '192.168.43.240:5000'
+print IPPORT
+mailpassword='grace2402'
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '!QIOD*Lioisfhishiwiwe98ew9233'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     #un mark SERVER_NAME {{ url_for('auth.confirm', token=token, _external=True) }}
-    SERVER_NAME = servername
+    SERVER_NAME = IPPORT
+    SESSION_COOKIE_NAME = IPPORT
+    SESSION_COOKIE_DOMAIN = IPPORT
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = 'teaasia5812@gmail.com'
+    MAIL_USERNAME = 'bytaiwan5812@gmail.com'
     MAIL_PASSWORD = mailpassword
     # MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     # MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    FLASKY_MAIL_SUBJECT_PREFIX = '[TeaAsia]'
-    FLASKY_MAIL_SENDER = 'TeaAsia Admin <tesaasia5812@gmail.com>'
+    FLASKY_MAIL_SUBJECT_PREFIX = '[ByTaiwan]'
+    FLASKY_MAIL_SENDER = 'ByTaiwan Admin <bytaiwan5812@gmail.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     UPLOADED_IMAGES_DEST = UPLOADPATH
 

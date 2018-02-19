@@ -1,5 +1,5 @@
 # wsgi.py
-
+#gunicorn -w 4 -b 0.0.0.0:5000 wsgi:app
 #!/usr/bin/env python
 import os
 from app import create_app, db

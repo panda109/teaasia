@@ -6,6 +6,6 @@ Order number : {{ order.id }}
 
 Sincerely,
 
-The TeaAsia Team
+The ByTaiwan Team
 
 Note: replies to this email address are not monitored.

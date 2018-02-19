@@ -25,7 +25,7 @@ class ProductForm(FlaskForm):
     common_name = StringField('Name', validators=[DataRequired()])
     price = StringField('Price', validators=[DataRequired()])
     upload = FileField('Image', validators=[FileRequired(), FileAllowed(images, 'Images only!')])
-    # imgurl = StringField('FileName')
+    #imgurl = StringField('FileName')
     color = StringField('Color')
     size = StringField('Size')
     catalog_id = QuerySelectField(query_factory=lambda: Catalog.query.all(), get_label="catalog_name")
