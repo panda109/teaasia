@@ -7,8 +7,8 @@ from .. import db
 from app.products import product
 from ..models import Product, Order, Order_detail, Catalog
 from flask_login import login_user, logout_user, login_required, current_user
-import paypalrestsdk, os
-import stripe
+#import paypalrestsdk
+import stripe, os
 
 stripe_keys = {
   'secret_key': 'sk_test_uxtuIOeAfAyn2AYpImH7Mjft',

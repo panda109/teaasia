@@ -9,9 +9,9 @@ print UPLOADPATH
 IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
 #IMAGEPATH = os.getcwd() + '/static/product/images/'
 print IMAGEPATH
-IPPORT = '192.168.43.240:5000'
+IPPORT = 'bytaiwan.me'
 print IPPORT
-mailpassword='grace2402'
+mailpassword=''
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '!QIOD*Lioisfhishiwiwe98ew9233'

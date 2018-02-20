@@ -1,13 +1,13 @@
 # app/main/views.py
 from shutil import copyfile
 from flask import render_template, session, redirect, url_for, current_app, jsonify, request, flash, app
-import hashlib
+import hashlib, os, datetime
 from .. import db
 from forms import ProductForm, ChangeCatalogForm, ChangeUserForm
 from app.admin import admin
 from ..models import Product, Order, Order_detail, Catalog, User, Role
 from flask_login import login_user, logout_user, login_required, current_user
-import paypalrestsdk, os, datetime
+#import paypalrestsdk
 from ..email import send_email
 from werkzeug import secure_filename
 #from flask_uploads import UploadSet, IMAGES
