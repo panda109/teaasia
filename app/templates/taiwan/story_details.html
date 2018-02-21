@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}ByTaiwan - Product Detial{% endblock %}
+
+{% block page_content %}
+    <h1 style="text-align:center;">Product_Detial</h1>
+    <h2>{{ display_product.common_name }}</h2>
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <img src="/static/product/images/{{ display_product.imgurl }}" class="img-responsive">
+        </div>
+
+        <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">
+            <div class="well">
+                <h3>Price per product</h3>
+                <p> ${{ display_product.price_str() }} </p>
+
+                <form action="/product/add_to_cart/{{ display_product.id }}">
+                    <label>
+                        <input type="number" name="qty" value="1" min="1" max="10">
+                    </label>
+                    <label>
+                        <input type="submit" class="btn btn-large btn-primary" value="Add to Cart">
+                    </label>
+                </form>
+
+<!--                 <a class="btn btn-primary" href="/product/add_to_cart/{{ display_product.id }}">
+                    Add to Cart
+                </a> -->
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="melon-details">
+
+        <h3>Product details</h3>
+
+        <ul>
+            <li>Product type: {{ display_product.product_type }}</li>
+            <li>Color: {{ display_product.color }}</li>
+            <li>Size: {{ display_product.size }}</li>
+            {% if display_product.available %}
+              <li>Product available</li>
+            {% else %}
+              <li class='warning'>Warning! This product was no in stock.</li>
+            {% endif %}
+        </ul>
+    </div>
+
+{% endblock %}

@@ -58,6 +58,40 @@ class Order_detail(db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+class Story(db.Model):
+    __tablename__ = 'story'
+    id = db.Column(db.Integer, primary_key=True)
+    #product_type = db.relationship("Catalog")  # -> call __repr__(self) return !!!!
+    title = db.Column(db.String(30), unique=True)
+    imgurl = db.Column(db.String(30), unique=True)
+    description = db.Column(db.String(500))
+    author = db.Column(db.String(30), unique=True)
+    post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    available = db.Column(db.Boolean, default=False)
+    #catalog_id = db.Column(db.Integer, db.ForeignKey('catalog.id'))
+    
+    @classmethod
+    def get_all(cls):
+        """Return list of products.
+
+        Query the database for the first [max] products, returning each as a
+        Product object
+        """
+        stories = Story.query.all()
+        # print product
+        return stories
+
+    @classmethod
+    def get_by_id(cls, id):
+        """Query for a specific product in the database by the primary key"""
+        
+        story = Story.query.get(id)
+        return story
+    
+    def __repr__(self):
+        """Convenience method to show information about product in console."""
+    
+        return "<Item: %s>" % (self.title)
 
 class Role(db.Model):
     __tablename__ = 'roles'

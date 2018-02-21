@@ -9,7 +9,8 @@ print UPLOADPATH
 IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
 #IMAGEPATH = os.getcwd() + '/static/product/images/'
 print IMAGEPATH
-IPPORT = 'bytaiwan.me'
+#IPPORT = 'bytaiwan.me'
+IPPORT = '10.90.7.37:5000'
 print IPPORT
 mailpassword=''
 

@@ -41,4 +41,6 @@ def create_app(config_name):
     app.register_blueprint(products_blueprint, url_prefix='/product')
     from .admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
+    from .taiwan import taiwan as taiwan_blueprint
+    app.register_blueprint(taiwan_blueprint, url_prefix='/taiwan')
     return app

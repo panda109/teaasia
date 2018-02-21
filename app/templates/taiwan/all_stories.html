@@ -1,0 +1,22 @@
+<!-- app/templates/product/all_products.html -->
+
+{% extends "base.html" %}
+
+{% block title %}ByTaiwan - All Product{% endblock %}
+
+{% block page_content %}
+
+        <h1 style="text-align:center;">Photo Gallery</h1>
+    <div id="product-list" class="row">
+      {% for story in story_list %}
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 product-summary">
+
+              <div class="well">
+                  scsdcd
+              </div>
+
+          </div>
+      {% endfor %}
+    </div>
+
+{% endblock %}

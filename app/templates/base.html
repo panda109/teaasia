@@ -25,19 +25,20 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                           <li><a href="{{ url_for('taiwan.list_stories') }}">Story</a></li>
                <li class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                	Catalogs
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                
-	                {% for catalog in catalogs %}
-	                <li><a class="dropdown-item" href="/product/products/{{catalog.id}}">{{catalog.catalog_name}}</a></li>
-	                {% endfor %}
-                               
-                </ul>                              
-               </li>                 
+	                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                	Catalogs
+	                    <b class="caret"></b>
+	                </a>
+	                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+	                
+		                {% for catalog in catalogs %}
+		                <li><a class="dropdown-item" href="/product/products/{{catalog.id}}">{{catalog.catalog_name}}</a></li>
+		                {% endfor %}
+	                               
+	                </ul>                              
+                </li>                 
                 <li><a href="{{ url_for('product.shopping_cart') }}">Cart</a></li>
                 <li><a href="{{ url_for('product.shopping_order') }}">Order</a></li>
             </ul>
