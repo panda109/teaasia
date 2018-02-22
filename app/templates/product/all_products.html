@@ -15,13 +15,13 @@
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 product-summary">
 
               <div class="well">
-                  <h3><a href="/product/product/{{ product.id }}">{{ product.common_name }}</a></h3>
-                  <a href="/product/product/{{ product.id }}">
+                  <h3><a href="/product/{{ product.id }}">{{ product.common_name }}</a></h3>
+                  <a href="/product/{{ product.id }}">
                       <img src ="/static/product/images/{{ product.imgurl }}" class="img-circle img-responsive center-block"">
                   </a>
 
                   <div class="price">Price : ${{ product.price_str() }}</div>
-                  <a class="btn btn-primary" href="/product/product/{{ product.id }}">Details</a>
+                  <a class="btn btn-primary" href="/product/{{ product.id }}">Details</a>
               </div>
 
           </div>

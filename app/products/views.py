@@ -65,7 +65,7 @@ def stripecharge():
     return render_template("product/order.html", orders=orders, catalogs=catalogs, message=message)
 
 
-@product.route("/products/<int:id>")
+@product.route("/catalogs/<int:id>")
 # @login_required
 def list_products(id):
     """Return page showing all the products has to offer"""
@@ -78,7 +78,7 @@ def list_products(id):
                            product_list=products, catalogs=catalogs, catalog_id=id)
 
 
-@product.route("/product/<int:id>")
+@product.route("/<int:id>")
 # @login_required
 def show_product(id):
     """Return page showing the details of a given product.
