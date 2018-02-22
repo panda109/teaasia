@@ -2,13 +2,12 @@
 {% block title %}ByTaiwan - Story Detial{% endblock %}
 
 {% block page_content %}
-    <h2>{{ display_story.title }}</h2>
+    <h2>Title : {{ display_story.title }}</h2>
 	<div class="center-block">    
 	    <div class="row">
 	        <div class="col-sm-12 col-md-12 col-lg-12">
 	            <img src="/static/story/images/{{ display_story.imgurl }}" class="img-responsive center-block" style="width:100%">
 	        </div>
-	
 	        </div>
 		</div>
 		<div class="row">
@@ -20,7 +19,7 @@
 	       			</div>
 	       			</br>
 	       			<div class="text-right">
-	       			<p><h3>Author : {{ display_story.author }}</h3></p>
+	       			<p><h3>Author : {{ display_story.author }} / {{ display_story.post_datetime.strftime('%Y-%m-%d') }}</h3></p>
 	        		</div>
 	        </div>
 	        </div>

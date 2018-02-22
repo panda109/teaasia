@@ -3,16 +3,16 @@ from shutil import copyfile
 from flask import render_template, session, redirect, url_for, current_app, jsonify, request, flash, app
 import hashlib, os, datetime
 from .. import db
-from forms import ProductForm, ChangeCatalogForm, ChangeUserForm
+from forms import ProductForm, ChangeCatalogForm, ChangeUserForm, StoryForm
 from app.admin import admin
-from ..models import Product, Order, Order_detail, Catalog, User, Role
+from ..models import Product, Order, Order_detail, Catalog, User, Role, Story
 from flask_login import login_user, logout_user, login_required, current_user
 #import paypalrestsdk
 from ..email import send_email
 from werkzeug import secure_filename
 #from flask_uploads import UploadSet, IMAGES
 from sqlalchemy.orm import query
-from config import IMAGEPATH, UPLOADPATH
+from config import P_IMAGEPATH,S_IMAGEPATH , UPLOADPATH
 #images = UploadSet('images', IMAGES)
 from app import images
 
@@ -30,6 +30,75 @@ def check_admin():
 
 # app.jinja_env.undefined = jinja2.StrictUndefined
 
+@admin.route("/stories", methods=['GET', 'POST'])
+@login_required
+def stories():
+    """Return page showing all the products has to offer"""
+    check_admin()
+    stories = Story.get_all()
+    catalogs = Catalog.get_all()
+    # pre setting value
+    return render_template('admin/stories.html', stories=stories, catalogs=catalogs)
+
+@admin.route("/edit_story/<int:id>", methods=['GET', 'POST'])
+@login_required
+def edit_story(id):
+    return ""
+
+@admin.route("/add_story", methods=['GET', 'POST'])
+@login_required
+def add_story():
+    check_admin()
+    add_story= True
+    form = StoryForm()
+    if form.validate_on_submit():
+        filename = secure_filename(form.upload.data.filename)
+        src = UPLOADPATH + filename
+        form.upload.data.save(src)
+        filemd5 = hashlib.md5()
+
+        with open(UPLOADPATH + filename,'rb') as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                filemd5.update(chunk)
+        if form.available.data :
+            available = True
+        else:    
+            available = False
+        dst = S_IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        if  Story.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
+
+            copyfile(src, dst)
+            os.remove(src)
+            story = Story(title=form.title.data,
+            author=form.author.data,
+            imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1],
+            location=form.location.data,
+            description=form.description.data,
+            available=available)
+            db.session.add(story)
+            db.session.commit()
+            flash('Add story successfull.')
+        else:
+            os.remove(src)
+            flash('Upload image file was in used.')
+        # redirect to the departments page
+        return redirect(url_for('admin.stories'))
+
+    # form.common_name.data = product.common_name
+    # form.price.data = product.price
+    catalogs = Catalog.get_all()
+    stories = Story.get_all()
+    return render_template('admin/story.html', action="Add",
+                           add_story=add_story, form=form,
+                           stories=stories, title="Add Story", catalogs=catalogs)
+
+@admin.route("/delete_story/<int:id>", methods=['GET', 'POST'])
+@login_required
+def delete_story(id):
+    return ""
+
+
+
 
 @admin.route("/users", methods=['GET', 'POST'])
 @login_required
@@ -37,10 +106,9 @@ def users():
     """Return page showing all the products has to offer"""
     check_admin()
     users = User.get_all()
-    orders = Order.get_all()
     catalogs = Catalog.get_all()
     # pre setting value
-    return render_template('admin/users.html', users=users, orders=orders, catalogs=catalogs)
+    return render_template('admin/users.html', users=users, catalogs=catalogs)
 
 
 @admin.route("/user/<int:id>", methods=['GET', 'POST'])
@@ -50,10 +118,9 @@ def user(id):
     check_admin()
     from_order = True
     users = User.query.filter_by(id=id)
-    orders = Order.get_all()
     catalogs = Catalog.get_all()
     # pre setting value
-    return render_template('admin/users.html', from_order=from_order, users=users, orders=orders, catalogs=catalogs)
+    return render_template('admin/users.html', from_order=from_order, users=users, catalogs=catalogs)
 
 
 @admin.route("/edit_user/<int:id>", methods=['GET', 'POST'])
@@ -190,7 +257,7 @@ def add_product():
             in_stock = True
         else:    
             in_stock = False
-        dst = IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        dst = P_IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
         if  Product.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
 
             copyfile(src, dst)
@@ -227,7 +294,7 @@ def delete_product(id):
     """Return page showing all the products has to offer"""
     check_admin()
     product = Product.query.get_or_404(id)
-    os.remove(IMAGEPATH + product.imgurl)
+    os.remove(P_IMAGEPATH + product.imgurl)
     db.session.delete(product)
     db.session.commit()
     flash('Product was deleted successfull.')
@@ -258,13 +325,13 @@ def edit_product(id):
             in_stock = True
         else:    
             in_stock = False
-        dst = IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        dst = P_IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
         if  Product.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
 
             product = Product.query.filter_by(id = id).first()
             product.common_name = form.common_name.data
             product.price=form.price.data
-            orgfilename = IMAGEPATH+product.imgurl
+            orgfilename = P_IMAGEPATH+product.imgurl
             product.imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1]
             product.color=form.color.data
             product.size=form.size.data

@@ -6,9 +6,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
 #UPLOADPATH = os.getcwd() + '/static/_upload/images/'
 print UPLOADPATH
-IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
-#IMAGEPATH = os.getcwd() + '/static/product/images/'
-print IMAGEPATH
+P_IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
+#P_IMAGEPATH = os.getcwd() + '/static/product/images/'
+print P_IMAGEPATH
+S_IMAGEPATH = os.getcwd() + '\\static\\story\\images\\'
+#S_IMAGEPATH = os.getcwd() + '/static/story/images/'
+print S_IMAGEPATH
 #IPPORT = 'bytaiwan.me'
 IPPORT = '10.90.7.37:5000'
 print IPPORT
