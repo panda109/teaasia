@@ -2,19 +2,23 @@
 
 {% extends "base.html" %}
 
-{% block title %}ByTaiwan - All Product{% endblock %}
+{% block title %}ByTaiwan - All Story{% endblock %}
 
 {% block page_content %}
-
-        <h1 style="text-align:center;">Photo Gallery</h1>
-    <div id="product-list" class="row">
+    <div id="story-list" class="row">
       {% for story in story_list %}
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 product-summary">
 
               <div class="well">
-                  scsdcd
+                  <h3><a href="/taiwan/story/{{ story.id }}">{{ story.title }}</a></h3>
+                  <a href="/taiwan/story/{{ story.id }}">
+                      <img src ="/static/story/images/{{ story.imgurl }}" class="img-responsive center-block" style="width:100%">
+                  </a>
+                  </br>
+                  <p><div class="location">Location : {{ story.location }}</div></p>
+				  <p><div class="author">Author : {{ story.author }}</div></p>
+                  <p><div class="post_datetime">PostDate : {{ story.post_datetime.strftime('%Y-%m-%d') }}</div></p>
               </div>
-
           </div>
       {% endfor %}
     </div>

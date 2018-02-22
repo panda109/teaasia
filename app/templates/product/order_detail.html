@@ -4,7 +4,6 @@
 {% block title %}ByTaiwan - Order{% endblock %}
 
 {% block page_content %}
-<h1 style="text-align:center;">Order_Detial</h1>
 {% if current_user.is_admin %}
 <a href="{{ url_for('admin.orders') }}" class="previous">&laquo; Previous</a>
 {% else %}

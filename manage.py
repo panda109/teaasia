@@ -3,11 +3,12 @@
 #!/usr/bin/env python
 import os
 from app import create_app, db
-from app.models import User, Role, Catalog
+from app.models import User, Role, Catalog, Story
 from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
 from flask_uploads import configure_uploads, patch_request_class
 from app import images
+from sqlalchemy.orm.dynamic import CollectionHistory
 #from flask_uploads import UploadSet, IMAGES
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 #images = UploadSet('images', IMAGES)
@@ -44,6 +45,15 @@ def rebuild():
     db.session.add(Catalog(catalog_name="Toy"))
     db.session.commit()
 
+@manager.command
+def story():
+    story1 = Story(title = 'Elephone', imgurl = 'elephone.jpg',location = 'AAA', description = 'daassdfsdfkjfksljfklsjfljsdlfjsd', author = 'Tim' , available = True)
+    story2 = Story(title = 'Montain', imgurl = 'images_1.jpg',location= 'BBB', description = 'dsfdfdaaskjfksljfklsjfljsdlfjsd', author = 'Grace' , available = True)
+    story3 = Story(title = 'Sea', imgurl = 'images.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
+    db.session.add(story1)
+    db.session.add(story2)
+    db.session.add(story3)
+    db.session.commit()
 
 @manager.command
 def isadmin():

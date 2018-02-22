@@ -22,7 +22,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 def list_stories():
     """Return page showing all the products has to offer"""
     catalogs = Catalog.get_all()
-    stories = Story.query.all()
+    stories = Story.query.filter_by(available = True)
     return render_template("taiwan/all_stories.html",
                            story_list=stories, catalogs=catalogs)
 
@@ -35,7 +35,7 @@ def show_story(id):
     Show all info about a product. Also, provide a button to buy that product.
     """
     catalogs = Catalog.get_all()
-    dispalay_story = Story.get_by_id(id)
+    story = Story.get_by_id(id)
     return render_template("taiwan/story_details.html",
                            display_story=story, catalogs=catalogs)
 

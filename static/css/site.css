@@ -22,6 +22,9 @@ div.melon-summary .price {
     font-weight: bold;
 }
 
+.story_description {
+	overflow-wrap: break-word;
+}
 
 /* melon-detail-page */
 
@@ -65,3 +68,4 @@ text-shadow:    none;
 .navbar .nav > li > a:hover, .navbar .nav > li > a:focus {
 color:          #5A5A5A;
 }
+
