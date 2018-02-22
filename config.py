@@ -5,16 +5,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
 #UPLOADPATH = os.getcwd() + '/static/_upload/images/'
-print UPLOADPATH
 P_IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
 #P_IMAGEPATH = os.getcwd() + '/static/product/images/'
-print P_IMAGEPATH
 S_IMAGEPATH = os.getcwd() + '\\static\\story\\images\\'
 #S_IMAGEPATH = os.getcwd() + '/static/story/images/'
-print S_IMAGEPATH
 #IPPORT = 'bytaiwan.me'
-IPPORT = '192.168.0.18:5000'
-print IPPORT
+IPPORT = '192.168.0.11:5000'
 mailpassword=''
 
 class Config(object):

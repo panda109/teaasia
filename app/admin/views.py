@@ -43,7 +43,50 @@ def stories():
 @admin.route("/edit_story/<int:id>", methods=['GET', 'POST'])
 @login_required
 def edit_story(id):
-    return ""
+    check_admin()
+    add_story= True
+    story = Story.query.get_or_404(id)
+    form = StoryForm(obj=story)
+    if form.validate_on_submit():
+        filename = secure_filename(form.upload.data.filename)
+        src = UPLOADPATH + filename
+        form.upload.data.save(src)
+        filemd5 = hashlib.md5()
+
+        with open(UPLOADPATH + filename,'rb') as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                filemd5.update(chunk)
+        if form.available.data :
+            available = True
+        else:    
+            available = False
+        dst = S_IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        if  Story.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
+
+            copyfile(src, dst)
+            os.remove(src)
+            story = Story(title=form.title.data,
+            author=form.author.data,
+            imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1],
+            location=form.location.data,
+            description=form.description.data,
+            available=available)
+            db.session.add(story)
+            db.session.commit()
+            flash('Add story successfull.')
+        else:
+            os.remove(src)
+            flash('Upload image file was in used.')
+        # redirect to the departments page
+        return redirect(url_for('admin.stories'))
+
+    # form.common_name.data = product.common_name
+    # form.price.data = product.price
+    catalogs = Catalog.get_all()
+    stories = Story.get_all()
+    return render_template('admin/story.html', action="Edit",
+                           add_story=add_story, form=form,
+                           stories=stories, title="Edit Story", catalogs=catalogs)
 
 @admin.route("/add_story", methods=['GET', 'POST'])
 @login_required
@@ -95,7 +138,16 @@ def add_story():
 @admin.route("/delete_story/<int:id>", methods=['GET', 'POST'])
 @login_required
 def delete_story(id):
-    return ""
+    check_admin()
+    story = Story.query.get_or_404(id)
+    os.remove(S_IMAGEPATH + story.imgurl)
+    db.session.delete(story)
+    db.session.commit()
+    flash('Story was deleted successfull.')
+    catalogs = Catalog.get_all()    
+    stories = Story.get_all()
+    return redirect(url_for('admin.stories'))
+    #return render_template("taiwan/all_stories.html",stories=stories, catalogs=catalogs)
 
 
 
