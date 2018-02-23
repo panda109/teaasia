@@ -72,7 +72,7 @@ def edit_story(id):
             description=form.description.data,
             available=available)
             db.session.commit()
-            flash('Add story successfull.')
+            flash('Edit story successfull.')
         else:
             os.remove(src)
             flash('Upload image file was in used.')
