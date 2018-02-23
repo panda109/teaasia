@@ -71,7 +71,6 @@ def edit_story(id):
             location=form.location.data,
             description=form.description.data,
             available=available)
-            db.session.add(story)
             db.session.commit()
             flash('Add story successfull.')
         else:
