@@ -1,23 +1,21 @@
 # config.py
-
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
+#UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
 #UPLOADPATH = os.getcwd() + '/static/_upload/images/'
-P_IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
+#P_IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
 #P_IMAGEPATH = os.getcwd() + '/static/product/images/'
-S_IMAGEPATH = os.getcwd() + '\\static\\story\\images\\'
+#S_IMAGEPATH = os.getcwd() + '\\static\\story\\images\\'
 #S_IMAGEPATH = os.getcwd() + '/static/story/images/'
 #IPPORT = 'bytaiwan.me'
-IPPORT = '192.168.0.11:5000'
+#IPPORT = '10.90.7.37:5000'
 mailpassword=''
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '!QIOD*Lioisfhishiwiwe98ew9233'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    #un mark SERVER_NAME {{ url_for('auth.confirm', token=token, _external=True) }}
     SERVER_NAME = IPPORT
     SESSION_COOKIE_NAME = IPPORT
     SESSION_COOKIE_DOMAIN = IPPORT

@@ -6,6 +6,18 @@ div.navbar-header img {
     margin-right: 7px;
 }
 
+.product_detial_img {
+    width: 100%;
+    height: auto;
+}
+
+.col-center-block {
+    float: none;
+    display: block;
+    margin: 0 auto;
+    /* margin-left: auto; margin-right: auto; */
+}
+
 img.melon-cart {
     height: 20px;
 }

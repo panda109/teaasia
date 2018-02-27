@@ -3,14 +3,6 @@
 /* The body has an iamge that spans the entire size of the page.
    Everything is centered and in white. */
 
-body {
-    background: #333 url("/static/img/image_2.jpg");
-    background-size: cover;
-
-    color: white;
-    text-align: center;
-}
-
 .shadow {
     color: white;
     text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
@@ -33,12 +25,9 @@ body {
 /* The footer always appears at the bottom of the browser window. */
 
 .footer {
-    /* 設定footer的高度 */
     height: 100px;
     box-sizing: border-box;
-    /* 設定footer絕對位置在底部 */
     position: relative;
     bottom: 0;
-    /* 展開footer寬度 */
     width: 100%;
  }
