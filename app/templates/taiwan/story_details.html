@@ -6,7 +6,7 @@
 	<div class="center-block">    
 	    <div class="row">
 	        <div class="col-sm-12 col-md-12 col-lg-12">
-	            <img src="/static/story/images/{{ display_story.imgurl }}" class="img-responsive center-block" style="width:100%">
+	            <img src="{{ url_for('static', filename='story/images/'+ display_story.imgurl) }}" class="img-responsive center-block" style="width:100%">
 	        </div>
 	        </div>
 		</div>

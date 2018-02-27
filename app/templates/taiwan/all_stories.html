@@ -11,7 +11,7 @@
               <div class="well">
                   <h3><a href="/taiwan/story/{{ story.id }}">{{ story.title }}</a></h3>
                   <a href="/taiwan/story/{{ story.id }}">
-                      <img src ="/static/story/images/{{ story.imgurl }}" class="img-responsive center-block" style="width:100%">
+                      <img src ="{{ url_for('static', filename='story/images/'+ story.imgurl) }}" class="img-responsive center-block" style="width:100%">
                   </a>
                   </br>
                   <p><div class="location">Location : {{ story.location }}</div></p>

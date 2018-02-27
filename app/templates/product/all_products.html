@@ -17,7 +17,7 @@
               <div class="well">
                   <h3><a href="/product/{{ product.id }}">{{ product.common_name }}</a></h3>
                   <a href="/product/{{ product.id }}">
-                      <img src ="/static/product/images/{{ product.imgurl }}" class="img-circle img-responsive center-block"">
+                      <img src ="{{ url_for('static', filename='product/images/'+  product.imgurl) }}" class="img-circle img-responsive center-block"">
                   </a>
 
                   <div class="price">Price : ${{ product.price_str() }}</div>
