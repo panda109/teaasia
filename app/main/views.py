@@ -18,6 +18,12 @@ def index():
     catalogs = Catalog.get_all()
     return render_template('index.html', catalogs=catalogs)
 
+@main.route('/slider')
+def index_slider():
+    
+    # query catalog into index.html
+    catalogs = Catalog.get_all()
+    return render_template('index2.html', catalogs=catalogs)
 
 @main.route('/secret')
 @login_required
