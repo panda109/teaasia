@@ -2,9 +2,9 @@
 
 from flask import render_template, session, redirect, url_for, current_app
 from flask_login import login_required, current_user
-
+import random
 from .. import db
-from ..models import User
+from ..models import User, Story
 from ..email import send_email
 from . import main
 from .forms import NameForm
@@ -16,14 +16,9 @@ def index():
     
     # query catalog into index.html
     catalogs = Catalog.get_all()
-    return render_template('index.html', catalogs=catalogs)
-
-@main.route('/slider')
-def index_slider():
-    
-    # query catalog into index.html
-    catalogs = Catalog.get_all()
-    return render_template('index2.html', catalogs=catalogs)
+    stories = Story.get_all()
+    random_items = random.sample(population=stories, k=5)
+    return render_template('index.html', catalogs=catalogs, stories=random_items)
 
 @main.route('/secret')
 @login_required

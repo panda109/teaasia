@@ -19,54 +19,31 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1 class="shadow">Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
+    <h2 class="shadow">Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h2>
 </div>
 <div id="mycarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#mycarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#mycarousel" data-slide-to="1"></li>
-    <li data-target="#mycarousel" data-slide-to="2"></li>
-    <li data-target="#mycarousel" data-slide-to="3"></li>
-    <li data-target="#mycarousel" data-slide-to="4"></li>
-  </ol>
+  <!--<ol class="panel-body carousel-indicators">
+  <!--  <li data-target="#mycarousel" data-slide-to="0" class="active"></li>-->
+  <!--  <li data-target="#mycarousel" data-slide-to="1"></li>-->
+  <!--  <li data-target="#mycarousel" data-slide-to="2"></li>-->
+  <!--  <li data-target="#mycarousel" data-slide-to="3"></li>-->
+  <!--  <li data-target="#mycarousel" data-slide-to="4"></li>-->
+  <!--</ol>-->
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     
+    {% for story in stories %} 
+    <div class="item">
+        <img src="{{ url_for('static', filename='story/images/'+ story.imgurl) }}" data-color="lightblue" alt="{{ story.title }}">
+        <div class="carousel-caption">
+            <h3>"{{ story.title }}"</h3>
+        </div>
+    </div>
+    {% endfor %}
     
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=397" data-color="lightblue" alt="First Image">
-        <div class="carousel-caption">
-            <h3>First Image</h3>
-        </div>
-    </div>
-    
-    
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=689" data-color="firebrick" alt="Second Image">
-        <div class="carousel-caption">
-            <h3>Second Image</h3>
-        </div>
-    </div>
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=675" data-color="violet" alt="Third Image">
-        <div class="carousel-caption">
-            <h3>Third Image</h3>
-        </div>
-    </div>
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=658" data-color="lightgreen" alt="Fourth Image">
-        <div class="carousel-caption">
-            <h3>Fourth Image</h3>
-        </div>
-    </div>
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=638" data-color="tomato" alt="Fifth Image">
-        <div class="carousel-caption">
-            <h3>Fifth Image</h3>
-        </div>
-    </div>
+
   </div>
 
 <div class="row">
