@@ -1,4 +1,8 @@
 /* Style for Ubermelon Shopping Site */
+body {
+  background:  #333 url("/static/img/background.jpg") no-repeat center center fixed;
+}
+
 div.navbar-header img {
     width: 30px;
     float: left;
