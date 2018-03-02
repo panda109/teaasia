@@ -25,7 +25,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                           <li><a href="{{ url_for('taiwan.list_stories') }}">Story</a></li>
+              <li><a href="{{ url_for('taiwan.list_stories', page=1 ) }}">Story</a></li>
                <li class="dropdown">
 	                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                	Catalogs
@@ -34,13 +34,17 @@
 	                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 	                
 		                {% for catalog in catalogs %}
-		                <li><a class="dropdown-item" href="/product/catalogs/{{catalog.id}}">{{catalog.catalog_name}}</a></li>
+		               	<li>
+		                	<a class="dropdown-item" href="{{ url_for('product.list_products', id=catalog.id, page = 1 ) }}">
+		                	{{catalog.catalog_name}}
+		                	</a>
+		                </li>
 		                {% endfor %}
 	                               
 	                </ul>                              
                 </li>                 
                 <li><a href="{{ url_for('product.shopping_cart') }}">Cart</a></li>
-                <li><a href="{{ url_for('product.shopping_order') }}">Order</a></li>
+                <li><a href="{{ url_for('product.shopping_order', page = 1) }}">Order</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
@@ -50,11 +54,11 @@
 		                    Admin 
 		                    <b class="caret"></b></a>
 		                    <ul class="dropdown-menu">
-					        	<li><a href="{{ url_for('admin.products') }}">Products</a></li>
+					        	<li><a href="{{ url_for('admin.products', page = 1) }}">Products</a></li>
 					        	<li><a href="{{ url_for('admin.catalogs') }}">Catalogs</a></li>
-					        	<li><a href="{{ url_for('admin.orders') }}">Orders</a></li>
-					    		<li><a href="{{ url_for('admin.users') }}">Users</a></li>
-					    		<li><a href="{{ url_for('admin.stories') }}">Stories</a></li> 					        	
+					        	<li><a href="{{ url_for('admin.orders', page = 1)}}">Orders</a></li>
+					    		<li><a href="{{ url_for('admin.users', page = 1 )}}">Users</a></li>
+					    		<li><a href="{{ url_for('admin.stories', page = 1) }}">Stories</a></li> 					        	
 		                    </ul>
 		                </li>				    
 				    {% endif %}

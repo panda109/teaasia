@@ -17,12 +17,13 @@ from flask_login import login_user, logout_user, login_required, current_user
 # app.jinja_env.undefined = jinja2.StrictUndefined
 
 
-@taiwan.route("/stories/")
+@taiwan.route("/stories/<int:page>")
 # @login_required
-def list_stories():
+def list_stories(page=1):
     """Return page showing all the products has to offer"""
+    per_page=4
     catalogs = Catalog.get_all()
-    stories = Story.query.filter_by(available = True)
+    stories = Story.query.order_by(Story.post_datetime.desc()).filter_by(available = True).paginate(page,per_page,error_out=False)
     return render_template("taiwan/all_stories.html",
                            story_list=stories, catalogs=catalogs)
 

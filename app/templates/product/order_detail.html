@@ -5,7 +5,7 @@
 
 {% block page_content %}
 {% if current_user.is_admin %}
-<a href="{{ url_for('admin.orders') }}" class="previous">&laquo; Previous</a>
+<a href="{{ url_for('admin.orders', page = 1) }}" class="previous">&laquo; Previous</a>
 {% else %}
 <a href="{{ url_for('product.shopping_order') }}" class="previous">&laquo; Previous</a>
 {% endif %}

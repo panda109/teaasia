@@ -6,7 +6,10 @@
 
 {% block page_content %}
 		<a href="/product/clean" class="btn btn-large btn-primary">Clean Cart</a>
-		<a href="{{ url_for('product.shopping_order') }}" class="btn btn-large btn-primary">Orders</a>
+		<a href="{{ url_for('product.shopping_order', page = 1) }}" class="btn btn-large btn-primary">Orders</a>
+    <div class="page-header">
+    	<h2 class="shadow">   </h2>
+	</div>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -39,6 +42,7 @@
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 .col-center-block">
             <div class="well text-center">
 			  <form action="/product/stripecharge" method="post">
+			  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 			    <article>
 			      <label>
 			        <span>Amount is ${{total}}</span>
