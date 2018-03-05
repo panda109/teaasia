@@ -14,7 +14,36 @@ from . import login_manager
 # is_admin -> 1
 
 # "http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
+class Post(db.Model):
+    __tablename__ = 'post'
+    id = db.Column(db.Integer, primary_key=True)
+    #product_type = db.relationship("Catalog")  # -> call __repr__(self) return !!!!
+    constain = db.Column(db.String(500))
+    author = db.Column(db.String(30))
+    post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    
+    @classmethod
+    def get_all(cls):
+        """Return list of products.
 
+        Query the database for the first [max] products, returning each as a
+        Product object
+        """
+        posts = Post.query.all()
+        # print product
+        return posts
+
+    @classmethod
+    def get_by_id(cls, id):
+        """Query for a specific product in the database by the primary key"""
+        
+        post = Post.query.get(id)
+        return post
+    
+    def __repr__(self):
+        """Convenience method to show information about product in console."""
+    
+        return "<Item: %s>" % (self.constain)
 
 class Order(db.Model):
     __tablename__ = 'order'

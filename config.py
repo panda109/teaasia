@@ -13,7 +13,7 @@ S_IMAGEPATH = os.getcwd() + '\\static\\story\\images\\'
 #IPPORT = 'bytaiwan.me'
 #IPPORT = '10.90.7.37:5000'
 IPPORT = '192.168.0.18:5000'
-mailpassword=''
+mailpassword='grace2402'
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '!QIOD*Lioisfhishiwiwe98ew9233'

@@ -1,0 +1,52 @@
+<!-- app/templates/index.html -->
+
+{% extends "base.html" %}
+
+{% block title %}ByTaiwan{% endblock %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <script type=text/javascript src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
+{% endblock %}
+
+{% block page_content %}
+		
+<div class="page-header">
+    <h2 class="shadow">Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h2>
+</div>
+<div class="row">
+<script type=text/javascript>
+  $(function() {
+    $("#submitBtn").click(function() {
+         $.ajax({
+            type: "GET",
+            url: $SCRIPT_ROOT + "/post/",
+            contentType: "application/json; charset=utf-8",
+            data: { echoValue: $('input[name="echoText"]').val() },
+            success: function(data) {
+                $('#echoResult').text(data.value);
+                alert('Ajax request error'); 
+            }
+        });     
+    });
+  });
+</script>
+<strong>Enter a value to echo back:</strong>
+<input type='text' size='10' id='echoText' name='echoText'>
+<button type='button' id='submitBtn' name='submitBtn'>Submit via AJAX</button><br /><br />
+<strong><div id='echoResult'></div></strong>
+</div>
+
+<div class="row">
+	<div class="footer text-center">
+	<div style='border-bottom:1px solid #ccc;'></div>
+	    <p></p>
+		<p></p>
+		<p>Copyright ByTaiwan 2018. All rights reserved.</p>
+		<p>eMail : bytaiwan5812@gmail.com</p>
+	</div>
+</div>
+{% endblock %}

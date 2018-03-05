@@ -47,9 +47,11 @@ def rebuild():
 
 @manager.command
 def story():
-    story1 = Story(title = 'Elephone', imgurl = 'elephone.jpg',location = 'AAA', description = 'daassdfsdfkjfksljfklsjfljsdlfjsd', author = 'Tim' , available = True)
-    story2 = Story(title = 'Montain', imgurl = 'images_1.jpg',location= 'BBB', description = 'dsfdfdaaskjfksljfklsjfljsdlfjsd', author = 'Grace' , available = True)
-    story3 = Story(title = 'Sea', imgurl = 'images.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
+    story1 = Story(title = 'Elephone1', imgurl = 'elephone1.jpg',location = 'AAA', description = 'daassdfsdfkjfksljfklsjfljsdlfjsd', author = 'Tim' , available = True)
+    story2 = Story(title = 'Montain1', imgurl = 'images_11.jpg',location= 'BBB', description = 'dsfdfdaaskjfksljfklsjfljsdlfjsd', author = 'Grace' , available = True)
+    story3 = Story(title = 'Sea1', imgurl = 'images1.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
+    story3 = Story(title = 'Sea2', imgurl = 'images2.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
+    story3 = Story(title = 'Sea3', imgurl = 'images3.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
     db.session.add(story1)
     db.session.add(story2)
     db.session.add(story3)
@@ -60,6 +62,7 @@ def isadmin():
     user = User.query.filter_by(id=1).first()
     user.role_id = 1
     user.is_admin = True
+    user.confirmed = True
     db.session.add(user)
     db.session.commit()
     
