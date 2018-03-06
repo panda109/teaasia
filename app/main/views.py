@@ -14,10 +14,12 @@ from ..models import Catalog
 @login_required
 def message():
     catalogs = Catalog.get_all()
-    return render_template('message.html', catalogs=catalogs)
+    posts = Post.get_last5()
+    print posts
+    return render_template('message.html', catalogs=catalogs,posts=posts)
 
 @main.route('/post/', methods=['GET'])
-def echo():
+def post_message():
     ret_data = {"value": request.args.get('messageValue')}
     post = Post()
     post.constain = ret_data['value']
@@ -25,8 +27,11 @@ def echo():
     db.session.add(post)
     db.session.commit()
     #posts = Post.query.order_by(Post.post_datetime.desc()).filter_by()
+    return jsonify({'value' : 'Succesed.'})
+
+@main.route('/get/', methods=['GET'])
+def get_message():
     posts = Post.get_last5()
-    print posts
     json_list = [i.serialize for i in posts]
     return jsonify(json_list)
 
