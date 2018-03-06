@@ -41,7 +41,7 @@ class Post(db.Model):
         Query the database for the first [max] products, returning each as a
         Product object
         """
-        posts = Post.query.order_by(Post.post_datetime.desc()).limit(5).all()
+        posts = Post.query.order_by(Post.id.desc()).limit(5).all()
         print posts
         return posts
     

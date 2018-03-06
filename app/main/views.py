@@ -25,7 +25,7 @@ def echo():
     db.session.add(post)
     db.session.commit()
     #posts = Post.query.order_by(Post.post_datetime.desc()).filter_by()
-    posts = Post.get_all()
+    posts = Post.get_last5()
     print posts
     json_list = [i.serialize for i in posts]
     return jsonify(json_list)
