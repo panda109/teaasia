@@ -17,10 +17,33 @@ from . import login_manager
 class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
-    #product_type = db.relationship("Catalog")  # -> call __repr__(self) return !!!!
     constain = db.Column(db.String(500))
     author = db.Column(db.String(30))
     post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+
+    @property
+    def serialize(self):
+       """Return object data in easily serializeable format"""
+       return {
+           'id'         : self.id,
+           'author'     : self.author,
+           'contain'    : self.constain,
+           'post_datetime'  : self.post_datetime
+           #'modified_at': dump_datetime(self.modified_at),
+           # This is an example how to deal with Many2Many relations
+           #'many2many'  : self.serialize_many2many
+       }
+
+    @classmethod
+    def get_last5(cls):
+        """Return list of products.
+
+        Query the database for the first [max] products, returning each as a
+        Product object
+        """
+        posts = Post.query.order_by(Post.post_datetime.desc()).limit(5).all()
+        print posts
+        return posts
     
     @classmethod
     def get_all(cls):

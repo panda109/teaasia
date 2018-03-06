@@ -10,14 +10,7 @@
 	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
     <script type=text/javascript src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
-{% endblock %}
 
-{% block page_content %}
-		
-<div class="page-header">
-    <h2 class="shadow">Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h2>
-</div>
-<div class="row">
 <script type=text/javascript>
   $(function() {
     $("#submitBtn").click(function() {
@@ -25,19 +18,49 @@
             type: "GET",
             url: $SCRIPT_ROOT + "/post/",
             contentType: "application/json; charset=utf-8",
-            data: { echoValue: $('input[name="echoText"]').val() },
+            data: { messageValue: $("#messageText").val() },
+            
             success: function(data) {
-                $('#echoResult').text(data.value);
-                alert('Ajax request error'); 
+	            var arrayLength = data.length;
+	            for (var i = 0; i < arrayLength; i++)
+                	{
+                		$('#messageResult' + i).text(data[i].author + ":" + data[i].contain);
+                	}
             }
+
         });     
     });
   });
 </script>
-<strong>Enter a value to echo back:</strong>
-<input type='text' size='10' id='echoText' name='echoText'>
-<button type='button' id='submitBtn' name='submitBtn'>Submit via AJAX</button><br /><br />
-<strong><div id='echoResult'></div></strong>
+
+
+
+
+
+{% endblock %}
+
+{% block page_content %}
+		
+<div class="page-header">
+    <h2 class="shadow">Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h2>
+</div>
+
+
+
+<div class="row">
+<div class="col-xs-8">
+<strong><div id='messageResult0'></div></strong>
+<strong><div id='messageResult1'></div></strong>
+<strong><div id='messageResult2'></div></strong>
+<strong><div id='messageResult3'></div></strong>
+<strong><div id='messageResult4'></div></strong>
+</div>
+<div class="col-xs-4">
+<div class="well">
+<textarea  id='messageText' name='messageText' class="form-control" rows="3"  ></textarea>
+<button type='button' id='submitBtn' name='submitBtn'>Submit</button><br /><br />
+</div>
+</div>
 </div>
 
 <div class="row">

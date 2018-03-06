@@ -8,6 +8,7 @@ from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
 from flask_uploads import configure_uploads, patch_request_class
 from app import images
+from werkzeug.security import generate_password_hash
 from sqlalchemy.orm.dynamic import CollectionHistory
 #from flask_uploads import UploadSet, IMAGES
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -50,17 +51,23 @@ def story():
     story1 = Story(title = 'Elephone1', imgurl = 'elephone1.jpg',location = 'AAA', description = 'daassdfsdfkjfksljfklsjfljsdlfjsd', author = 'Tim' , available = True)
     story2 = Story(title = 'Montain1', imgurl = 'images_11.jpg',location= 'BBB', description = 'dsfdfdaaskjfksljfklsjfljsdlfjsd', author = 'Grace' , available = True)
     story3 = Story(title = 'Sea1', imgurl = 'images1.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
-    story3 = Story(title = 'Sea2', imgurl = 'images2.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
-    story3 = Story(title = 'Sea3', imgurl = 'images3.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
+    story4 = Story(title = 'Sea2', imgurl = 'images2.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
+    story5 = Story(title = 'Sea3', imgurl = 'images3.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
     db.session.add(story1)
     db.session.add(story2)
     db.session.add(story3)
+    db.session.add(story4)
+    db.session.add(story5)
     db.session.commit()
 
 @manager.command
-def isadmin():
-    user = User.query.filter_by(id=1).first()
+def admin():
+    user = User()
+    user.username = 'Tim'
     user.role_id = 1
+    user.email = 'yr6703@yahoo.com.tw'
+    user.add = 'sdfdsfsdfsdfsd'
+    user.password_hash = generate_password_hash('1111', method="pbkdf2:sha1")
     user.is_admin = True
     user.confirmed = True
     db.session.add(user)

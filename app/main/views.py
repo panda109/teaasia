@@ -4,7 +4,7 @@ from flask import render_template, session, redirect, url_for, current_app, json
 from flask_login import login_required, current_user
 import random
 from .. import db
-from ..models import User, Story
+from ..models import User, Story, Post
 from ..email import send_email
 from . import main
 from .forms import NameForm
@@ -18,11 +18,17 @@ def message():
 
 @main.route('/post/', methods=['GET'])
 def echo():
-    ret_data = {"value": request.args.get('echoValue')}
-    print current_user
-    return jsonify(ret_data)
-
-
+    ret_data = {"value": request.args.get('messageValue')}
+    post = Post()
+    post.constain = ret_data['value']
+    post.author = current_user.username
+    db.session.add(post)
+    db.session.commit()
+    #posts = Post.query.order_by(Post.post_datetime.desc()).filter_by()
+    posts = Post.get_all()
+    print posts
+    json_list = [i.serialize for i in posts]
+    return jsonify(json_list)
 
 @main.route('/')
 def index():
