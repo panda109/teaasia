@@ -5,24 +5,36 @@
     <h2>Title : {{ display_story.title }}</h2>
 	<div class="center-block">    
 	    <div class="row">
+	        	    <p></p>
+					<p></p>	        		
+	        <div style='border-bottom:1px solid #ccc;'></div>
+	        	    <p></p>
+					<p></p>
 	        <div class="col-sm-12 col-md-12 col-lg-12">
+
 	            <img src="{{ url_for('static', filename='story/images/'+ display_story.imgurl) }}" class="img-responsive center-block" style="width:100%">
-	        </div>
+	        	    <p></p>
+					<p></p>
+					
 	        </div>
 		</div>
 		<div class="row">
 	        <div class="col-sm-12 col-md-12 col-lg-12">
-	        <div class="well">
-	            	<p><h3>Location : {{ display_story.location }}</h3></p>
-		            <div class="story_description">
-	       				<p><h3>  {{ display_story.description }}</h3></p>
-	       			</div>
-	       			</br>
-	       			<div class="text-right">
-	       			<p><h3>Author : {{ display_story.author }} / {{ display_story.post_datetime }}</h3></p>
-	        		</div>
-	        </div>
+		        <div class="well">
+		            	<p><h3>Location : {{ display_story.location }}</h3></p>
+			            <div class="story_description">
+		       				<p><h3>  {{ display_story.description }}</h3></p>
+		       			</div>
+		       			</br>
+		       			<div class="text-right">
+		       			<p><h3>Author : {{ display_story.author }} / {{ display_story.post_datetime }}</h3></p>
+		        		</div>
+		        </div>
 	        </div>
 	    </div>
+
     </div>
+    	<p></p>
+		<p></p>
 {% endblock %}
+
