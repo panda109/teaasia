@@ -125,7 +125,7 @@ $(document).ready(function(){
 
 <div class="row">
 	<div class="col-xs-6">
-		<p>Line Bot</p>
+		<p>APRS MAP</p>
 		<div style='border-bottom:1px solid #ccc;'></div>
 			<li>
 			<li>
@@ -187,7 +187,7 @@ $(document).ready(function(){
 	<div class="col-xs-4">
 	<p>HOT Product</p>
 		<div style='border-bottom:1px solid #ccc;'></div>
-                  <h3><a href="{{ url_for('product.show_product', id=product.id ) }}"</a>{{ product.common_name }}</h3>
+                  <h2><a href="{{ url_for('product.show_product', id=product.id ) }}"</a>{{ product.common_name }}</h2>
                   <a href="{{ url_for('product.show_product', id=product.id ) }}">
                       <img src ="{{ url_for('static', filename='product/images/'+  product.imgurl) }}" class="img-responsive center-block"">
                   </a>
@@ -200,13 +200,5 @@ $(document).ready(function(){
 </div>
 
 
-<div class="row">
-	<div class="footer text-center">
-	<div style='border-bottom:1px solid #ccc;'></div>
-	    <p></p>
-		<p></p>
-		<p>Copyright ByTaiwan 2018. All rights reserved.</p>
-		<p>eMail : bytaiwan5812@gmail.com</p>
-	</div>
-</div>
+
 {% endblock %}
