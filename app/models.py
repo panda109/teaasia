@@ -42,7 +42,6 @@ class Post(db.Model):
         Product object
         """
         posts = Post.query.order_by(Post.id.desc()).limit(5).all()
-        print posts
         return posts
     
     @classmethod

@@ -10,9 +10,26 @@
 	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
     <script type=text/javascript src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
-
 <script type=text/javascript>
-  $(function() {
+var tid = setTimeout(mycode, 3000);
+function mycode() {
+  // do some stuff...
+  	var url = document.location.origin + "/get/";
+	$.get(url, function(data){
+    var arrayLength = data.length;
+    for (var i = 1; i <= arrayLength; i++)
+    	{
+    		$('#authoranddate' + i).text(data[i-1].author + " / " + data[i-1].post_datetime);
+    		$('#messageResult' + i).text(data[i-1].contain);
+    	}
+    });
+    tid = setTimeout(mycode, 3000); // repeat myself
+}
+function abortTimer() { // to be called when you want to stop the timer
+  clearInterval(tid);
+}
+
+$(function() {
     $("#submitBtn").click(function() {
          $.ajax({
             type: "GET",
@@ -21,21 +38,13 @@
             data: { messageValue: $("#messageText").val() },
             
             success: function(data) {
-	            var arrayLength = data.length;
-	            for (var i = 0; i < arrayLength; i++)
-                	{
-                		$('#messageResult' + i).text(data[i].author + ":" + data[i].contain);
-                	}
+	            alert( "Post " + data.value) ;
+	            $("textarea#messageText").val("");
             }
-
         });     
     });
   });
 </script>
-
-
-
-
 
 {% endblock %}
 
@@ -48,19 +57,30 @@
 
 
 <div class="row">
-<div class="col-xs-8">
-<strong><div id='messageResult0'></div></strong>
-<strong><div id='messageResult1'></div></strong>
-<strong><div id='messageResult2'></div></strong>
-<strong><div id='messageResult3'></div></strong>
-<strong><div id='messageResult4'></div></strong>
-</div>
-<div class="col-xs-4">
-<div class="well">
-<textarea  id='messageText' name='messageText' class="form-control" rows="3"  ></textarea>
-<button type='button' id='submitBtn' name='submitBtn'>Submit</button><br /><br />
-</div>
-</div>
+	<div class="col-xs-8">
+		<div class=" post_description">
+		{% for post in posts%}
+			<strong>
+				<div id="authoranddate{{loop.index}}">{{post.author}}</div>
+			</strong>
+			<div class="well well-sm">
+				<div class="story_description">
+					<div id="messageResult{{loop.index}}">{{post.constain}}</div>
+				</div>
+			</div>
+			<p>
+		{% endfor %}
+		</div>
+	</div>
+	<div class="col-xs-4">
+	<h3>Post message :</h3>
+		<div class="well text-center">
+			<textarea  id='messageText' name='messageText' class="form-control" rows="5"  ></textarea>
+			<label>
+			<button type='button' class="btn btn-large btn-primary" id='submitBtn' name='submitBtn'>Submit</button>
+			</label>
+		</div>
+	</div>
 </div>
 
 <div class="row">

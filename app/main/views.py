@@ -15,14 +15,13 @@ from ..models import Catalog
 def message():
     catalogs = Catalog.get_all()
     posts = Post.get_last5()
-    print posts
     return render_template('message.html', catalogs=catalogs,posts=posts)
 
 @main.route('/post/', methods=['GET'])
 def post_message():
     ret_data = {"value": request.args.get('messageValue')}
     post = Post()
-    post.constain = ret_data['value']
+    post.constain = ('%.200s' % ret_data['value'])
     post.author = current_user.username
     db.session.add(post)
     db.session.commit()
