@@ -66,13 +66,13 @@ def edit_story(id):
 
             copyfile(src, dst)
             os.remove(src)
-            story = Story(title=form.title.data,
-            author=form.author.data,
-            imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1],
-            location=form.location.data,
-            description=form.description.data,
-            available=available)
-            db.session.add(story)
+            story.title=form.title.data
+            story.author=form.author.data
+            story.imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1]
+            story.location=form.location.data
+            story.description=form.description.data
+            story.available=available
+            #db.session.add(story)
             db.session.commit()
             flash('Add story successfull.')
         else:
