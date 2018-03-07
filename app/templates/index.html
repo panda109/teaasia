@@ -10,6 +10,42 @@
 	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}"/>
+ <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
+<script type=text/javascript>
+var tid = setTimeout(mycode, 3000);
+function mycode() {
+  // do some stuff...
+  	var url = document.location.origin + "/get/";
+	$.get(url, function(data){
+    var arrayLength = data.length;
+    for (var i = 1; i <= arrayLength; i++)
+    	{
+    		$('#authoranddate' + i).text(data[i-1].author + " / " + data[i-1].post_datetime);
+    		$('#messageResult' + i).text(data[i-1].contain);
+    	}
+    });
+    tid = setTimeout(mycode, 3000); // repeat myself
+}
+function abortTimer() { // to be called when you want to stop the timer
+  clearInterval(tid);
+}
+
+$(function() {
+    $("#submitBtn").click(function() {
+         $.ajax({
+            type: "GET",
+            url: $SCRIPT_ROOT + "/post/",
+            contentType: "application/json; charset=utf-8",
+            data: { messageValue: $("#messageText").val() },
+            
+            success: function(data) {
+	            alert( "Post " + data.value) ;
+	            $("textarea#messageText").val("");
+            }
+        });     
+    });
+  });
+</script>	
 	<script type="text/javascript">
 $(document).ready(function(){
     // Activate carousel
@@ -100,7 +136,7 @@ $(document).ready(function(){
 	
 	</div>
 	<div class="col-xs-6">
-		<p>Line Bot</p>
+		<p>FB Bot</p>
 		<div style='border-bottom:1px solid #ccc;'></div>
 			<li>
 			<li>
@@ -115,57 +151,52 @@ $(document).ready(function(){
 	<div class="col-xs-8">
 		<p>Message List</p>
 			<div style='border-bottom:1px solid #ccc;'></div>
-			<li>
-			<li>
-			<li>
-			<li>
-			<li>
-			<li>
+			<p>
+			<p>
+			<div class=" post_description">
+			{% for post in posts%}
+				<strong>
+					<div id="authoranddate{{loop.index}}">{{post.author}}</div>
+				</strong>
+				<div class="well well-sm">
+					<div class="story_description">
+						<div id="messageResult{{loop.index}}">{{post.constain}}</div>
+					</div>
+				</div>
+				<p>
+			{% endfor %}
+		</div>
 	</div>
 	<div class="col-xs-4">
 		<p>Post Message</p>
 			<div style='border-bottom:1px solid #ccc;'></div>
-			<li>
-			<li>
-			<li>
-			<li>
-			<li>
-			<li>
+		<p>
+		<p>
+		<div class="well text-center">
+			<textarea  id='messageText' name='messageText' class="form-control" rows="5"  ></textarea>
+			<label>
+			<button type='button' class="btn btn-large btn-primary" id='submitBtn' name='submitBtn'>Submit</button>
+			</label>
+		</div>
 	</div>
+
 </div>
 
 <div class="row">
+{% for product in products%}
 	<div class="col-xs-4">
-	<p>Product</p>
+	<p>HOT Product</p>
 		<div style='border-bottom:1px solid #ccc;'></div>
-		<li>
-		<li>
-		<li>
-		<li>
-		<li>
-		<li>
+                  <h3><a href="{{ url_for('product.show_product', id=product.id ) }}"</a>{{ product.common_name }}</h3>
+                  <a href="{{ url_for('product.show_product', id=product.id ) }}">
+                      <img src ="{{ url_for('static', filename='product/images/'+  product.imgurl) }}" class="img-responsive center-block"">
+                  </a>
+                  <div class="price">Price : ${{ product.price_str() }}</div>
+                  <a class="btn btn-primary" href="{{ url_for('product.show_product', id=product.id ) }}">Details</a>
+		<p>
+		<p>
 	</div>
-
-	<div class="col-xs-4">
-	<p>Product</p>
-		<div style='border-bottom:1px solid #ccc;'></div>
-		<li>
-		<li>
-		<li>
-		<li>
-		<li>
-		<li>
-	</div>
-	<div class="col-xs-4">
-	<p>Product</p>
-		<div style='border-bottom:1px solid #ccc;'></div>
-		<li>
-		<li>
-		<li>
-		<li>
-		<li>
-		<li>
-	</div>
+{% endfor %}
 </div>
 
 

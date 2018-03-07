@@ -4,7 +4,7 @@ from flask import render_template, session, redirect, url_for, current_app, json
 from flask_login import login_required, current_user
 import random
 from .. import db
-from ..models import User, Story, Post
+from ..models import User, Story, Post, Product
 from ..email import send_email
 from . import main
 from .forms import NameForm
@@ -40,8 +40,10 @@ def index():
     # query catalog into index.html
     catalogs = Catalog.get_all()
     stories = Story.get_all()
+    posts = Post.get_last5()
+    products = Product.get_last3()
     random_items = random.sample(population=stories, k=5)
-    return render_template('index.html', catalogs=catalogs, stories=random_items)
+    return render_template('index.html', catalogs=catalogs, stories=random_items, posts = posts, products = products)
 
 @main.route('/secret')
 @login_required

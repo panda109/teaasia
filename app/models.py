@@ -310,7 +310,11 @@ class Product(db.Model):
         product = Product.query.all()
         # print product
         return product
-
+    @classmethod
+    def get_last3(cls):
+        product = Product.query.order_by(Product.id.desc()).limit(3).all()
+        return product
+    
     @classmethod
     def get_by_id(cls, id):
         """Query for a specific product in the database by the primary key"""
