@@ -2,7 +2,7 @@
 
 from flask import render_template, session, redirect, url_for, current_app, jsonify, request
 from flask_login import login_required, current_user
-import random
+import random, datetime
 from .. import db
 from ..models import User, Story, Post, Product
 from ..email import send_email
@@ -23,6 +23,7 @@ def post_message():
     post = Post()
     post.constain = ('%.200s' % ret_data['value'])
     post.author = current_user.username
+    post.post_datetime = datetime.datetime.utcnow()
     db.session.add(post)
     db.session.commit()
     #posts = Post.query.order_by(Post.post_datetime.desc()).filter_by()

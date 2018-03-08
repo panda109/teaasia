@@ -10,7 +10,7 @@
 	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}"/>
- <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
+<script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
 <script type=text/javascript>
 var tid = setTimeout(mycode, 3000);
 function mycode() {
@@ -168,6 +168,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 	<div class="col-xs-4">
+	{% if current_user.is_authenticated %}
 		<p>Post Message</p>
 			<div style='border-bottom:1px solid #ccc;'></div>
 		<p>
@@ -178,24 +179,37 @@ $(document).ready(function(){
 			<button type='button' class="btn btn-large btn-primary" id='submitBtn' name='submitBtn'>Submit</button>
 			</label>
 		</div>
+	{% else %}
+		<p>Post Message</p>
+			<div style='border-bottom:1px solid #ccc;'></div>
+		<p>
+		<p>
+		<div class="well text-center">
+			<textarea readonly id='messageText' name='messageText' class="form-control" rows="5"  >Please Login !!!!!</textarea>
+		</div>		
+	{% endif %}
 	</div>
 
 </div>
 
 <div class="row">
+
 {% for product in products%}
 	<div class="col-xs-4">
 	<p>HOT Product</p>
 		<div style='border-bottom:1px solid #ccc;'></div>
                   <h2><a href="{{ url_for('product.show_product', id=product.id ) }}"</a>{{ product.common_name }}</h2>
                   <a href="{{ url_for('product.show_product', id=product.id ) }}">
-                      <img src ="{{ url_for('static', filename='product/images/'+  product.imgurl) }}" class="img-responsive center-block"">
+                      <img src ="{{ url_for('static', filename='product/images/'+  product.imgurl) }}" class="img-responsive center-block">
                   </a>
+                  <p>
                   <div class="price">Price : ${{ product.price_str() }}</div>
+                  <p>
                   <a class="btn btn-primary" href="{{ url_for('product.show_product', id=product.id ) }}">Details</a>
 		<p>
 		<p>
-	</div>
+
+</div>
 {% endfor %}
 </div>
 
