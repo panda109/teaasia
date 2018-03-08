@@ -127,12 +127,23 @@ $(document).ready(function(){
 	<div class="col-xs-6">
 		<p>APRS MAP</p>
 		<div style='border-bottom:1px solid #ccc;'></div>
-			<li>
-			<li>
-			<li>
-			<li>
-			<li>
-			<li>
+	<p>
+	<script type="text/javascript">
+	// latitude and longitude of Miami, Florida
+	he_lat = 25.104;
+	he_lng = 121.526;
+	he_zoom = 10; // zoom out a bit
+	he_maptype = 'h'; // hybrid map
+	// select what to show
+	he_hide_tcp = 1; // do not show Internet stations
+	he_show_aprs = 'w'; // show APRS stations with waypoints
+	he_show_aprs_w = ''; // do not show APRS weather stations
+	he_show_aprs_i = 'p'; // only show the current position of items without track
+	he_show_ais = ''; // do not show AIS ships
+	</script>
+	<script type="text/javascript" src="//aprs.fi/js/embed.js">
+	</script>
+	</p>
 	
 	</div>
 	<div class="col-xs-6">
