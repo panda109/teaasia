@@ -124,30 +124,28 @@ $(document).ready(function(){
 </div>
 
 <div class="row">
-	<div class="col-xs-6">
-		<p>APRS MAP</p>
-		<div style='border-bottom:1px solid #ccc;'></div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-center">
+	<p>APRS MAP</p>
+	<div style='border-bottom:1px solid #ccc;'></div>
 	<p>
 	<p>
-	<script type="text/javascript">
-	// latitude and longitude of Miami, Florida
-	he_lat = 25.104;
-	he_lng = 121.526;
-	he_zoom = 20; // zoom out a bit
-	he_maptype = 'h'; // hybrid map
-	// select what to show
-	he_hide_tcp = 1; // do not show Internet stations
-	he_show_aprs = 'w'; // show APRS stations with waypoints
-	he_show_aprs_w = ''; // do not show APRS weather stations
-	he_show_aprs_i = 'p'; // only show the current position of items without track
-	he_show_ais = ''; // do not show AIS ships
-	</script>
-	<script type="text/javascript" src="//aprs.fi/js/embed.js">
-	</script>
-	</p>
-	
+			<script type="text/javascript">
+			he_lat = 25.104;
+			he_lng = 121.526;
+			he_zoom = 20; // zoom out a bit
+			he_maptype = 'h'; // hybrid map
+			// select what to show
+			he_hide_tcp = 1; // do not show Internet stations
+			he_show_aprs = 'w'; // show APRS stations with waypoints
+			he_show_aprs_w = ''; // do not show APRS weather stations
+			he_show_aprs_i = 'p'; // only show the current position of items without track
+			he_show_ais = ''; // do not show AIS ships
+			</script>
+			<script type="text/javascript" src="//aprs.fi/js/embed.js">
+			</script>
+			</p>
 	</div>
-	<div class="col-xs-6">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 		<p>FB Bot</p>
 		<div style='border-bottom:1px solid #ccc;'></div>
 			<li>
@@ -156,11 +154,16 @@ $(document).ready(function(){
 			<li>
 			<li>
 			<li>
+						<li>
+									<li>
+												<li>
+															<li>
+																		<li>
 	
 	</div>
 </div>
 <div class="row">
-	<div class="col-xs-8">
+	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 		<p>Message List</p>
 			<div style='border-bottom:1px solid #ccc;'></div>
 			<p>
@@ -179,7 +182,7 @@ $(document).ready(function(){
 			{% endfor %}
 		</div>
 	</div>
-	<div class="col-xs-4">
+	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 	{% if current_user.is_authenticated %}
 		<p>Post Message</p>
 			<div style='border-bottom:1px solid #ccc;'></div>
@@ -201,8 +204,8 @@ $(document).ready(function(){
 		</div>		
 	{% endif %}
 	</div>
-	<div class="col-xs-4">
-			<p>Best Story</p>
+	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<p>Best Sale</p>
 			<div style='border-bottom:1px solid #ccc;'></div>
 		<p>
 		<div class="well">
@@ -216,7 +219,7 @@ $(document).ready(function(){
 <div class="row">
 
 {% for product in products%}
-	<div class="col-xs-4">
+	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 	<p>HOT Product</p>
 		<div style='border-bottom:1px solid #ccc;'></div>
                   <h2><a href="{{ url_for('product.show_product', id=product.id ) }}"</a>{{ product.common_name }}</h2>
