@@ -43,4 +43,6 @@ def create_app(config_name):
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
     from .taiwan import taiwan as taiwan_blueprint
     app.register_blueprint(taiwan_blueprint, url_prefix='/taiwan')
+    from .linebot import linebot as linebot_blueprint
+    app.register_blueprint(linebot_blueprint, url_prefix='/linebot')    
     return app
