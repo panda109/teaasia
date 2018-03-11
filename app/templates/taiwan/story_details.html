@@ -20,20 +20,28 @@
 		</div>
 		<div class="row">
 	        <div class="col-sm-12 col-md-12 col-lg-12">
-		        <div class="well">
-		            	<p><h3>Location : {{ display_story.location }}</h3></p>
-			            <div class="story_description">
+					<SPAN STYLE="float:right">
+					    <p>
+				        <button type="button" class="btn btn-default btn-sm">
+				          <span class="glyphicon glyphicon-thumbs-up"></span> Like
+				        </button>
+					    </p>
+					</SPAN>
+					<SPAN STYLE="float:left">
+						<span class="glyphicon">&#xe125; : {{display_story.hitnumber|string}}</span>
+					</SPAN> 
+					<DIV STYLE="clear:both"></DIV>
+     	            <p><h3>Location : {{ display_story.location }}</h3></p>
+			        <div class="story_description">
 		       				<p><h3>  {{ display_story.description }}</h3></p>
-		       			</div>
-		       			</br>
-		       			<div class="text-right">
-		       			<p><h3>Author : {{ display_story.author }} / {{ display_story.post_datetime }}</h3></p>
-		        		</div>
+		       		</div>
+		       		</br>
+		       		<div class="text-right">
+		       		<p><h3>Author : {{ display_story.author }} / {{ display_story.post_datetime }}</h3></p>
+		        	</div>
 		        </div>
 	        </div>
 	    </div>
-
-    </div>
     	<p></p>
 		<p></p>
 {% endblock %}

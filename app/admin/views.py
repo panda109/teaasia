@@ -118,6 +118,7 @@ def add_story():
             imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1],
             location=form.location.data,
             description=form.description.data,
+            hitnumber = 0,
             available=available)
             db.session.add(story)
             db.session.commit()

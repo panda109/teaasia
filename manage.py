@@ -48,11 +48,11 @@ def rebuild():
 
 @manager.command
 def story():
-    story1 = Story(title = 'Elephone1', imgurl = 'elephone1.jpg',location = 'AAA', description = 'daassdfsdfkjfksljfklsjfljsdlfjsd', author = 'Tim' , available = True)
-    story2 = Story(title = 'Montain1', imgurl = 'images_11.jpg',location= 'BBB', description = 'dsfdfdaaskjfksljfklsjfljsdlfjsd', author = 'Grace' , available = True)
-    story3 = Story(title = 'Sea1', imgurl = 'images1.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
-    story4 = Story(title = 'Sea2', imgurl = 'images2.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
-    story5 = Story(title = 'Sea3', imgurl = 'images3.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony' , available = False)
+    story1 = Story(title = 'Elephone1', imgurl = 'elephone1.jpg',location = 'AAA', description = 'daassdfsdfkjfksljfklsjfljsdlfjsd', author = 'Tim',hitnumber = 0 , available = True)
+    story2 = Story(title = 'Montain1', imgurl = 'images_11.jpg',location= 'BBB', description = 'dsfdfdaaskjfksljfklsjfljsdlfjsd', author = 'Grace' ,hitnumber = 0 , available = True)
+    story3 = Story(title = 'Sea1', imgurl = 'images1.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 0 , available = False)
+    story4 = Story(title = 'Sea2', imgurl = 'images2.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 0 , available = False)
+    story5 = Story(title = 'Sea3', imgurl = 'images3.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 0 , available = False)
     db.session.add(story1)
     db.session.add(story2)
     db.session.add(story3)
@@ -72,7 +72,19 @@ def admin():
     user.confirmed = True
     db.session.add(user)
     db.session.commit()
-    
+
+@manager.command
+def user():
+    user = User()
+    user.username = 'test'
+    user.role_id = 1
+    user.email = 'test@test.com'
+    user.add = 'sfsfsdfsafsdfsfasfsfa'
+    user.password_hash = generate_password_hash('1111', method="pbkdf2:sha1")
+    user.is_admin = True
+    user.confirmed = True
+    db.session.add(user)
+    db.session.commit()   
     
 @manager.command
 def test():

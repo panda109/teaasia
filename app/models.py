@@ -118,8 +118,10 @@ class Story(db.Model):
     description = db.Column(db.String(500))
     location = db.Column(db.String(30), unique=False)
     author = db.Column(db.String(30), unique=False)
+    hitnumber = db.Column(db.Integer)
     post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     available = db.Column(db.Boolean, default=False)
+
     #catalog_id = db.Column(db.Integer, db.ForeignKey('catalog.id'))
     
     @classmethod
