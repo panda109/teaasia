@@ -50,9 +50,9 @@ def rebuild():
 def story():
     story1 = Story(title = 'Elephone1', imgurl = 'elephone1.jpg',location = 'AAA', description = 'daassdfsdfkjfksljfklsjfljsdlfjsd', author = 'Tim',hitnumber = 0 , available = True)
     story2 = Story(title = 'Montain1', imgurl = 'images_11.jpg',location= 'BBB', description = 'dsfdfdaaskjfksljfklsjfljsdlfjsd', author = 'Grace' ,hitnumber = 0 , available = True)
-    story3 = Story(title = 'Sea1', imgurl = 'images1.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 0 , available = False)
-    story4 = Story(title = 'Sea2', imgurl = 'images2.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 0 , available = False)
-    story5 = Story(title = 'Sea3', imgurl = 'images3.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 0 , available = False)
+    story3 = Story(title = 'Sea1', imgurl = 'images1.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 3 , available = True)
+    story4 = Story(title = 'Sea2', imgurl = 'images2.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 2 , available = True)
+    story5 = Story(title = 'Sea3', imgurl = 'images3.jpg',location = 'CCC', description = '13232daaskjfksljfklsjfljsdlfjsd', author = 'Tony',hitnumber = 1 , available = True)
     db.session.add(story1)
     db.session.add(story2)
     db.session.add(story3)

@@ -134,7 +134,12 @@ class Story(db.Model):
         stories = Story.query.all()
         # print product
         return stories
-
+    
+    @classmethod
+    def get_top2(cls):
+        stories = Story.query.order_by(Story.hitnumber.desc()).limit(2).all()
+        return stories
+    
     @classmethod
     def get_by_id(cls, id):
         """Query for a specific product in the database by the primary key"""

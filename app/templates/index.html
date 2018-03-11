@@ -145,24 +145,32 @@ $(document).ready(function(){
 			</script>
 			</p>
 	</div>
-	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
 
-		<p>Story1</p>
-			<div style='border-bottom:1px solid #ccc;'></div>
+      {% for story in story_list %}
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+               <p><a href="{{ url_for('taiwan.show_story', id=story.id ) }}">Best Story : {{ story.title }}</a></p> 
+          	<div style='border-bottom:1px solid #ccc;'></div>
 			<p>
 			<p>
-		<div class="well">
-		</div>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+              <div class="well">
+                  <a href="{{ url_for('taiwan.show_story', id=story.id ) }}">
+                      <img src ="{{ url_for('static', filename='story/images/'+ story.imgurl) }}" class="img-responsive center-block" style="width:100%">
+                  </a>
+                  </br>
+                  <p><div class="location">Location : {{ story.location }}</div></p>
+				  <p><div class="author">Author : {{ story.author }}</div></p>
+                  <p><div class="post_datetime">PostDate : {{ story.post_datetime.strftime('%Y-%m-%d') }}</div></p>
+              </div>
+          </div>
+      {% endfor %}
 
-		<p>Story2</p>
-			<div style='border-bottom:1px solid #ccc;'></div>
-			<p>
-			<p>
-		<div class="well">
-		</div>
-	</div>
+
+
+
+
+
+
+
 </div>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
