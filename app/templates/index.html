@@ -211,21 +211,20 @@ $(document).ready(function(){
 			<div style='border-bottom:1px solid #ccc;'></div>
 		<p>
 		<div class="well">
-		<li><a target="_blank" href="https://www.necoast-nsa.gov.tw/user/main.aspx"</a>Northeast Coast National Scenic Area</li>
-		<li><a target="_blank" href="https://www.eastcoast-nsa.gov.tw/"</a>East Coast National Scenic Area</li>
-		<li><a target="_blank" href="https://www.penghu-nsa.gov.tw/"</a>PengHu National Scenic Area</li>
-		<li><a target="_blank" href="https://www.matsu-nsa.gov.tw/user/main.aspx"</a>MatSu National Scenic Area</li>
-		<li><a target="_blank" href="https://www.sunmoonlake.gov.tw/"</a>SunMoonLake National Scenic Area</li>
-		<li><a target="_blank" href="https://www.ali-nsa.net/user/main.aspx"</a>AliShan National Scenic Area</li>
+		<li><a target="_blank" href="https://www.necoast-nsa.gov.tw/user/main.aspx" >Northeast Coast National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.eastcoast-nsa.gov.tw/" >East Coast National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.penghu-nsa.gov.tw/" >PengHu National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.matsu-nsa.gov.tw/user/main.aspx" >MatSu National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.sunmoonlake.gov.tw/" >SunMoonLake National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.ali-nsa.net/user/main.aspx">AliShan National Scenic Area</a></li>
 		</div>
 	</div>
 </div>
 
 <div class="row">
-
 {% for product in products%}
 	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-	<p>HOT Product</p>
+	<span>HOT Product</span>
 		<div style='border-bottom:1px solid #ccc;'></div>
                   <h2><a href="{{ url_for('product.show_product', id=product.id ) }}"</a>{{ product.common_name }}</h2>
                   <a href="{{ url_for('product.show_product', id=product.id ) }}">
