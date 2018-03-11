@@ -45,7 +45,6 @@ def index():
     story_list = Story.get_top2()
     products = Product.get_last3()
     random_items = random.sample(population=stories, k=5)
-    print story_list
     return render_template('index.html', catalogs=catalogs,story_list = story_list ,stories=random_items, posts = posts, products = products)
 
 @main.route('/secret')
