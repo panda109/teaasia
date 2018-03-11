@@ -37,6 +37,7 @@ def show_story(id):
     """
     catalogs = Catalog.get_all()
     story = Story.get_by_id(id)
+    print ( "%s" % story.hitnumber)
     return render_template("taiwan/story_details.html",
                            display_story=story, catalogs=catalogs)
 
