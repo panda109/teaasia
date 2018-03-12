@@ -20,7 +20,8 @@ function mycode() {
     var arrayLength = data.length;
     for (var i = 1; i <= arrayLength; i++)
     	{
-    		$('#authoranddate' + i).text(data[i-1].author + " / " + data[i-1].post_datetime);
+    		$('#messageauthor' + i).text(data[i-1].author);
+    		$('#messagedate' + i).text(data[i-1].post_datetime);
     		$('#messageResult' + i).text(data[i-1].contain);
     	}
     });
@@ -179,16 +180,23 @@ $(document).ready(function(){
 			<p>
 			<div class=" post_description">
 			{% for post in posts%}
+						<p>
+			<SPAN STYLE="float:left">
 				<strong>
-					<div id="authoranddate{{loop.index}}">{{post.author}}</div>
+					<div id="messageauthor{{loop.index}} style="display: inline">{{post.author}}</div>
 				</strong>
+			</SPAN>
+			<SPAN STYLE="float:right">
+					<div id="messagedate{{loop.index}}" style="display: inline"></div>
+			</SPAN>
+	
 				<div class="well well-sm">
-					<div class="story_description">
-						<div id="messageResult{{loop.index}}">{{post.constain}}</div>
-					</div>
+						<div id="messageResult{{loop.index}}" >{{post.constain}}</div>
 				</div>
-				<p>
+				<p>				
+				
 			{% endfor %}
+
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
