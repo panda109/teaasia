@@ -15,8 +15,7 @@
 	var tid = setTimeout(mycode, 0);
 	function mycode() {
   	// do some stuff...
-  	// var url = document.location.origin + "/get/";
-  	var url = $SCRIPT_ROOT + "/get/";
+  	var url = document.location.origin + "/get/";
 	$.get(url, function(data){
     var arrayLength = data.length;
     for (var i = 1; i <= arrayLength; i++)
