@@ -20,7 +20,7 @@ function mycode() {
     var arrayLength = data.length;
     for (var i = 1; i <= arrayLength; i++)
     	{
-    		$('#authoranddate' + i).text(data[i-1].author + " / " + data[i-1].post_datetime);
+    		$('#authoranddate' + i).text(data[i-1].author + " / " + data[i-1].post_datetime.strftime('%Y-%m-%d %H:%M:%S'));
     		$('#messageResult' + i).text(data[i-1].contain);
     	}
     });
