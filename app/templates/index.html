@@ -164,13 +164,6 @@ $(document).ready(function(){
           </div>
       {% endfor %}
 
-
-
-
-
-
-
-
 </div>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -190,7 +183,9 @@ $(document).ready(function(){
 					<div id="messagedate{{loop.index}}" style="display: inline"></div>
 			</SPAN>
 				<div class="well well-sm">
+					<div class="description">
 						<div id="messageResult{{loop.index}}" >{{post.constain}}</div>
+					</div>
 				</div>
 			{% endfor %}
 
