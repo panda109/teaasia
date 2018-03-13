@@ -10,11 +10,11 @@
 	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}"/>
-<script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
-<script type=text/javascript>
-var tid = setTimeout(mycode, 3000);
-function mycode() {
-  // do some stuff...
+	<script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
+	<script type=text/javascript>
+	var tid = setTimeout(mycode, 0);
+	function mycode() {
+  	// do some stuff...
   	var url = document.location.origin + "/get/";
 	$.get(url, function(data){
     var arrayLength = data.length;
