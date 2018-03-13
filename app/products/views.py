@@ -3,6 +3,7 @@
 from flask import render_template, session, redirect, url_for, current_app, jsonify, request, flash, app
 from datetime import datetime
 from .. import db
+from ..email import send_email
 # from forms import ProductForm
 from app.products import product
 from ..models import Product, Order, Order_detail, Catalog, User
