@@ -58,6 +58,10 @@ def stripecharge():
         order = Order.query.filter_by(id=current_order.id).first()
         order.total = total
         db.session.commit()
+        user = User.query.filter_by(id=order.user_id).first()
+        send_email(user.email, 'Confirm Your Order', 'product/email/order', user=user, order=order)
+        
+        
         flash('Order ID:%s Created! Shipout ASAP.' % (charge['customer'] + '-' + charge['id']))
         message = True
     orders = Order.query.filter_by(user_id=current_user.id, payment_id=charge['customer'] + '-' + charge['id']).paginate(1,1,error_out=False)
