@@ -53,12 +53,12 @@ def sendstory(replytoken, user):
         "messages":[
                     {
                         "type":"text",
-                        "text":"http://bytaiwan.me: Best product url"
+                        "text":"https://bytaiwan.me: Best product url"
                     },
                     {
                         "type": "image",
-                        "originalContentUrl": "https://29fa258b.ngrok.io/static/story/images/23dc32acf023bbe35e27fd4c417ecda6.jpg",
-                        "previewImageUrl": "https://29fa258b.ngrok.io/static/story/images/23dc32acf023bbe35e27fd4c417ecda6.jpg"
+                        "originalContentUrl": "https://bytaiwan.me/static/story/images/23dc32acf023bbe35e27fd4c417ecda6.jpg",
+                        "previewImageUrl": "https://bytaiwan.me/static/story/images/23dc32acf023bbe35e27fd4c417ecda6.jpg"
                     }
             ]
 
@@ -72,12 +72,12 @@ def sendproduct(replytoken, user):
         "messages":[
                     {
                         "type":"text",
-                        "text":"http://bytaiwan.me: Best product url"
+                        "text":"https://bytaiwan.me: Best product url"
                     },
                     {
                         "type": "image",
-                        "originalContentUrl": "https://29fa258b.ngrok.io/static/story/images/23dc32acf023bbe35e27fd4c417ecda6.jpg",
-                        "previewImageUrl": "https://29fa258b.ngrok.io/static/story/images/23dc32acf023bbe35e27fd4c417ecda6.jpg"
+                        "originalContentUrl": "https://bytaiwan.me/static/story/images/23dc32acf023bbe35e27fd4c417ecda6.jpg",
+                        "previewImageUrl": "https://bytaiwan.me/static/story/images/23dc32acf023bbe35e27fd4c417ecda6.jpg"
                     }
             ]
 
@@ -91,7 +91,7 @@ def sendText(replytoken, user, text):
         "messages":[
                 {
                 "type":"text",
-                "text":"http://bytaiwan.me: " + text
+                "text":"https://bytaiwan.me: " + text
                 }
             ]
 

@@ -77,11 +77,11 @@ def admin():
 def user():
     user = User()
     user.username = 'test'
-    user.role_id = 1
+    user.role_id = 2
     user.email = 'test@test.com'
     user.add = 'sfsfsdfsafsdfsfasfsfa'
     user.password_hash = generate_password_hash('1111', method="pbkdf2:sha1")
-    user.is_admin = True
+    user.is_admin = False
     user.confirmed = True
     db.session.add(user)
     db.session.commit()   
