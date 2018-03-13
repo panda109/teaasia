@@ -5,7 +5,7 @@ from datetime import datetime
 from .. import db
 # from forms import ProductForm
 from app.products import product
-from ..models import Product, Order, Order_detail, Catalog
+from ..models import Product, Order, Order_detail, Catalog, User
 from flask_login import login_user, logout_user, login_required, current_user
 #import paypalrestsdk
 import stripe, os
