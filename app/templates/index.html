@@ -170,20 +170,19 @@ $(document).ready(function(){
 		<p>Message List</p>
 			<div style='border-bottom:1px solid #ccc;'></div>
 			<p>
-			<p>
 			<div class=" post_description">
 			{% for post in posts%}
-						<p>
 			<SPAN STYLE="float:left">
 				<strong>
-					<div id="messageauthor{{loop.index}} style="display: inline">{{post.author}}</div>
+					<span id="messageauthor{{loop.index}} style="display: inline">{{post.author}}:</span>
 				</strong>
 			</SPAN>
 			<SPAN STYLE="float:right">
-					<div id="messagedate{{loop.index}}" style="display: inline"></div>
+					<span id="messagedate{{loop.index}}" style="display: inline"></span>
 			</SPAN>
 				<div class="well well-sm">
 					<div class="description">
+					<p>
 						<div id="messageResult{{loop.index}}" >{{post.constain}}</div>
 					</div>
 				</div>
