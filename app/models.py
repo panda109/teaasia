@@ -12,17 +12,15 @@ from . import login_manager
 # password = 1111
 #
 # is_admin -> 1
-
 # "http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
-
 class Interactive(db.Model):
     __tablename__ = 'interactive'
     id = db.Column(db.Integer, primary_key=True)
     car_type = db.Column(db.Integer)
     tour_type = db.Column(db.Integer)
     tour_guide = db.Column(db.Boolean, default=False)
-    user_id = (db.Integer)
-    total = (db.Integer)
+    userid = db.Column(db.Integer)
+    total_price = db.Column(db.Integer)
     post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
 class Post(db.Model):
