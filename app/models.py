@@ -22,6 +22,7 @@ class Interactive(db.Model):
     tour_type = db.Column(db.Integer)
     tour_guide = db.Column(db.Boolean, default=False)
     user_id = (db.Integer)
+    total = (db.Integer)
     post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
 class Post(db.Model):

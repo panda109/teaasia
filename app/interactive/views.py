@@ -7,22 +7,22 @@ from flask import json
 from app.interactive import interactive
 from ..models import Product, Order, Order_detail, Catalog
 from .. import csrf
+from forms import InteractiveForm
+from flask_login import login_user, logout_user, login_required, current_user
 
-@interactive.route("/add_interactive", methods=['GET', 'POST'])
-def add_interactive():
+@interactive.route("/create_order", methods=['GET', 'POST'])
+def create_order():
     """Return page showing all the products has to offer"""
 
-    form = interactive.Form()
+    form = InteractiveForm()
     if form.validate_on_submit():
-        interactived = interactive(catalog_name=form.name.data)
-        
-        
-        
-        
-        db.session.add(catalog)
-        db.session.commit()
+        print form.car_type.data
+        print form.tour_type.data
+        print form.tour_guide.data
+        print request.form.get('total')
+        print current_user.id
         # redirect to the departments page
-        return redirect(url_for('interactive.add_interactive'))
+        return redirect(url_for('interactive.create_order'))
     # pre setting value
     catalogs = Catalog.get_all()
     return render_template('interactive/interactive.html', form=form,
