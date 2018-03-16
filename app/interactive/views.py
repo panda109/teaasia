@@ -8,9 +8,22 @@ from app.interactive import interactive
 from ..models import Product, Order, Order_detail, Catalog
 from .. import csrf
 
-@interactive.route("/get", methods=['GET'])
-def get():
-    catalogs = Catalog.get_all()
+@interactive.route("/add_interactive", methods=['GET', 'POST'])
+def add_interactive():
+    """Return page showing all the products has to offer"""
+
+    form = interactive.Form()
+    if form.validate_on_submit():
+        interactived = interactive(catalog_name=form.name.data)
+        
+        
+        
+        
+        db.session.add(catalog)
+        db.session.commit()
+        # redirect to the departments page
+        return redirect(url_for('interactive.add_interactive'))
     # pre setting value
-    return render_template('interactive/order.html', catalogs=catalogs)
-    
+    catalogs = Catalog.get_all()
+    return render_template('interactive/add_interactive.html', form=form,
+                            catalogs=catalogs, title="Add Interactive") 

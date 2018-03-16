@@ -14,6 +14,15 @@ from . import login_manager
 # is_admin -> 1
 
 # "http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
+
+class Interactive(db.Model):
+    __tablename__ = 'interactive'
+    id = db.Column(db.Integer, primary_key=True)
+    car_type = db.Column(db.Integer)
+    tour_type = db.Column(db.Integer)
+    tour_guide = db.Column(db.Boolean, default=False)
+    post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+
 class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
