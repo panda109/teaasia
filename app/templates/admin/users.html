@@ -21,7 +21,8 @@
                   <th width="5%"> ID </th>
                   <th width="15%"> Name </th>
                   <th width="10%"> Role </th>
-                  <th width="25%"> email </th>
+                  <th width="10%"> Phone </th>
+                  <th width="15%"> Email </th>
                   <th width="35%"> Address </th>
                   <th width="5%"> Confirmed </th>
                   {% if from_order != True %}
@@ -35,6 +36,7 @@
                   <td> {{ user.id }} </td>
                   <td> {{ user.username}}</td>
                   <td> {{ user.get_role(user.role_id).first().name}}</td>
+                  <td> {{ user.phone}}</td>
                   <td> {{ user.email}}</td>
                   <td> {{ user.add}}</td>
                   {% if user.confirmed %}

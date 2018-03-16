@@ -41,9 +41,9 @@ def rebuild():
     db.session.add(Role(name='Admin'))
     db.session.add(Role(name='User'))
     db.session.add(Role(name='Provider'))
-    db.session.add(Catalog(catalog_name="Tea"))
-    db.session.add(Catalog(catalog_name="Fruit"))
-    db.session.add(Catalog(catalog_name="Toy"))
+    db.session.add(Catalog(catalog_name="Tea package"))
+    db.session.add(Catalog(catalog_name="Tea set"))
+    db.session.add(Catalog(catalog_name="Tea food"))
     db.session.commit()
 
 @manager.command
@@ -66,6 +66,7 @@ def admin():
     user.username = 'Tim'
     user.role_id = 1
     user.email = 'yr6703@yahoo.com.tw'
+    user.phone = '0921111111'
     user.add = 'sdfdsfsdfsdfsd'
     user.password_hash = generate_password_hash('1111', method="pbkdf2:sha1")
     user.is_admin = True
@@ -79,6 +80,7 @@ def user():
     user.username = 'test'
     user.role_id = 2
     user.email = 'test@test.com'
+    user.phone = '0921111111'
     user.add = 'sfsfsdfsafsdfsfasfsfa'
     user.password_hash = generate_password_hash('1111', method="pbkdf2:sha1")
     user.is_admin = False

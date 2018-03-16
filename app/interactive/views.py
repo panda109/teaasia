@@ -25,5 +25,5 @@ def add_interactive():
         return redirect(url_for('interactive.add_interactive'))
     # pre setting value
     catalogs = Catalog.get_all()
-    return render_template('interactive/add_interactive.html', form=form,
+    return render_template('interactive/interactive.html', form=form,
                             catalogs=catalogs, title="Add Interactive") 

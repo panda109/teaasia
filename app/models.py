@@ -21,6 +21,7 @@ class Interactive(db.Model):
     car_type = db.Column(db.Integer)
     tour_type = db.Column(db.Integer)
     tour_guide = db.Column(db.Boolean, default=False)
+    user_id = (db.Integer)
     post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
 class Post(db.Model):
@@ -177,6 +178,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     email = db.Column(db.String(64), unique=True, index=True)
+    phone = db.Column(db.String(64))
     add = db.Column(db.String(64))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
