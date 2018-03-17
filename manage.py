@@ -91,16 +91,16 @@ def user():
 @manager.command
 def car():
     car1 = Car_type()
-    car1.car_name = 'Wish, Previa(5 people)'
+    car1.car_name = 'Wish, Previa(4 pax)'
     car1.value = 1
     car2 = Car_type()
-    car2.car_name = 'Wish, Previa(7 people)'
+    car2.car_name = 'Wish, Previa(6 pax)'
     car2.value = 2
     car3 = Car_type()
-    car3.car_name = 'Wolks vagon(9 people)'
+    car3.car_name = 'Wolks vagon(8 pax)'
     car3.value = 3
     car4 = Car_type()
-    car4.car_name = 'Benz Vito(9 people)'
+    car4.car_name = 'Benz Vito(8 pax)'
     car4.value = 4
     db.session.add(car1)
     db.session.add(car2)
