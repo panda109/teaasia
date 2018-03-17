@@ -28,8 +28,7 @@
         {%if orders.items %}
         {% for order in orders.items %}
         <tr>
-            <td><a href="/product/order_detail/{{ order.id }}">{{ order.id }}</a></td>
-            
+            <td><a href="{{ url_for("product.shopping_order_detail",id =order.id) }}">{{ order.id }}</a></td>
             <td>{{ order.payment_id }}</td>
             <td>{{ order.email }}</td>
             <td>{{ (order.order_datetime).strftime("%Y-%m-%d %H:%M:%S") }}</td>

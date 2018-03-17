@@ -5,7 +5,7 @@
 {% block title %}ByTaiwan - Cart{% endblock %}
 
 {% block page_content %}
-		<a href="/product/clean" class="btn btn-large btn-primary">Clean Cart</a>
+		<a href="{{ url_for("product.clean")}}" class="btn btn-large btn-primary">Clean Cart</a>
 		<a href="{{ url_for('product.shopping_order', page = 1) }}" class="btn btn-large btn-primary">Orders</a>
     <div class="page-header">
     	<h2 class="shadow">   </h2>
@@ -24,7 +24,8 @@
         {%if cart %}
         {% for order in cart %}
         <tr>
-        	<td><a href="/product/remove_from_cart/{{ order[0] }}" class="glyphicon glyphicon-trash"></a></td>
+        	<td><a href="{{url_for("product.remove_from_cart",name = order[0]) }}" class="glyphicon glyphicon-trash"></a></td>
+            
             <td>{{ order[0] }}</td>
             <td>${{ order[2] }}</td>
             <td>{{ order[1] }}</td>

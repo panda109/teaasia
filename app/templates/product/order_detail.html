@@ -4,11 +4,9 @@
 {% block title %}ByTaiwan - Order{% endblock %}
 
 {% block page_content %}
-{% if current_user.is_admin %}
-<a href="{{ url_for('admin.orders', page = 1) }}" class="previous">&laquo; Previous</a>
-{% else %}
-<a href="{{ url_for('product.shopping_order') }}" class="previous">&laquo; Previous</a>
-{% endif %}
+        <form>
+  		<input type="button" value="&laquo; Previous" onclick="history.back()">
+		</form>   
 <table class="table table-striped">
     <thead>
         <tr>

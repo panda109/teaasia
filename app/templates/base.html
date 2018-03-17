@@ -26,7 +26,29 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li><a href="{{ url_for('taiwan.list_stories', page=1 ) }}">Story</a></li>
-               <li class="dropdown">
+
+              <li class="dropdown">
+	                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                	Tour
+	                    <b class="caret"></b>
+	                </a>
+	                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+	                
+		               	<li>
+		                	<a class="dropdown-item" href="{{ url_for('interactive.create' ) }}">
+		                	Create
+		                	</a>
+		                </li>
+		               	<li>
+		                	<a class="dropdown-item" href="{{ url_for('interactive.list') }}">
+		                	List
+		                	</a>
+		                </li>	                               
+	                </ul>                              
+                </li> 
+              
+              
+              <li class="dropdown">
 	                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                	Catalogs
 	                    <b class="caret"></b>
@@ -58,7 +80,8 @@
 					        	<li><a href="{{ url_for('admin.catalogs') }}">Catalogs</a></li>
 					        	<li><a href="{{ url_for('admin.orders', page = 1)}}">Orders</a></li>
 					    		<li><a href="{{ url_for('admin.users', page = 1 )}}">Users</a></li>
-					    		<li><a href="{{ url_for('admin.stories', page = 1) }}">Stories</a></li> 					        	
+					    		<li><a href="{{ url_for('admin.stories', page = 1) }}">Stories</a></li>
+					    		<li><a href="{{ url_for('admin.tours', page = 1) }}">Tours</a></li> 				        	
 		                    </ul>
 		                </li>				    
 				    {% endif %}

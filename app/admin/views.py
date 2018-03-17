@@ -5,7 +5,7 @@ import hashlib, os, datetime
 from .. import db
 from forms import ProductForm, ChangeCatalogForm, ChangeUserForm, StoryForm
 from app.admin import admin
-from ..models import Product, Order, Order_detail, Catalog, User, Role, Story
+from ..models import Product, Order, Order_detail, Catalog, User, Role, Story, Interactive
 from flask_login import login_user, logout_user, login_required, current_user
 #import paypalrestsdk
 from ..email import send_email
@@ -29,6 +29,45 @@ def check_admin():
 # error.
 
 # app.jinja_env.undefined = jinja2.StrictUndefined
+
+
+
+
+@admin.route("/comfirm_tour/<int:id>", methods=['GET', 'POST'])
+@login_required
+def comfirm_tour(id):
+    """Update shipout -> True"""
+    check_admin()
+    tour = Interactive.query.filter_by(id=id).first()
+    if tour.comfirmed == False :
+        tour.comfirmed = True
+        #db.session.add(order)
+        db.session.commit()
+        user = User.query.filter_by(id=tour.userid).first()
+        send_email(user.email, 'Confirm Your Tour', 'admin/email/tour', user=user, tour=tour)
+        flash('Tour was comfirmed and send email to user.')
+    page = 1
+    per_page = 1
+    tours = Interactive.query.order_by(Interactive.order_datetime.desc()).paginate(page,per_page,error_out=False)
+    catalogs = Catalog.get_all()
+    return render_template("admin/tours.html", catalogs=catalogs, tours=tours)
+
+@admin.route("/tours/<int:page>")
+@login_required
+def tours(page = 1):
+    """Return page showing all the products has to offer"""
+    check_admin()
+    per_page = 5
+    tours = Interactive.query.order_by(Interactive.order_datetime.desc()).paginate(page,per_page,error_out=False)
+    catalogs = Catalog.get_all()
+    return render_template("admin/tours.html", catalogs=catalogs, tours=tours)
+
+
+
+
+
+
+
 
 @admin.route("/stories/<int:page>", methods=['GET', 'POST'])
 @login_required

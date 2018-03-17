@@ -10,7 +10,9 @@
     <div class="middle">
       <div class="inner">
         {% if from_order %}
-        <a href="{{ url_for('admin.orders', page = 1) }}" class="previous">&laquo; Previous</a>
+        <form>
+  		<input type="button" value="&laquo; Previous" onclick="history.back()">
+		</form>   
         {% endif %}
         {% if users.items %}
           <hr class="intro-divider">

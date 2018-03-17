@@ -1,0 +1,78 @@
+<!-- app/templates/admin/tours.html -->
+
+{% extends "base.html" %}
+
+{% block title %}ByTaiwan - Tours{% endblock %}
+
+{% block page_content %}
+<div class="content-section">
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        {% if tours.items %}
+          <hr class="intro-divider">
+          <div class="center">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+			        <tr>
+			            <th>Tour_ID</th>
+			            <th>User_ID</th>
+			            <th>Car_type</th>
+			            <th>Tour_type</th>
+			            <th>Tour_guide</th>
+			            <th>Total_price</th>
+			            <th>Paied</th>
+			            <th>Comfirmed</th>
+			            <th>Order_time</th>
+			        </tr>
+              </thead>
+              <tbody>
+                  {%if tours.items %}
+			        {% for tour in tours.items %}
+			        <tr>
+			       		<td>{{ tour.id }}</td>
+			            <td><a href="{{url_for('admin.user', id = tour.userid) }}">{{ tour.userid }}</a></td>
+			           	<td>{{ tour.get_car(tour.car_type).first().car_name }}</td>
+			           	<td>{{ tour.get_tour(tour.tour_type).first().tour_name }}</td>
+			           	<td>{{ tour.tour_guide }}</td>
+   			            <td>${{ tour.total_price }}</td>  	
+			            {% if tour.paied == True  %}
+			           		<td>Paied</td>
+			            {% else %}
+	                    	<td>Not Paied</td>
+	                    {% endif %}
+			            {% if tour.comfirmed == True  %}
+			           		<td>Finish</td>
+			            {% else %}
+	                    	<td><a href="{{ url_for('admin.comfirm_tour', id=tour.id) }}" class="glyphicon glyphicon-ok-sign"></a></td>
+	                    {% endif %}	                    
+			            <td>{{ (tour.order_datetime).strftime("%Y-%m-%d %H:%M:%S") }}</td>	                    
+			        </tr>
+			       {% endfor %}
+			       {% else %}
+			        	<tr>
+			            	<td>No orders.</td>
+			        	</tr>
+			        {% endif %}
+             </tbody>
+           </table>
+           
+            <div class="text-center">
+				{% if tours.has_prev %}<a href="{{ url_for('admin.tours', page=tours.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Pre Pages{% endif %} | 
+				{% if tours.has_next %}<a href="{{ url_for('admin.tours', page=tours.next_num) }}">Older posts &gt;&gt;</a>{% else %}Next Pages &gt;&gt;{% endif %}
+			</div>
+           
+          </div>
+          <div style="text-align: center">
+        {% else %}
+          <div style="text-align: center">
+            <h3> No tour have been added. </h3>
+            <hr class="intro-divider">
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

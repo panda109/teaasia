@@ -3,7 +3,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}ByTaiwan - CreateOrder{% endblock %}
+{% block title %}ByTaiwan - Create_Tour{% endblock %}
 
 {% block head %}
 	{{ super() }}
@@ -81,8 +81,9 @@ document.getElementsByName("total")[0].value = total;
 
 {% block page_content %}
 <div class="page-header">
-
-<a href="{{ url_for('main.index') }}" class="previous">&laquo; Previous</a>
+        <form>
+  		<input type="button" value="&laquo; Previous" onclick="history.back()">
+		</form>   
 </div>
 <div class="row">
 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 col-center-block">
@@ -100,7 +101,7 @@ document.getElementsByName("total")[0].value = total;
   {{ wtf.form_field(form.tour_guide) }}
   <p>
   <p>
-  <span>Total:<input type="text" name="total" value="0" readonly></span><span>
+  <span>Total : <input type="text" name="total" value="0" readonly></span><span>
   <p>
   <p>
   {{ form.submit(class="btn btn-default") }}

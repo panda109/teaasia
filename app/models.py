@@ -8,11 +8,18 @@ from datetime import datetime
 from . import db
 from . import login_manager
 
-# yr6703@yahoo.com.tw
-# password = 1111
-#
-# is_admin -> 1
-# "http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
+class Car_type(db.Model):
+    __tablename__ = 'car_type'
+    id = db.Column(db.Integer, primary_key=True)
+    car_name = db.Column(db.String(30))
+    value = db.Column(db.Integer)
+
+class Tour_type(db.Model):
+    __tablename__ = 'tour_type'
+    id = db.Column(db.Integer, primary_key=True)
+    tour_name = db.Column(db.String(30))
+    value = db.Column(db.Integer)
+
 class Interactive(db.Model):
     __tablename__ = 'interactive'
     id = db.Column(db.Integer, primary_key=True)
@@ -21,7 +28,19 @@ class Interactive(db.Model):
     tour_guide = db.Column(db.Boolean, default=False)
     userid = db.Column(db.Integer)
     total_price = db.Column(db.Integer)
-    post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    paied = db.Column(db.Boolean, default=False)
+    comfirmed = db.Column(db.Boolean, default=False)
+    order_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    
+    @classmethod
+    def get_car(cls, orle_id):
+        car = Car_type.query.filter_by(id=orle_id)
+        return car    
+
+    @classmethod
+    def get_tour(cls, orle_id):
+        tour = Tour_type.query.filter_by(id=orle_id)
+        return tour 
 
 class Post(db.Model):
     __tablename__ = 'post'
