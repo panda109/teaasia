@@ -40,7 +40,7 @@ def create():
         userid = current_user.id)
         db.session.add(interactive)
         db.session.commit()
-        flash('Add order successfull.')
+        flash('Add tour successfull.')
         
         
         return redirect(url_for('interactive.list'))
