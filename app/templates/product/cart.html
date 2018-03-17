@@ -5,10 +5,9 @@
 {% block title %}ByTaiwan - Cart{% endblock %}
 
 {% block page_content %}
-		<a href="{{ url_for("product.clean")}}" class="btn btn-large btn-primary">Clean Cart</a>
-		<a href="{{ url_for('product.shopping_order', page = 1) }}" class="btn btn-large btn-primary">Orders</a>
+
     <div class="page-header">
-    	<h2 class="shadow">   </h2>
+    	<a href="{{ url_for("product.clean")}}" class="btn btn-large btn-primary">Clean Cart</a>
 	</div>
 <table class="table table-striped">
     <thead>
