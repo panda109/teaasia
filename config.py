@@ -1,16 +1,16 @@
 # config.py
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
-P_IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
-S_IMAGEPATH = os.getcwd() + '\\static\\story\\images\\'
+#UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
+#P_IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
+#S_IMAGEPATH = os.getcwd() + '\\static\\story\\images\\'
 
 #UPLOADPATH = os.getcwd() + '/static/_upload/images/'
 #P_IMAGEPATH = os.getcwd() + '/static/product/images/'
 #S_IMAGEPATH = os.getcwd() + '/static/story/images/'
 
 #IPPORT = 'bytaiwan.me'
-IPPORT = '10.90.7.37:5000'
+#IPPORT = '10.90.7.37:5000'
 #IPPORT = '192.168.0.18:5000'
 #IPPORT = '29fa258b.ngrok.io'
 mailpassword=''

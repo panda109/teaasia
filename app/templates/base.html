@@ -26,28 +26,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li><a href="{{ url_for('taiwan.list_stories', page=1 ) }}">Story</a></li>
-
-              <li class="dropdown">
-	                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                	Tour
-	                    <b class="caret"></b>
-	                </a>
-	                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-	                
-		               	<li>
-		                	<a class="dropdown-item" href="{{ url_for('interactive.create' ) }}">
-		                	Create
-		                	</a>
-		                </li>
-		               	<li>
-		                	<a class="dropdown-item" href="{{ url_for('interactive.list') }}">
-		                	List
-		                	</a>
-		                </li>	                               
-	                </ul>                              
-                </li> 
-              
-              
+      
               <li class="dropdown">
 	                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                	Catalogs
