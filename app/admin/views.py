@@ -213,7 +213,7 @@ def shipout_order(id):
     order = Order.query.filter_by(id=id).first()
     if order.shipout == False :
         order.shipout = True
-        order.ship_datetime = datetime.datetime.now().strftime("%Y-%m-%d")
+        order.ship_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d")
         #db.session.add(order)
         db.session.commit()
         user = User.query.filter_by(id=order.user_id).first()
