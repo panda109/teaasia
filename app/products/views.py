@@ -10,6 +10,7 @@ from ..models import Product, Order, Order_detail, Catalog, User
 from flask_login import login_user, logout_user, login_required, current_user
 #import paypalrestsdk
 import stripe, os
+from config import MAIL_USERNAME
 
 stripe_keys = {
   'secret_key': 'sk_test_uxtuIOeAfAyn2AYpImH7Mjft',
@@ -32,7 +33,7 @@ def stripecharge():
     for order in session['cart']:
         amount = amount + order[1] * float(order[2])
     customer = stripe.Customer.create(
-        email='bytaiwan5812@gmail.com',
+        email = MAIL_USERNAME,
         source=request.form['stripeToken']
     )
     # print customer.id
