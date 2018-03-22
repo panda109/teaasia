@@ -1,6 +1,7 @@
 # app/main/views.py
 from flask_sse import sse
 from app.notifysse import notifysse
+from flask import render_template
 #import paypalrestsdk
 
 # Normally, if you refer to an undefined variable in a Jinja template,
