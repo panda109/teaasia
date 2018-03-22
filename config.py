@@ -1,6 +1,6 @@
 # config.py
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+#basedir = os.path.abspath(os.path.dirname(__file__))
 #UPLOADPATH = os.getcwd() + '\\static\\_upload\\images\\'
 #P_IMAGEPATH = os.getcwd() + '\\static\\product\\images\\'
 #S_IMAGEPATH = os.getcwd() + '\\static\\story\\images\\'
@@ -33,7 +33,8 @@ class Config(object):
     FLASKY_MAIL_SENDER = 'ByTaiwan Admin <bytaiwan5812@gmail.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     UPLOADED_IMAGES_DEST = UPLOADPATH
-
+    REDIS_URL = "redis://localhost"
+    
     @staticmethod
     def init_app(app):
         pass
