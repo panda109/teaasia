@@ -13,13 +13,13 @@ from app.notifysse import notifysse
 
 @notifysse.route("/hello")
 # @login_required
-def publish_hello():
+def hello():
     sse.publish({"message": "Hello!"}, type='greeting')
     return "Message sent!"
 
 
 @notifysse.route("/")
 # @login_required
-def publish_hello():
+def index():
 
     return render_template('index.html')
