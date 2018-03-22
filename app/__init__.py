@@ -11,6 +11,7 @@ import os
 from flask_uploads import UploadSet, IMAGES
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
+from flask_sse import sse
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
@@ -44,5 +45,8 @@ def create_app(config_name):
     from .taiwan import taiwan as taiwan_blueprint
     app.register_blueprint(taiwan_blueprint, url_prefix='/taiwan')
     from .linebot import linebot as linebot_blueprint
-    app.register_blueprint(linebot_blueprint, url_prefix='/linebot')    
+    app.register_blueprint(linebot_blueprint, url_prefix='/linebot')
+    from .notifysse import notifysse as notifysse_blueprint
+    app.register_blueprint(notifysse_blueprint, url_prefix='/notifysee')
+    app.register_blueprint(sse, url_prefix='/stream')
     return app
