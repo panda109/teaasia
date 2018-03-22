@@ -16,3 +16,10 @@ from app.notifysse import notifysse
 def publish_hello():
     sse.publish({"message": "Hello!"}, type='greeting')
     return "Message sent!"
+
+
+@notifysse.route("/")
+# @login_required
+def publish_hello():
+
+    return render_template('index.html')

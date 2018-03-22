@@ -47,6 +47,6 @@ def create_app(config_name):
     from .linebot import linebot as linebot_blueprint
     app.register_blueprint(linebot_blueprint, url_prefix='/linebot')
     from .notifysse import notifysse as notifysse_blueprint
-    app.register_blueprint(notifysse_blueprint, url_prefix='/notifysee')
+    app.register_blueprint(notifysse_blueprint, url_prefix='/notifysse')
     app.register_blueprint(sse, url_prefix='/stream')
     return app
