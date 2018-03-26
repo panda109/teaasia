@@ -12,8 +12,20 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}"/>
 	<script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
 	<script type=text/javascript>
-	var tid = setTimeout(mycode, 0);
-	function mycode() {
+	//var tid = setTimeout(mycode, 0);
+
+	var source = new EventSource("{{ url_for('sse.stream') }}");
+    source.addEventListener('greeting', function(event) {
+        var data = JSON.parse(event.data);
+        mycode();
+
+    }, false);
+    source.addEventListener('error', function(event) {
+        alert("The server says : error connet redis!!");
+    }, false);
+	
+	
+function mycode() {
   	// do some stuff...
   	var url = document.location.origin + "/get/";
 	$.get(url, function(data){
@@ -25,11 +37,11 @@
     		$('#messageResult' + i).text(data[i-1].contain);
     	}
     });
-    tid = setTimeout(mycode, 3000); // repeat myself
-}
+    //tid = setTimeout(mycode, 3000); // repeat myself
+};
 function abortTimer() { // to be called when you want to stop the timer
   clearInterval(tid);
-}
+};
 
 
 $(function() {

@@ -33,7 +33,7 @@ def post_message():
     post.post_datetime = datetime.datetime.utcnow()
     db.session.add(post)
     db.session.commit()
-    #sse.publish({"message": "Hello!"}, type='greeting')
+    sse.publish({"message": "updatemessage"}, type='greeting')
     #posts = Post.query.order_by(Post.post_datetime.desc()).filter_by()
     return jsonify({'value' : 'Succesed.'})
 
