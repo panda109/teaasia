@@ -20,9 +20,10 @@
         mycode();
 
     }, false);
-    source.addEventListener('error', function(event) {
-        //alert("The server was connecting!!");
-    }, false);
+    
+    //source.addEventListener('error', function(event) {
+    //    alert("The server was connecting!!");
+    //}, false);
 	
 	
 function mycode() {
@@ -187,7 +188,7 @@ $(document).ready(function(){
 			{% for post in posts%}
 			<SPAN STYLE="float:left">
 				<strong>
-					<span id="messageauthor{{loop.index}} style="display: inline">{{post.author}}:</span>
+					<span id="messageauthor{{loop.index}}" style="display: inline">{{post.author}}:</span>
 				</strong>
 			</SPAN>
 			<SPAN STYLE="float:right">
