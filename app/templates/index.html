@@ -22,7 +22,9 @@
     }, false);
     
     source.addEventListener('error', function(event) {
-       alert("The server was connecting!!");
+        if (e.readyState == EventSource.CLOSED) {
+    		source.close();
+  		}
     }, false);
     
 	window.onload = function() {
