@@ -28,7 +28,7 @@
                 </tr>
               </thead>
               <tbody>
-              {% for story in stories %}
+              {% for story in stories.items %}
                 <tr>
                   <td> {{ story.id }} </td>
                   <td> {{ story.title }} </td>
@@ -51,6 +51,10 @@
             <h3> No story have been added. </h3>
             <hr class="intro-divider">
         {% endif %}
+            <div class="text-center">
+				{% if stories.has_prev %}<a href="{{ url_for('admin.stories', page=stories.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Pre Pages{% endif %} | 
+				{% if stories.has_next %}<a href="{{ url_for('admin.stories', page=stories.next_num) }}">Older posts &gt;&gt;</a>{% else %}Next Pages &gt;&gt;{% endif %}
+			</div>
           <a href="{{ url_for('admin.add_story') }}" class="btn btn-default btn-lg">
             <i class="fa fa-plus"></i>
             Add Story
@@ -60,4 +64,5 @@
     </div>
   </div>
 </div>
+
 {% endblock %}

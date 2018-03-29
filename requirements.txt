@@ -20,7 +20,6 @@ Flask-SQLAlchemy==2.3.2
 Flask-Uploads==0.2.1
 Flask-WTF==0.14.2
 functools32==3.2.3.post2
-get==0.0.21
 idna==2.6
 ipaddress==1.0.19
 itsdangerous==0.24
@@ -32,7 +31,6 @@ MarkupSafe==1.0
 paypal==1.2.5
 paypalrestsdk==1.13.1
 pexpect==4.4.0
-post==0.0.13
 ptyprocess==0.5.2
 public==0.0.46
 pycparser==2.18
@@ -40,10 +38,7 @@ PyMySQL==0.7.11
 pyOpenSSL==17.5.0
 python-dateutil==2.6.1
 python-editor==1.0.3
-query-string==0.0.12
-request==0.0.13
 requests==2.18.4
-setupfiles==0.0.50
 six==1.11.0
 SQLAlchemy==1.1.15
 Strip==0.0.1.dev14

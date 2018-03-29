@@ -30,15 +30,17 @@ def check_admin():
 
 # app.jinja_env.undefined = jinja2.StrictUndefined
 
-@admin.route("/stories", methods=['GET', 'POST'])
+
+@admin.route("/stories/<int:page>", methods=['GET', 'POST'])
 @login_required
-def stories():
+def stories(page=1):
     """Return page showing all the products has to offer"""
     check_admin()
-    stories = Story.get_all()
+    per_page = 5
+    story_list = Story.query.order_by(Story.post_datetime.desc()).paginate(page,per_page,error_out=False)
     catalogs = Catalog.get_all()
     # pre setting value
-    return render_template('admin/stories.html', stories=stories, catalogs=catalogs)
+    return render_template('admin/stories.html', stories=story_list, catalogs=catalogs)
 
 @admin.route("/edit_story/<int:id>", methods=['GET', 'POST'])
 @login_required
@@ -65,19 +67,20 @@ def edit_story(id):
 
             copyfile(src, dst)
             os.remove(src)
-            story = Story(title=form.title.data,
-            author=form.author.data,
-            imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1],
-            location=form.location.data,
-            description=form.description.data,
-            available=available)
+            story.title=form.title.data
+            story.author=form.author.data
+            story.imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1]
+            story.location=form.location.data
+            story.description=form.description.data
+            story.available=available
+            #db.session.add(story)
             db.session.commit()
-            flash('Edit story successfull.')
+            flash('Add story successfull.')
         else:
             os.remove(src)
             flash('Upload image file was in used.')
         # redirect to the departments page
-        return redirect(url_for('admin.stories'))
+        return redirect(url_for('admin.stories', page = 1))
 
     # form.common_name.data = product.common_name
     # form.price.data = product.price
@@ -106,7 +109,7 @@ def add_story():
             available = True
         else:    
             available = False
-        dst = S_IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]        
+        dst = S_IMAGEPATH + filemd5.hexdigest()+'.'+filename.split('.')[1]
         if  Story.query.filter_by(imgurl = filemd5.hexdigest()+'.'+filename.split('.')[1]).first() == None :
 
             copyfile(src, dst)
@@ -116,6 +119,7 @@ def add_story():
             imgurl=filemd5.hexdigest()+'.'+filename.split('.')[1],
             location=form.location.data,
             description=form.description.data,
+            hitnumber = 0,
             available=available)
             db.session.add(story)
             db.session.commit()
@@ -124,7 +128,7 @@ def add_story():
             os.remove(src)
             flash('Upload image file was in used.')
         # redirect to the departments page
-        return redirect(url_for('admin.stories'))
+        return redirect(url_for('admin.stories', page = 1))
 
     # form.common_name.data = product.common_name
     # form.price.data = product.price
@@ -145,18 +149,19 @@ def delete_story(id):
     flash('Story was deleted successfull.')
     catalogs = Catalog.get_all()    
     stories = Story.get_all()
-    return redirect(url_for('admin.stories'))
+    return redirect(url_for('admin.stories', page = 1))
     #return render_template("taiwan/all_stories.html",stories=stories, catalogs=catalogs)
 
 
 
 
-@admin.route("/users", methods=['GET', 'POST'])
+@admin.route("/users/<int:page>", methods=['GET', 'POST'])
 @login_required
-def users():
+def users(page=1):
     """Return page showing all the products has to offer"""
     check_admin()
-    users = User.get_all()
+    per_page = 5
+    users = User.query.filter_by().paginate(page,per_page,error_out=False)
     catalogs = Catalog.get_all()
     # pre setting value
     return render_template('admin/users.html', users=users, catalogs=catalogs)
@@ -168,7 +173,9 @@ def user(id):
     """Return page showing all the products has to offer"""
     check_admin()
     from_order = True
-    users = User.query.filter_by(id=id)
+    page = 1
+    per_page = 1
+    users = User.query.filter_by(id=id).paginate(page,per_page,error_out=False)
     catalogs = Catalog.get_all()
     # pre setting value
     return render_template('admin/users.html', from_order=from_order, users=users, catalogs=catalogs)
@@ -190,7 +197,7 @@ def edit_user(id):
         user.confirmed = form.confirmed.data
         db.session.commit()
         # redirect to the departments page
-        return redirect(url_for('admin.users'))
+        return redirect(url_for('admin.users',page = 1))
     # pre setting value
     form.name.data = user.username
     catalogs = Catalog.get_all()
@@ -206,24 +213,27 @@ def shipout_order(id):
     order = Order.query.filter_by(id=id).first()
     if order.shipout == False :
         order.shipout = True
-        order.ship_datetime = datetime.datetime.now().strftime("%Y-%m-%d")
-        db.session.add(order)
+        order.ship_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+        #db.session.add(order)
         db.session.commit()
         user = User.query.filter_by(id=order.user_id).first()
         send_email(user.email, 'Confirm Your Shipping', 'admin/email/ship', user=user, order=order)
         flash('Order was ship out and send email to user.')
-    orders = Order.get_all()
+    page = 1
+    per_page = 1
+    orders = Order.query.filter_by(id=id).paginate(page,per_page,error_out=False)
     catalogs = Catalog.get_all()
 
     return render_template("admin/orders.html", catatlogs=catalogs, orders=orders)
 
 
-@admin.route("/orders")
+@admin.route("/orders/<int:page>")
 @login_required
-def orders():
+def orders(page = 1):
     """Return page showing all the products has to offer"""
     check_admin()
-    orders = Order.get_all()
+    per_page = 5
+    orders = Order.query.order_by(Order.order_datetime.desc()).paginate(page,per_page,error_out=False)
     catalogs = Catalog.get_all()
     return render_template("admin/orders.html", catalogs=catalogs, orders=orders)
 
@@ -328,7 +338,7 @@ def add_product():
             os.remove(src)
             flash('Upload image file was in used.')
         # redirect to the departments page
-        return redirect(url_for('admin.products'))
+        return redirect(url_for('admin.products', page = 1))
 
     # form.common_name.data = product.common_name
     # form.price.data = product.price
@@ -348,11 +358,14 @@ def delete_product(id):
     os.remove(P_IMAGEPATH + product.imgurl)
     db.session.delete(product)
     db.session.commit()
+    per_page = 5
+    page = 1
     flash('Product was deleted successfull.')
     catalogs = Catalog.get_all()    
-    products = Product.get_all()
+    products = Product.query.order_by(Product.id.desc()).paginate(page,per_page,error_out=False)
     return render_template("admin/products.html",
                            products=products, catalogs=catalogs)
+    
 
     
 @admin.route("/edit_product/<int:id>", methods=['GET', 'POST'])
@@ -398,7 +411,7 @@ def edit_product(id):
             flash('Upload image file was in used.')
         #os.remove(os.getcwd() + '\\static\\product\\images\\'+orgfilename)
         # redirect to the departments page
-        return redirect(url_for('admin.products'))
+        return redirect(url_for('admin.products', page = 1))
     # pre setting value
     form.catalog_id.data = product.product_type
     catalogs = Catalog.get_all()    
@@ -407,12 +420,13 @@ def edit_product(id):
                            product=product, catalogs=catalogs, title="Edit Product")
 
 
-@admin.route("/products")
+@admin.route("/products/<int:page>")
 @login_required
-def products():
+def products(page):
     """Return page showing all the products has to offer"""
     check_admin()
+    per_page = 5
     catalogs = Catalog.get_all()
-    products = Product.get_all()
+    products = Product.query.order_by(Product.id.desc()).paginate(page,per_page,error_out=False)
     return render_template("admin/products.html",
                            products=products, catalogs=catalogs)

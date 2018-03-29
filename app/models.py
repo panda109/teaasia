@@ -8,13 +8,64 @@ from datetime import datetime
 from . import db
 from . import login_manager
 
-# yr6703@yahoo.com.tw
-# password = 1111
-#
-# is_admin -> 1
+class Car_type(db.Model):
+    __tablename__ = 'car_type'
+    id = db.Column(db.Integer, primary_key=True)
+    car_name = db.Column(db.String(30))
+    value = db.Column(db.Integer)
 
-# "http://www.rareseeds.com/assets/1/14/DimThumbnail/Moon-and-Stars-Watermelon-web.jpg"
+class Post(db.Model):
+    __tablename__ = 'post'
+    id = db.Column(db.Integer, primary_key=True)
+    constain = db.Column(db.String(500))
+    author = db.Column(db.String(30))
+    post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
+    @property
+    def serialize(self):
+       """Return object data in easily serializeable format"""
+       return {
+           'id'         : self.id,
+           'author'     : self.author,
+           'contain'    : self.constain,
+           'post_datetime'  : self.post_datetime
+           #'modified_at': dump_datetime(self.modified_at),
+           # This is an example how to deal with Many2Many relations
+           #'many2many'  : self.serialize_many2many
+       }
+
+    @classmethod
+    def get_last5(cls):
+        """Return list of products.
+
+        Query the database for the first [max] products, returning each as a
+        Product object
+        """
+        posts = Post.query.order_by(Post.id.desc()).limit(5).all()
+        return posts
+    
+    @classmethod
+    def get_all(cls):
+        """Return list of products.
+
+        Query the database for the first [max] products, returning each as a
+        Product object
+        """
+        posts = Post.query.all()
+        # print product
+        return posts
+
+    @classmethod
+    def get_by_id(cls, id):
+        """Query for a specific product in the database by the primary key"""
+        
+        post = Post.query.get(id)
+        return post
+    
+    def __repr__(self):
+        """Convenience method to show information about product in console."""
+    
+        return "<Item: %s>" % (self.constain)
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -67,8 +118,10 @@ class Story(db.Model):
     description = db.Column(db.String(500))
     location = db.Column(db.String(30), unique=False)
     author = db.Column(db.String(30), unique=False)
+    hitnumber = db.Column(db.Integer)
     post_datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     available = db.Column(db.Boolean, default=False)
+
     #catalog_id = db.Column(db.Integer, db.ForeignKey('catalog.id'))
     
     @classmethod
@@ -81,7 +134,12 @@ class Story(db.Model):
         stories = Story.query.all()
         # print product
         return stories
-
+    
+    @classmethod
+    def get_top2(cls):
+        stories = Story.query.order_by(Story.hitnumber.desc()).limit(2).all()
+        return stories
+    
     @classmethod
     def get_by_id(cls, id):
         """Query for a specific product in the database by the primary key"""
@@ -110,6 +168,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     email = db.Column(db.String(64), unique=True, index=True)
+    phone = db.Column(db.String(64))
     add = db.Column(db.String(64))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
@@ -259,7 +318,11 @@ class Product(db.Model):
         product = Product.query.all()
         # print product
         return product
-
+    @classmethod
+    def get_last3(cls):
+        product = Product.query.order_by(Product.id.desc()).limit(3).all()
+        return product
+    
     @classmethod
     def get_by_id(cls, id):
         """Query for a specific product in the database by the primary key"""

@@ -8,11 +8,11 @@
 	{{ super() }}
 	<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
 	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
-	<link rel="stylesheet" href="/static/css/site.css"/>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}"/>
 {% endblock %}
 
 {% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
+<div class="navbar-custom navbar-inverse" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,8 +25,9 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                           <li><a href="{{ url_for('taiwan.list_stories') }}">Story</a></li>
-               <li class="dropdown">
+              <li><a href="{{ url_for('taiwan.list_stories', page=1 ) }}">Story</a></li>
+      
+              <li class="dropdown">
 	                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                	Catalogs
 	                    <b class="caret"></b>
@@ -34,13 +35,17 @@
 	                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 	                
 		                {% for catalog in catalogs %}
-		                <li><a class="dropdown-item" href="/product/catalogs/{{catalog.id}}">{{catalog.catalog_name}}</a></li>
+		               	<li>
+		                	<a class="dropdown-item" href="{{ url_for('product.list_products', id=catalog.id, page = 1 ) }}">
+		                	{{catalog.catalog_name}}
+		                	</a>
+		                </li>
 		                {% endfor %}
 	                               
 	                </ul>                              
                 </li>                 
                 <li><a href="{{ url_for('product.shopping_cart') }}">Cart</a></li>
-                <li><a href="{{ url_for('product.shopping_order') }}">Order</a></li>
+                <li><a href="{{ url_for('product.shopping_order', page = 1) }}">Order</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
@@ -50,11 +55,11 @@
 		                    Admin 
 		                    <b class="caret"></b></a>
 		                    <ul class="dropdown-menu">
-					        	<li><a href="{{ url_for('admin.products') }}">Products</a></li>
+					        	<li><a href="{{ url_for('admin.products', page = 1) }}">Products</a></li>
 					        	<li><a href="{{ url_for('admin.catalogs') }}">Catalogs</a></li>
-					        	<li><a href="{{ url_for('admin.orders') }}">Orders</a></li>
-					    		<li><a href="{{ url_for('admin.users') }}">Users</a></li>
-					    		<li><a href="{{ url_for('admin.stories') }}">Stories</a></li> 					        	
+					        	<li><a href="{{ url_for('admin.orders', page = 1)}}">Orders</a></li>
+					    		<li><a href="{{ url_for('admin.users', page = 1 )}}">Users</a></li>
+					    		<li><a href="{{ url_for('admin.stories', page = 1) }}">Stories</a></li>
 		                    </ul>
 		                </li>				    
 				    {% endif %}
@@ -89,6 +94,42 @@
     {% endfor %}
 
     {% block page_content %}{% endblock %}
+
+    <div class="row">
+
+    <div class="footer text-center">
+    <p>
+    <p>
+		<div style='border-bottom:1px solid #ccc;'></div>
+		    <p></p>
+			<p></p>
+
+			<SPAN class="text-left" STYLE="float:left">
+			    <p>
+				<li>About ByTaiwan.me</li>
+				<li>How to buy</li>
+				<li>Online help</li>
+				<li>Login</li>
+				<li>Sign up</li>
+			    </p>
+			</SPAN>
+
+			<DIV>
+			<SPAN STYLE="float:right">
+			    <p>
+				  <img src="{{ url_for('static', filename='img/line.jpg') }}" style="width:52px;height:52px;border:0;">
+				  <img src="https://qr-official.line.me/M/EjcvhB4dLG.png" style="width:52px;height:52px;border:0;">
+				  
+				<a target="_blank" href="https://www.facebook.com/bytaiwanme-1094327660723216/">
+				  <img src="{{ url_for('static', filename='img/Facebook-icon-logo.jpg') }}" style="width:52px;height:52px;border:0;">
+				</a>
+			    </p>
+			</SPAN>
+						
+			<p>Copyright ByTaiwan 2018. All rights reserved.</p>
+			<p>eMail : bytaiwan5812@gmail.com</p>
+		</div>
+	</div> 
 </div>
 {% endblock %}
 

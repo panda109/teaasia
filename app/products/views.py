@@ -3,12 +3,14 @@
 from flask import render_template, session, redirect, url_for, current_app, jsonify, request, flash, app
 from datetime import datetime
 from .. import db
+from ..email import send_email
 # from forms import ProductForm
 from app.products import product
-from ..models import Product, Order, Order_detail, Catalog
+from ..models import Product, Order, Order_detail, Catalog, User
 from flask_login import login_user, logout_user, login_required, current_user
 #import paypalrestsdk
 import stripe, os
+from flask import current_app
 
 stripe_keys = {
   'secret_key': 'sk_test_uxtuIOeAfAyn2AYpImH7Mjft',
@@ -31,7 +33,7 @@ def stripecharge():
     for order in session['cart']:
         amount = amount + order[1] * float(order[2])
     customer = stripe.Customer.create(
-        email='bytaiwan5812@gmail.com',
+        email = current_app.config['MAIL_USERNAME'],
         source=request.form['stripeToken']
     )
     # print customer.id
@@ -58,22 +60,27 @@ def stripecharge():
         order = Order.query.filter_by(id=current_order.id).first()
         order.total = total
         db.session.commit()
+        user = User.query.filter_by(id=order.user_id).first()
+        send_email(user.email, 'Confirm Your Order', 'product/email/order', user=user, order=order)
+        
+        
         flash('Order ID:%s Created! Shipout ASAP.' % (charge['customer'] + '-' + charge['id']))
         message = True
-    orders = Order.query.filter_by(user_id=current_user.id, payment_id=charge['customer'] + '-' + charge['id'])
+    orders = Order.query.filter_by(user_id=current_user.id, payment_id=charge['customer'] + '-' + charge['id']).paginate(1,1,error_out=False)
     catalogs = Catalog.get_all()
     return render_template("product/order.html", orders=orders, catalogs=catalogs, message=message)
 
 
-@product.route("/catalogs/<int:id>")
+@product.route("/catalogs/<int:id>/<int:page>")
 # @login_required
-def list_products(id):
+def list_products(id=1,page=1):
     """Return page showing all the products has to offer"""
+    per_page=4
     catalogs = Catalog.get_all()
     if id :
-        products = Product.query.filter_by(catalog_id=id)
+        products = Product.query.filter_by(catalog_id=id).paginate(page,per_page,error_out=False)
     else:
-        products = Product.get_all()
+        products = Product.get_all().paginate(page,per_page,error_out=False)
     return render_template("product/all_products.html",
                            product_list=products, catalogs=catalogs, catalog_id=id)
 
@@ -188,14 +195,14 @@ def clean():
     return redirect("/product/cart")
 
 
-@product.route("/order")
+@product.route("/order/<int:page>")
 @login_required
-def shopping_order():
+def shopping_order(page=1):
     """Display content of shopping order."""
-
+    per_page = 5
     # TODO: Display the contents of the shopping cart.
     #   - The cart is a list in session containing products added
-    orders = Order.query.filter_by(user_id=current_user.id)
+    orders = Order.query.filter_by(user_id=current_user.id).paginate(page,per_page,error_out=False)
     catalogs = Catalog.get_all()
     return render_template("product/order.html",
                             orders=orders, catalogs=catalogs)

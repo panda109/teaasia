@@ -8,27 +8,264 @@
 	{{ super() }}
 	<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
 	<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
-	<link rel="stylesheet" href="/static/css/site.css"/>
-	<link rel="stylesheet" href="/static/css/homepage.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}"/>
+	<script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}; </script> 
+	<script type=text/javascript>
+	//var tid = setTimeout(mycode, 0);
+
+	var source = new EventSource("{{ url_for('sse.stream') }}");
+    source.addEventListener('greeting', function(event) {
+        var data = JSON.parse(event.data);
+        mycode();
+
+    }, false);
+    
+    source.addEventListener('error', function(event) {
+        if (e.readyState == EventSource.CLOSED) {
+    		source.close();
+  		}
+    }, false);
+    
+	window.onload = function() {
+		mycode();
+	};	
+	
+	function mycode() {
+	  	// do some stuff...
+	  	var url = document.location.origin + "/get/";
+		$.get(url, function(data){
+	    var arrayLength = data.length;
+	    for (var i = 1; i <= arrayLength; i++)
+	    	{
+	    		$('#messageauthor' + i).text(data[i-1].author);
+	    		$('#messagedate' + i).text(data[i-1].post_datetime);
+	    		$('#messageResult' + i).text(data[i-1].contain);
+	    	}
+	    });
+	    //tid = setTimeout(mycode, 3000); // repeat myself
+	}
+	function abortTimer() { // to be called when you want to stop the timer
+	  clearInterval(tid);
+	}
+
+
+	$(function() {
+	    $("#submitBtn").click(function() {
+	         $.ajax({
+	            type: "GET",
+	            url: $SCRIPT_ROOT + "/post/",
+	            contentType: "application/json; charset=utf-8",
+	            data: { messageValue: $("#messageText").val() },
+	            
+	            success: function(data) {
+		            alert( "Post " + data.value) ;
+		            $("textarea#messageText").val("");
+	            }
+	        });     
+	    });
+	  });
+</script>	
+	<script type="text/javascript">
+	$(document).ready(function(){
+	    // Activate carousel
+	    $("#myCarousel").carousel();
+	    
+	    // Enable carousel control
+		$(".left").click(function(){
+	    	$("#myCarousel").carousel('prev');
+	    });
+	    $(".right").click(function(){
+	    	$("#myCarousel").carousel('next');
+	    });
+	    
+	    // Enable carousel indicators
+	    $(".slide-one").click(function(){
+	    	$("#myCarousel").carousel(0);
+	    });
+	    $(".slide-two").click(function(){
+	    	$("#myCarousel").carousel(1);
+	    });
+	    $(".slide-three").click(function(){
+	    	$("#myCarousel").carousel(2);
+	    });
+	    $(".slide-four").click(function(){
+	    	$("#myCarousel").carousel(3);
+	    });
+		$(".slide-five").click(function(){
+			$("#myCarousel").carousel(4);
+	    });
+	});
+</script>
 {% endblock %}
 
 {% block page_content %}
+		
 <div class="page-header">
-    <h1 class="shadow">Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
+    <h2 class="shadow">Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h2>
+</div>
+<div class="row">
+	<div class="bs-example">
+	    <div id="myCarousel" class="carousel slide" data-interval="3000" data-ride="carousel">
+	    	<!-- Carousel indicators -->
+	        <ol class="carousel-indicators">
+	            <li class="slide-one active"></li>
+	            <li class="slide-two"></li>
+	            <li class="slide-three"></li>
+	            <li class="slide-four"></li>
+	            <li class="slide-five"></li>
+	        </ol>   
+	        <!-- Wrapper for carousel items -->
+	        <div class="carousel-inner">
+	        {% for story in stories%}
+	        	{% if stories.index(story) == 0 %}
+	            <div class="active item">
+	            {% else%}
+	            <div class="item">
+	            {% endif %}
+	                <img src="{{ url_for('static', filename='story/images/'+ story.imgurl) }}" class="img-responsive center-block" style="width:100%" alt={{story.author}}>
+	         		<div class="carousel-caption">
+	                  <h3>Title : {{story.title}}</h3>
+	                  <p>Location : {{story.location}}</p>
+	                </div>
+	            </div>
+			{% endfor %}
+	        </div>
+	        <!-- Carousel controls -->
+	        <a class="carousel-control left">
+	            <span class="glyphicon glyphicon-chevron-left"></span>
+	        </a>
+	        <a class="carousel-control right">
+	            <span class="glyphicon glyphicon-chevron-right"></span>
+	        </a>
+	    </div>
+	</div>
+	<p>
 </div>
 
-<div class="site-wrapper">
-    <div class="site-wrapper-inner">
-        <a href="/product/products/1" class="btn_product"><img src="/static/img/ubermelon-logo.png"></a>
-        <h1 class="shadow">ByTaiwan</h1>
-        <p class="lead">We'll introduce Taiwan for you.</p>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-center">
+	<p>APRS MAP</p>
+	<div id="aprs" style='border-bottom:1px solid #ccc;'></div>
+	<p>
+	<p>
+			<script type="text/javascript">
+			he_lat = 25.104;
+			he_lng = 121.526;
+			he_zoom = 20; // zoom out a bit
+			he_maptype = 'h'; // hybrid map
+			// select what to show
+			he_hide_tcp = 1; // do not show Internet stations
+			he_show_aprs = 'w'; // show APRS stations with waypoints
+			he_show_aprs_w = ''; // do not show APRS weather stations
+			he_show_aprs_i = 'p'; // only show the current position of items without track
+			he_show_ais = ''; // do not show AIS ships
+			</script>
+			<script type="text/javascript" src="//aprs.fi/js/embed.js">
+			</script>
+			</p>
 	</div>
+      {% for story in story_list %}
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+               <p><a href="{{ url_for('taiwan.show_story', id=story.id ) }}">Best Story : {{ story.title }}</a></p> 
+          	<div style='border-bottom:1px solid #ccc;'></div>
+			<p>
+			<p>
+              <div class="well">
+                  <a href="{{ url_for('taiwan.show_story', id=story.id ) }}">
+                      <img src ="{{ url_for('static', filename='story/images/'+ story.imgurl) }}" class="img-responsive center-block" style="width:100%">
+                  </a>
+                  </br>
+                  <p><div class="location">Location : {{ story.location }}</div></p>
+				  <p><div class="author">Author : {{ story.author }}</div></p>
+                  <p><div class="post_datetime">PostDate : {{ story.post_datetime.strftime('%Y-%m-%d') }}</div></p>
+              </div>
+          </div>
+      {% endfor %}
 
 </div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+		<p>Message List</p>
+			<div style='border-bottom:1px solid #ccc;'></div>
+			<p>
+			<div class=" post_description">
+			{% for post in posts%}
+			<SPAN STYLE="float:left">
+				<strong>
+					<span id="messageauthor{{loop.index}}" style="display: inline">{{post.author}}:</span>
+				</strong>
+			</SPAN>
+			<SPAN STYLE="float:right">
+					<span id="messagedate{{loop.index}}" style="display: inline"></span>
+			</SPAN>
+				<div class="well well-sm">
+					<div class="description">
+					<p>
+						<div id="messageResult{{loop.index}}" >{{post.constain}}</div>
+					</div>
+				</div>
+			{% endfor %}
 
-	<div class="footer">
-		<p></p>
-		<p>Copyright ByTaiwan 2018. All rights reserved.</p>
-		<p>eMail : bytaiwan5812@gmail.com</p>
+		</div>
 	</div>
+	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+	{% if current_user.is_authenticated %}
+		<p>Post Message</p>
+			<div style='border-bottom:1px solid #ccc;'></div>
+		<p>
+		<p>
+		<div class="well text-center">
+			<textarea  id='messageText' name='messageText' class="form-control" rows="4"  ></textarea>
+			<label>
+			<button type='button' class="btn btn-large btn-primary" id='submitBtn' name='submitBtn'>Submit</button>
+			</label>
+		</div>
+	{% else %}
+		<p>Post Message</p>
+			<div style='border-bottom:1px solid #ccc;'></div>
+		<p>
+		<p>
+		<div class="well text-center">
+			<textarea readonly id='messageText' name='messageText' class="form-control" rows="3"  >Please Login !!!!!</textarea>
+		</div>		
+	{% endif %}
+	</div>
+	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<p>Taiwan National Scenic Area</p>
+			<div style='border-bottom:1px solid #ccc;'></div>
+		<p>
+		<div class="well">
+		<li><a target="_blank" href="https://www.necoast-nsa.gov.tw/user/main.aspx" >Northeast Coast National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.eastcoast-nsa.gov.tw/" >East Coast National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.penghu-nsa.gov.tw/" >PengHu National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.matsu-nsa.gov.tw/user/main.aspx" >MatSu National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.sunmoonlake.gov.tw/" >SunMoonLake National Scenic Area</a></li>
+		<li><a target="_blank" href="https://www.ali-nsa.net/user/main.aspx">AliShan National Scenic Area</a></li>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+{% for product in products%}
+	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+	<span>HOT Product</span>
+		<div style='border-bottom:1px solid #ccc;'></div>
+                  <h2><a href="{{ url_for('product.show_product', id=product.id ) }}"</a>{{ product.common_name }}</h2>
+                  <a href="{{ url_for('product.show_product', id=product.id ) }}">
+                      <img src ="{{ url_for('static', filename='product/images/'+  product.imgurl) }}" class="img-responsive center-block">
+                  </a>
+                  <p>
+                  <div class="price">Price : ${{ product.price_str() }}</div>
+                  <p>
+                  <a class="btn btn-primary" href="{{ url_for('product.show_product', id=product.id ) }}">Details</a>
+		<p>
+		<p>
+
+</div>
+{% endfor %}
+</div>
+
+
+
 {% endblock %}
