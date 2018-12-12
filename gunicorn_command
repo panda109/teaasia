@@ -16,6 +16,8 @@ update user set plugin='mysql_native_password' where user='root';
 flush privileges; 
 quit;
 
+CREATE DATABASE `my_db`;
+
 pip install gevent
 
 unmark
