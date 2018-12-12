@@ -7,6 +7,15 @@ mailpassword='grace24XX'
 install:
 apt install redis-server
 apt install gunicorn
+apt install mariadb-server mariadb-client
+sudo mysql_secure_installation
+mysql -u root -p
+
+use mysql;
+update user set plugin='mysql_native_password' where user='root';
+flush privileges; 
+quit;
+
 pip install gevent
 
 unmark
@@ -14,7 +23,7 @@ linux/windows path
 IPPORT
 
 create folder:
-mkdir static/_upload/images
+mkdir -p static/_upload/images
 
 command:
 gunicorn -w 3 -b 0.0.0.0:5000 --worker-class gevent wsgi:app&

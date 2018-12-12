@@ -10,7 +10,7 @@ P_IMAGEPATH = os.getcwd() + '/static/product/images/'
 S_IMAGEPATH = os.getcwd() + '/static/story/images/'
 
 #IPPORT = 'bytaiwan.me'
-IPPORT = '172.24.12.22:5000'
+IPPORT = '172.24.12.20:5000'
 #IPPORT = '192.168.0.18:5000'
 #IPPORT = '29fa258b.ngrok.io'
 mailpassword='grace2402'
@@ -52,8 +52,8 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:1q2w3e4r@localhost:3306/mydb'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 
 config = {
@@ -61,5 +61,5 @@ config = {
     'testing': TestingConfig,
     'production': ProductionConfig,
 
-    'default': DevelopmentConfig
+    'default': ProductionConfig
 }
