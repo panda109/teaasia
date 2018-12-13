@@ -113,7 +113,7 @@ def shopping_cart():
         total = total + order[1] * float(order[2])
     catalogs = Catalog.get_all()
     return render_template("product/cart.html",
-                            cart=session['cart'], catalogs=catalogs, total=total, publishkey=stripe_keys['publishable_key'])
+                            cart=session['cart'],user=current_user, catalogs=catalogs, total=total, publishkey=stripe_keys['publishable_key'])
 
 
 @product.route("/remove_from_cart/<string:name>")
