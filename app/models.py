@@ -114,7 +114,7 @@ class Story(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     #product_type = db.relationship("Catalog")  # -> call __repr__(self) return !!!!
     title = db.Column(db.String(30), unique=True)
-    imgurl = db.Column(db.String(30), unique=True)
+    imgurl = db.Column(db.String(40), unique=True)
     description = db.Column(db.String(500))
     location = db.Column(db.String(30), unique=False)
     author = db.Column(db.String(30), unique=False)
@@ -291,7 +291,7 @@ class Product(db.Model):
     product_type = db.relationship("Catalog")  # -> call __repr__(self) return !!!!
     common_name = db.Column(db.String(30), unique=True)
     price = db.Column(db.String(10))
-    imgurl = db.Column(db.String(30), unique=True)
+    imgurl = db.Column(db.String(40), unique=True)
     color = db.Column(db.String(30))
     size = db.Column(db.String(30))
     available = db.Column(db.Boolean, default=False)
