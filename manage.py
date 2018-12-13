@@ -90,6 +90,20 @@ def user():
     db.session.commit()   
 
 @manager.command
+def teaasia():
+    user = User()
+    user.username = 'teaasia'
+    user.role_id = 2
+    user.email = 'teaasia5812@gmail.com'
+    user.phone = '0921111111'
+    user.add = 'sfsfsdfsafsdfsfasfsfa'
+    user.password_hash = generate_password_hash('1111', method="pbkdf2:sha1")
+    user.is_admin = False
+    user.confirmed = True
+    db.session.add(user)
+    db.session.commit()   
+
+@manager.command
 def test():
     """Run the unit tests."""
     import unittest
