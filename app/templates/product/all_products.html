@@ -22,7 +22,7 @@
                       <img src ="{{ url_for('static', filename='product/images/'+  product.imgurl) }}" class="img-circle img-responsive center-block"">
                   </a>
 
-                  <div class="price">Price : ${{ product.price_str() }}</div>
+                  <div class="price">Price : €{{ product.price_str() }}</div>
                   <a class="btn btn-primary" href="{{ url_for('product.show_product', id=product.id ) }}">Details</a>
               </div>
 
