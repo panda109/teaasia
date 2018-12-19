@@ -298,7 +298,7 @@ class Product(db.Model):
     catalog_id = db.Column(db.Integer, db.ForeignKey('catalog.id'))
     
     def price_str(self):
-        """Return price formatted as string $x.xx"""
+        """Return price formatted as string x.xx"""
 
         return "%s" % self.price
 
