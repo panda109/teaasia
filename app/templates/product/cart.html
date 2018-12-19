@@ -45,7 +45,7 @@
 			  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 			    <article>
 			      <label>
-			        <span>Amount is ${{total}}</span>
+			        <span>Amount is €{{total}}</span>
 			      </label>
 			    </article>
 			    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -54,6 +54,7 @@
 			            data-amount={{total * 100}}
 			            data-locale="auto"
 			            data-zip-code="true"
+			            data-currency="EUR"
 			            data-billing-address = "true"
 			            data-email = {{user.email}}>
 			    </script>
