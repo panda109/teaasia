@@ -23,9 +23,9 @@
         <tr>
             <td>{{ order_detail.product_id }}</td>
             <td>{{ order_detail.product_name }}</td>
-            <td>€{{ order_detail.price }}</td>
+            <td>${{ order_detail.price }}</td>
             <td>{{ order_detail.quantity }}</td>
-            <td>€{{ order_detail.price | float * order_detail.quantity | int }}</td>
+            <td>${{ order_detail.price | float * order_detail.quantity | int }}</td>
         </tr>
         {% endfor %}
         {% else %}

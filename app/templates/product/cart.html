@@ -26,9 +26,9 @@
         	<td><a href="{{url_for("product.remove_from_cart",name = order[0]) }}" class="glyphicon glyphicon-trash"></a></td>
             
             <td>{{ order[0] }}</td>
-            <td>€{{ order[2] }}</td>
+            <td>${{ order[2] }}</td>
             <td>{{ order[1] }}</td>
-            <td>€{{ order[3] }}</td>
+            <td>${{ order[3] }}</td>
         </tr>
         {% endfor %}
         {% else %}
@@ -45,7 +45,7 @@
 			  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 			    <article>
 			      <label>
-			        <span>Amount is €{{total}}</span>
+			        <span>Amount is ${{total}}</span>
 			      </label>
 			    </article>
 			    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"

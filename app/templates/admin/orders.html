@@ -34,7 +34,7 @@
 			            <td>{{ order.payment_id }}</td>
 			           	<td>{{ order.email }}</td>
 			            <td>{{ (order.order_datetime).strftime("%Y-%m-%d %H:%M:%S") }}</td>
-			            <td>€{{ order.total }}</td>
+			            <td>${{ order.total }}</td>
 			            <td><a href="{{url_for('admin.user', id = order.user_id) }}">{{ order.user_id }}</a></td>
 			            {% if order.shipout == True  %}
 			           		<td>Already Shipout</td>
