@@ -26,7 +26,7 @@
             {% endif %}
           </ul>
 
-	        <h3>Price per package : ${{ display_product.price_str() }}</h3>
+	        <h3>Price per package : €{{ display_product.price_str() }}</h3>
 	    	<div class="well text-center">
 		        <form action="/product/add_to_cart/{{ display_product.id }}">
 		            <label>

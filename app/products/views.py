@@ -132,7 +132,7 @@ def remove_from_cart(name):
     for order in session['cart']:
         total = total + order[1] * float(order[2])
     return render_template("product/cart.html",
-                            cart=session['cart'], catalogs=catalogs, total=total, publishkey=stripe_keys['publishable_key'])
+                            cart=session['cart'],user=current_user, catalogs=catalogs, total=total, publishkey=stripe_keys['publishable_key'])
 
 
 @product.route("/add_to_cart/<int:id>")
@@ -179,7 +179,7 @@ def add_to_cart(id):
     flash("Product added to cart successfully!")
     catalogs = Catalog.get_all()
     return render_template("product/cart.html",
-                            cart=session['cart'], catalogs=catalogs, total=total, publishkey=stripe_keys['publishable_key'])
+                            cart=session['cart'],user=current_user, catalogs=catalogs, total=total, publishkey=stripe_keys['publishable_key'])
     # return render_template("cart.html", product_name=test_product, product_qty=test_qty, product_price=test_price, product_total=total)
 
 
