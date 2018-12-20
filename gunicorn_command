@@ -1,4 +1,11 @@
 git clone -b vidio_payment_EURO https://github.com/panda109/teaasia.git
+so to checkout a specific file you call this commands:
+
+git checkout remote/branch path/to/file
+as an example it will be something like this
+
+git checkout some_remote/branch32 conf/en/myscript.conf
+git checkout some_remote/branch1 conf/fr/load.wav
 
 unlock googlemail captcha
 https://accounts.google.com/b/0/DisplayUnlockCaptcha
