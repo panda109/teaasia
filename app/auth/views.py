@@ -73,6 +73,7 @@ def register():
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):
+    print "Email Confirm : " + current_user.confirmed
     if current_user.confirmed:
         return redirect(url_for('main.index'))
 
