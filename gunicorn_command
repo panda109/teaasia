@@ -69,3 +69,10 @@ client_max_body_size 5M;
 proxy_read_timeout 24h;
 }
 }
+
+update letsencrypt
+cd /opt/letsencrypt
+stop mysql (memory issue)
+./certbot-auto --nginx
+->1 site name
+->2 always redirect to ssl
